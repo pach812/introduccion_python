@@ -1,0 +1,228 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "name": "_",
+      "code": "import marimo as mo",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "disabled": false,
+        "hide_code": false
+      }
+    },
+    {
+      "id": "cBUH",
+      "name": "_",
+      "code": "import platform\nimport sys\nfrom dataclasses import dataclass",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "IrxT",
+      "name": "_",
+      "code": "class EnvironmentInfo:\n    python_version: str\n    python_executable: str\n    os: str\n    machine: str\n    processor: str\n\n    def __init__ (self, python_version: str, python_executable: str, os: str, machine: str, processor: str):\n        self.python_version = python_version\n        self.python_executable = python_executable\n        self.os = os\n        self.machine = machine\n        self.processor = processor\n\ndef get_environment_info() -> EnvironmentInfo:\n    return EnvironmentInfo(\n        python_version=sys.version.split()[0],\n        python_executable=sys.executable,\n        os=platform.system(),\n        machine=platform.machine(),\n        processor=platform.processor(),\n    )\n\nenv_info = get_environment_info()",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "YqQM",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n# Pre–Sesión 1 — Primer contacto con Python (marimo)\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "qpYA",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Objetivos de aprendizaje\n\nAl finalizar esta pre–sesión, podrás:\n\n- Explicar qué es un programa y qué significa que Python sea un lenguaje interpretado.\n- Verificar tu entorno local: versión de Python y sistema operativo.\n- Ejecutar instrucciones básicas en Python (variables, tipos, operaciones, `print()`).\n- Producir un resultado verificable en la variable `pre_session_1_result`.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "HVec",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Introducción conceptual\n\nUn **programa** es una secuencia de instrucciones que describe *qué hacer* con datos, de forma que una computadora pueda ejecutarlo de manera determinística.\n\n- **Hardware**: componentes físicos (CPU, memoria, disco, periféricos).\n- **Software**: instrucciones (programas) que controlan el hardware y transforman datos.\n\nPython es un lenguaje **interpretado**: el código se ejecuta mediante un intérprete que lee y ejecuta instrucciones. Esto facilita experimentar y aprender iterativamente.\n\nEn esta pre–sesión, el énfasis no es “memorizar”, sino **comprender el flujo mínimo**: escribir → ejecutar → observar → ajustar.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "OwMk",
+      "name": "_",
+      "code": "mo.md(rf\"\"\"\n## Verificación del entorno actual (evidencia técnica)\n\n**Python version:** `{env_info.python_version}`  \n**Python executable:** `{env_info.python_executable}`  \n**OS:** `{env_info.os}`  \n**Machine:** `{env_info.machine}`  \n**Processor:** `{env_info.processor}`\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "LDkS",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Lenguaje mínimo: valores, tipos y variables\n\nIdeas clave:\n\n- Un **valor** es un dato (por ejemplo, `3`, `\"hola\"`, `True`).\n- Un **tipo** describe la naturaleza del valor (por ejemplo, `int`, `float`, `str`, `bool`).\n- Una **variable** es un nombre que referencia un valor.\n\nEn Python, puedes inspeccionar el tipo con `type()`.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "ClyP",
+      "name": "_",
+      "code": "example_int = 7\nexample_float = 3.14\nexample_str = \"salud pública\"\nexample_bool = True\ntu_ejemplo = \"cualquier valor que quieras!\"",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": false,
+        "disabled": false
+      }
+    },
+    {
+      "id": "hJEo",
+      "name": "_",
+      "code": "mo.md(rf\"\"\"\n| Variable | Valor | type(...) |\n|---|---:|---|\n| `example_int` | `{example_int}` | `{type(example_int).__name__}` |\n| `example_float` | `{example_float}` | `{type(example_float).__name__}` |\n| `example_str` | `{example_str}` | `{type(example_str).__name__}` |\n| `example_bool` | `{example_bool}` | `{type(example_bool).__name__}` |\n| `tu_ejemplo` | `{tu_ejemplo}` | `{type(tu_ejemplo).__name__}` |\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "zDbB",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Operaciones básicas y evaluación\n\nPython permite expresar operaciones aritméticas directamente:\n\n- Suma: `+`\n- Resta: `-`\n- Multiplicación: `*`\n- División: `/`\n\nEn analítica, estas operaciones son la base para construir transformaciones más complejas.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "jVSu",
+      "name": "_",
+      "code": "a = 14\nb = 5\nsum_ab = a + b\ndiff_ab = a - b\nprod_ab = a * b\ndiv_ab = a / b",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": false,
+        "disabled": false
+      }
+    },
+    {
+      "id": "NqYx",
+      "name": "_",
+      "code": "mo.md(rf\"\"\"\nCon `a = {a}` y `b = {b}`:\n\n- `a + b = {sum_ab}`\n- `a - b = {diff_ab}`\n- `a * b = {prod_ab}`\n- `a / b = {div_ab}`\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "asbf",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Micro–ejercicio guiado (interactivo)\n\nObjetivo: construir **tres variables**, aplicar una operación y producir un **resultado final verificable** en:\n\n- `pre_session_1_result`\n\nInstrucciones:\n\n1. Elige valores para `x`, `y`, `z`.\n2. Elige una operación para combinar `x` y `y`.\n3. Calcula un valor final: `(x ⊗ y) + z`\n4. Genera un texto final formateado con el detalle del cálculo.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "sxVn",
+      "name": "_",
+      "code": "x_slider = mo.ui.slider(start=0, stop=100, step=1, value=10, label=\"x\")\ny_slider = mo.ui.slider(start=0, stop=100, step=1, value=20, label=\"y\")\nz_slider = mo.ui.slider(start=0, stop=100, step=1, value=5, label=\"z\")\n\noperation_dropdown = mo.ui.dropdown(\n    options=[\"+\", \"-\", \"*\", \"/\"],\n    value=\"+\",\n    label=\"Operación para combinar x y y\",\n)\n\nmo.vstack(\n    [\n        mo.md(\"### Controles\"),\n        x_slider,\n        y_slider,\n        z_slider,\n        operation_dropdown,\n    ]\n)",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": false,
+        "disabled": false
+      }
+    },
+    {
+      "id": "CbOB",
+      "name": "_",
+      "code": "x = int(x_slider.value)\ny = int(y_slider.value)\nz = int(z_slider.value)\nop = str(operation_dropdown.value)\n\ndef safe_combine(left: float, right: float, operation: str) -> float:\n    if operation == \"+\":\n        return left + right\n    if operation == \"-\":\n        return left - right\n    if operation == \"*\":\n        return left * right\n    if operation == \"/\":\n        return left / right if right != 0 else float(\"nan\")\n    raise ValueError(f\"Unsupported operation: {operation}\")\n\ncombined_xy = safe_combine(x, y, op)\nfinal_value = combined_xy + z\n\npre_session_1_result = (\n    \"Pre–Sesión 1 OK | \"\n    f\"x={x}, y={y}, z={z}, op='{op}' | \"\n    f\"(x {op} y) + z = ({combined_xy}) + {z} = {final_value}\"\n)\n\nmo.md(\n        f\"\"\"\n### Resultado\n\n`pre_session_1_result`:\n\n`{pre_session_1_result}`\n\"\"\"\n    )",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": false,
+        "disabled": false
+      }
+    },
+    {
+      "id": "zLvP",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Evidencia requerida (para entregar)\n\nEntrega **4 evidencias**:\n\n1. Captura de pantalla (o texto copiado) mostrando:\n   - `Python version`\n   - `OS`\n2. El código (archivo o notebook) con:\n   - Definición de `x`, `y`, `z`\n   - Cálculo y formateo del resultado\n3. Evidencia de ejecución correcta del micro–ejercicio (captura del resultado en pantalla).\n4. El valor final de:\n   - `pre_session_1_result`\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "HGNR",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Criterios de validación (checklist técnico)\n\nSe considera “completado” si:\n\n- Se reporta una versión de Python válida (se ve en la sección de entorno).\n- Se demuestra el uso de `type()` en al menos 2 variables.\n- Se ejecuta al menos una operación aritmética.\n- Existe la variable `pre_session_1_result` y contiene:\n  - Valores de `x`, `y`, `z`\n  - Operación usada\n  - Resultado final\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "diZL",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Ejercicios (sin solución)\n\n1. Cambia el cálculo para que el valor final sea: `(x ⊗ y) * z`  \n   - ¿Cómo cambia el resultado al variar `z`?\n2. Haz que el resultado sea `int` si la operación es división y el resultado es entero exacto.  \n   - Pista: compara `final_value` con `int(final_value)`.\n3. Agrega una validación: si `op == \"/\"` y `y == 0`, muestra un mensaje de error en vez de `nan`.\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    },
+    {
+      "id": "DTQN",
+      "name": "_",
+      "code": "mo.md(\"\"\"\n## Cierre\n\nEn esta pre–sesión consolidaste el “ciclo mínimo” de programación:\n\n- definir variables → operar → inspeccionar tipos → imprimir / reportar resultados\n\nEsto prepara el terreno para la Sesión 1, donde formalizaremos:\n\n- sintaxis básica\n- estructuras de control iniciales\n- disciplina de ejecución reproducible\n- cómo leer y entender errores de forma sistemática\n\"\"\")",
+      "code_hash": null,
+      "config": {
+        "column": null,
+        "hide_code": true,
+        "disabled": false
+      }
+    }
+  ]
+}
