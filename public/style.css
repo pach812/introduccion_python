@@ -1,0 +1,80 @@
+/* Load Merriweather and Fira Code from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300..900&family=Fira+Code:wght@300..700&display=swap");
+
+/* Font and Radius Variables */
+:root {
+    --monospace-font: "Fira Code", monospace; /* Clean coding font */
+    --text-font: "Merriweather", serif; /* Soft serif for warmth and comfort */
+    --heading-font: "Merriweather", serif; /* Consistent with text font */
+    --radius: 12px; /* Slightly softer corners for a gentler feel */
+}
+
+/* Base Colors (neutral + subtle CES, tuned to preserve borders/cell outlines) */
+:root {
+    /* Neutrals (slightly "paper" in light, charcoal in dark) */
+    --background: light-dark(#fbfbfc, #171717);
+    --foreground: light-dark(#1a1a1a, #e8e8e8);
+
+    --muted: light-dark(#f0f1f3, #222222);
+    --muted-foreground: light-dark(#5f6368, #b0b0b0);
+
+    --popover: light-dark(#f2f3f5, #1f1f1f);
+    --popover-foreground: light-dark(#1a1a1a, #e8e8e8);
+
+    /* Cards: keep close to background so marimo styling stays "native" */
+    --card: light-dark(#ffffff, #1c1c1c);
+    --card-foreground: light-dark(#1a1a1a, #e8e8e8);
+
+    /* Borders: IMPORTANT for visible cell outlines */
+    --border: light-dark(#d0d4da, #3a3a3a);
+    --input: light-dark(#e2e5ea, #242424);
+
+    /* CES accents (softened in dark to avoid eye fatigue) */
+    --primary: light-dark(#003e74, #86bfe9);          /* CES primary */
+    --primary-foreground: light-dark(#ffffff, #0f0f0f);
+
+    --secondary: light-dark(#4e97da, #a3d6ff);        /* CES secondary */
+    --secondary-foreground: light-dark(#0f0f0f, #0f0f0f);
+
+    /* Accent: very subtle tint to avoid "blue wash" */
+    --accent: light-dark(#eaf3fb, #1f2a33);
+    --accent-foreground: light-dark(#1a1a1a, #e8e8e8);
+
+    /* Ring: focus highlight */
+    --ring: light-dark(rgba(78, 151, 218, 0.45), rgba(163, 214, 255, 0.30));
+}
+
+/* Semantic Colors (calm, not neon) */
+:root {
+    --destructive: hsl(0deg 70% 55%);
+    --destructive-foreground: light-dark(#ffffff, #0f0f0f);
+
+    --error: light-dark(#c04a4a, #d96b6b);
+    --error-foreground: light-dark(#ffffff, #0f0f0f);
+
+    --success: light-dark(#2f7d57, #59b884);
+    --success-foreground: light-dark(#ffffff, #0f0f0f);
+
+    --action: light-dark(#c2a24d, #d9bb66);
+    --action-hover: light-dark(#d3b56a, #e6cf86);
+    --action-foreground: light-dark(#1a1a1a, #1a1a1a);
+
+    /* Links: CES but restrained */
+    --link: light-dark(#003e74, #a3d6ff);
+    --link-visited: light-dark(#2f5f8f, #86bfe9);
+
+    --stale: hsl(42deg 56% 44% / 22%);
+}
+
+/* Shadows */
+:root {
+    --base-shadow: light-dark(
+        hsla(0deg, 0%, 80%, 26%),
+        hsla(0deg, 0%, 0%, 58%)
+    );
+    --base-shadow-darker: light-dark(
+        hsla(0deg, 0%, 65%, 22%),
+        hsla(0deg, 0%, 0%, 72%)
+    );
+    --base-shadow-opacity: 6%;
+}

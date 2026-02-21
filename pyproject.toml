@@ -5,5 +5,9 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "google-genai>=1.64.0",
     "marimo[recommended]>=0.19.11",
 ]
+
+[tool.marimo.display]
+custom_css = ["public/style.css"]

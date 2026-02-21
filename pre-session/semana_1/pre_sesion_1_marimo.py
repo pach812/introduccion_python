@@ -1,27 +1,22 @@
 import marimo
 
 __generated_with = "0.19.11"
-app = marimo.App()
+app = marimo.App(width="medium", css_file="")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-
-    return (mo,)
-
-
-@app.cell(hide_code=True)
-def _():
     import platform
     import sys
     from dataclasses import dataclass
 
-    return platform, sys
+
+@app.cell(hide_code=True)
+def _():
+    return
 
 
 @app.cell(hide_code=True)
-def _(platform, sys):
+def _():
     class EnvironmentInfo:
         python_version: str
         python_executable: str
@@ -50,7 +45,7 @@ def _(platform, sys):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Pre–Sesión 1 — Primer contacto con Python (marimo)
     """)
@@ -58,7 +53,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Objetivos de aprendizaje
 
@@ -73,7 +68,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Introducción conceptual
 
@@ -90,7 +85,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(env_info, mo):
+def _(env_info):
     mo.md(rf"""
     ## Verificación del entorno actual (evidencia técnica)
 
@@ -104,7 +99,7 @@ def _(env_info, mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Lenguaje mínimo: valores, tipos y variables
 
@@ -130,7 +125,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(example_bool, example_float, example_int, example_str, mo, tu_ejemplo):
+def _(example_bool, example_float, example_int, example_str, tu_ejemplo):
     mo.md(rf"""
     | Variable | Valor | type(...) |
     |---|---:|---|
@@ -144,7 +139,7 @@ def _(example_bool, example_float, example_int, example_str, mo, tu_ejemplo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Operaciones básicas y evaluación
 
@@ -162,7 +157,7 @@ def _(mo):
 
 @app.cell
 def _():
-    a = 14
+    a = 155
     b = 5
     sum_ab = a + b
     diff_ab = a - b
@@ -172,7 +167,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(a, b, diff_ab, div_ab, mo, prod_ab, sum_ab):
+def _(a, b, diff_ab, div_ab, prod_ab, sum_ab):
     mo.md(rf"""
     Con `a = {a}` y `b = {b}`:
 
@@ -185,7 +180,7 @@ def _(a, b, diff_ab, div_ab, mo, prod_ab, sum_ab):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Micro–ejercicio guiado (interactivo)
 
@@ -204,7 +199,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     x_slider = mo.ui.slider(start=0, stop=100, step=1, value=10, label="x")
     y_slider = mo.ui.slider(start=0, stop=100, step=1, value=20, label="y")
     z_slider = mo.ui.slider(start=0, stop=100, step=1, value=5, label="z")
@@ -228,7 +223,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, operation_dropdown, x_slider, y_slider, z_slider):
+def _(operation_dropdown, x_slider, y_slider, z_slider):
     x = int(x_slider.value)
     y = int(y_slider.value)
     z = int(z_slider.value)
@@ -267,7 +262,7 @@ def _(mo, operation_dropdown, x_slider, y_slider, z_slider):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Evidencia requerida (para entregar)
 
@@ -287,7 +282,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Criterios de validación (checklist técnico)
 
@@ -305,7 +300,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Ejercicios (sin solución)
 
@@ -319,7 +314,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Cierre
 
@@ -339,4 +334,3 @@ def _(mo):
 
 if __name__ == "__main__":
     app.run()
-
