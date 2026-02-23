@@ -7,7 +7,7 @@ app = marimo.App(width="medium")
 @app.cell(hide_code=True)
 def _():
     import marimo as mo
-    img_path = mo.notebook_dir() / "public" / "img"
+    img_path = mo.notebook_dir() / "public"
     return img_path, mo
 
 
