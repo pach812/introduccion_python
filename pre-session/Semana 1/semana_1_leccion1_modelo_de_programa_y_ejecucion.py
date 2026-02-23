@@ -7,7 +7,7 @@ app = marimo.App(width="medium")
 @app.cell(hide_code=True)
 def _():
     import marimo as mo
-    img_path = mo.notebook_location() / "public" / "img"
+    img_path = mo.notebook_dir() / "public" / "img"
     return img_path, mo
 
 
@@ -42,7 +42,7 @@ def _(img_path, mo):
     - El **intérprete** de Python ejecuta el programa instrucción por instrucción.
     - En un notebook (como marimo), se ejecutan celdas; **dentro de cada celda**, la ejecución también es secuencial.
 
-    {mo.image(src=img_path/"Gemini_Generated_Image_q81h44q81h44q81h.png")}
+    {mo.image(src=img_path/"Gemini_Generated_Image_q81h44q81h44q81h-2.png")}
     """)
     return
 
