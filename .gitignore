@@ -12,3 +12,4 @@ wheels/
 education/
 generated_presets/
 
+.DS_Store
