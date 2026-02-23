@@ -1,12 +1,15 @@
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 
 @app.cell(hide_code=True)
 def _():
     import marimo as mo
+    from pathlib import Path
+
+    img_path = Path("https://github.com/pach812/introduccion_python/blob/master/pre-session/Semana%201/public/")
     img_path = mo.notebook_dir() / "public"
     return img_path, mo
 
@@ -86,7 +89,7 @@ def _(img_path, mo):
 
     Este modo se usa para probar ideas rápidamente.
 
-    {mo.image(src=img_path/"interpreter.png")}
+    {mo.image(src=img_path/"interpreter.png",height=300)}
 
 
     ### 3.2 Modo script (archivo `.py`)
