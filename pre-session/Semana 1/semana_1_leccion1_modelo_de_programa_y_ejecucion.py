@@ -7,8 +7,8 @@ app = marimo.App(width="medium")
 @app.cell(hide_code=True)
 def _():
     import marimo as mo
-
-    return (mo,)
+    img_path = mo.notebook_location() / "public" / "img"
+    return img_path, mo
 
 
 @app.cell(hide_code=True)
@@ -30,7 +30,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(img_path, mo):
     mo.md(rf"""
     ## 1) ¿Qué es un programa?
 
@@ -42,7 +42,7 @@ def _(mo):
     - El **intérprete** de Python ejecuta el programa instrucción por instrucción.
     - En un notebook (como marimo), se ejecutan celdas; **dentro de cada celda**, la ejecución también es secuencial.
 
-    {mo.image(src="./public/img/Gemini_Generated_Image_q81h44q81h44q81h.png")}
+    {mo.image(src=img_path/"Gemini_Generated_Image_q81h44q81h44q81h.png")}
     """)
     return
 
@@ -76,7 +76,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(img_path, mo):
     mo.md(rf"""
     ## 3) Dos modos comunes de ejecutar Python
 
@@ -86,7 +86,7 @@ def _(mo):
 
     Este modo se usa para probar ideas rápidamente.
 
-    {mo.image(src="./public/img/interpreter.png")}
+    {mo.image(src=img_path/"interpreter.png")}
 
 
     ### 3.2 Modo script (archivo `.py`)
@@ -96,7 +96,7 @@ def _(mo):
     - Ejecutas el archivo con Python.
     - Python recorre el archivo de arriba hacia abajo.
 
-    {mo.image(src="./public/img/script.png")}
+    {mo.image(src=img_path/"script.png")}
 
     **Marimo** es un entorno intermedio: combina un documento explicativo con celdas ejecutables para aprendizaje y demostración.
     """)
