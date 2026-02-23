@@ -9,5 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-education/*
+education/
+generated_presets/
 
