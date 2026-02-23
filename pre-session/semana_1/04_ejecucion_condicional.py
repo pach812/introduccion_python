@@ -16,7 +16,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-# 04 — Ejecución condicional (control de flujo)
+# 03 — Ejecución condicional (control de flujo)
 
 ## Propósito de la sección
 

@@ -15,7 +15,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # 03 — Variables, semántica y expresiones
+    # 02 — Variables, semántica y expresiones
 
     ## Propósito de la sección
 

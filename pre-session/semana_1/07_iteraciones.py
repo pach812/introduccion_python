@@ -14,7 +14,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-# 07 — Iteraciones
+# 06 — Iteraciones
 
 ## Propósito de la sección
 

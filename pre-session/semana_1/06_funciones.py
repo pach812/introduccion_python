@@ -15,7 +15,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # 06 — Funciones
+    # 05 — Funciones
 
     ## Propósito de la sección
 

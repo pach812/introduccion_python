@@ -15,7 +15,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-# 08 — Estructuras de datos avanzadas: diccionarios y conjuntos
+# 07 — Estructuras de datos avanzadas: diccionarios y conjuntos
 
 ## Propósito de la sección
 

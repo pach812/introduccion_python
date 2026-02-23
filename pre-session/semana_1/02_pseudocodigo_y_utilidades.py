@@ -14,7 +14,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # 02 — Pseudocódigo y utilidades para programar con rigor
+    # 09 — Pseudocódigo y utilidades para programar con rigor
 
     ## Propósito de la sección
 

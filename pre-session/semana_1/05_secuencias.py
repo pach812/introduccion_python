@@ -15,7 +15,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # 05 — Estructuras incorporadas: secuencias
+    # 04 — Estructuras incorporadas: secuencias
 
     ## Propósito de la sección
 

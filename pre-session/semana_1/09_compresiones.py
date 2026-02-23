@@ -15,7 +15,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-# 09 — Comprensiones: listas, diccionarios y conjuntos
+# 08 — Comprensiones: listas, diccionarios y conjuntos
 
 ## Propósito de la sección
 
