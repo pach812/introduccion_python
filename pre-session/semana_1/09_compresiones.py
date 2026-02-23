@@ -4,14 +4,12 @@ __generated_with = "0.20.1"
 app = marimo.App(width="medium")
 
 
-
-@app.cell
+@app.cell(hide_code=True)
 def _():
     import marimo as mo
     return mo
 
-
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
@@ -35,8 +33,7 @@ El objetivo es usar comprensiones con criterio: cuando aportan claridad y cuando
     )
     return
 
-
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
@@ -83,7 +80,7 @@ Ejemplo: seleccionar pares y elevar al cubo.
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     numeros_c9_2 = list(range(1, 11))
     cubos_pares_c9_2 = [n_c9_2 ** 3 for n_c9_2 in numeros_c9_2 if n_c9_2 % 2 == 0]
@@ -92,7 +89,7 @@ def _():
     return numeros_c9_2, cubos_pares_c9_2
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
@@ -110,7 +107,7 @@ Ejemplo: mapear número → cuadrado.
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     numeros_c9_3 = [1, 2, 3, 4]
     mapa_cuadrados_c9_3 = {n_c9_3: n_c9_3 ** 2 for n_c9_3 in numeros_c9_3}
@@ -119,7 +116,7 @@ def _():
     return numeros_c9_3, mapa_cuadrados_c9_3
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
