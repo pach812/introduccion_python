@@ -1,15 +1,38 @@
-# Python-generated files
+# =========================
+# Python
+# =========================
 __pycache__/
-*.py[oc]
+*.py[cod]
+*.pyo
+*.pyd
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
+.eggs/
 
+# =========================
 # Virtual environments
-.venv
+# =========================
+.venv/
+venv/
+env/
 
+# =========================
+# Local-only project folders
+# =========================
 education/
 generated_presets/
 
+# =========================
+# macOS
+# =========================
 .DS_Store
+**/.DS_Store
+
+# =========================
+# Office temp files
+# =========================
+~$*.pptx
+~$*.docx
+~$*.xlsx
