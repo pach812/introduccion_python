@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.20.1"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 
@@ -300,7 +300,7 @@ def _(mo):
     **Salida**
     - `dict` con llaves: `n`, `minimo`, `maximo`, `suma`, `promedio`.
 
-    Completa la siguiente celda y luego ejecuta los tests.
+    Completa la siguiente celda y luego ejecuta los tests (celda debajo de los test!).
     """)
     return
 
@@ -410,11 +410,10 @@ def _(mo):
     "Solución (referencia)": solution_content,
     }
     )
-
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     # === TESTS (NO EDITAR) ===
     out = resumen_numerico([10, 20, 30])
