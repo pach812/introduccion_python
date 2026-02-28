@@ -7,7 +7,23 @@ requires-python = ">=3.14"
 dependencies = [
     "google-genai>=1.64.0",
     "marimo[recommended]>=0.19.11",
+    "numpy>=2.4.2",
 ]
 
 [tool.marimo.display]
 custom_css = ["public/style.css"]
+
+[dependency-groups]
+dev = [
+    "duckdb>=1.4.4",
+    "mcp>=1",
+    "polars[pyarrow]>=1.38.1",
+    "pydantic>=2",
+    "pytest>=9.0.2",
+    "python-lsp-ruff>=2.3.0",
+    "python-lsp-server>=1.14.0",
+    "sqlglot>=28.6.0",
+    "vegafusion>=2.0.3",
+    "vl-convert-python>=1.9.0.post1",
+    "websockets>=15.0.1",
+]
