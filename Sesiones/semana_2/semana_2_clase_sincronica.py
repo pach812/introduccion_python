@@ -1260,15 +1260,19 @@ def _(mo):
 
 
 @app.cell
-def _():
-    df_clean = df_clean.copy()
-    df_clean["has_htn"] = df_clean["sbp_mmHg"] >= 140
+def _(df_clean):
+    def _():
+        df_clean = df_clean.copy()
+        df_clean["has_htn"] = df_clean["sbp_mmHg"] >= 140
 
-    prop_htn = float(df_clean["has_htn"].mean())
+        prop_htn = float(df_clean["has_htn"].mean())
 
-    assert 0 <= prop_htn <= 1
-    prop_htn
-    return (df_clean,)
+        assert 0 <= prop_htn <= 1
+        return prop_htn
+
+
+    _()
+    return
 
 
 @app.cell(hide_code=True)
