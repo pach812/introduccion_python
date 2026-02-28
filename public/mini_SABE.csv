@@ -1,0 +1,1001 @@
+ID,age,ethnicity,educational_level_cat,smoking_status,physical_inactivity,bmi_category,hypertension,Diabetes,score_movilidad
+14170,66,Other,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16375,69,Mestize,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,5.0
+7155,65,Mestize,Ninguno,former smoker,No,Obese (30-39.9),Yes,No,11.0
+7942,80,Afrocolombian,Primaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+19651,66,Indigenous,Postgrado con título,never smoked,No,Overweight (25-29.9),No,No,11.0
+678,61,Afrocolombian,Ninguno,current smoker,No,Underweight (below 18.5),No,No,11.0
+16993,73,Other,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+17797,91,Indigenous,Ninguno,never smoked,Yes,Overweight (25-29.9),Yes,No,6.0
+1124,63,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),Yes,No,6.0
+749,60,Afrocolombian,Técnico o tecnológico sin título,never smoked,No,Normal (18.6-25),No,No,11.0
+7709,74,Afrocolombian,Ninguno,current smoker,No,Normal (18.6-25),No,No,11.0
+6823,80,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),No,No,9.0
+5123,68,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,7.0
+11642,65,Indigenous,Primaria incompleta,never smoked,Yes,Underweight (below 18.5),No,No,14.0
+13087,87,Mestize,Primaria completa,former smoker,Yes,Normal (18.6-25),Yes,No,12.0
+5378,79,Afrocolombian,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,8.0
+4109,66,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,Yes,9.0
+2668,82,Mestize,Primaria incompleta,former smoker,No,Severe obese (above 40),Yes,No,4.0
+5780,63,Indigenous,Universitario con título,current smoker,No,Overweight (25-29.9),No,No,7.0
+22187,68,White,Postgrado con título,never smoked,Yes,Normal (18.6-25),Yes,Yes,14.0
+21163,70,DK response,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+19635,64,Afrocolombian,Primaria completa,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+2704,66,Mestize,Universitario sin título,never smoked,No,Normal (18.6-25),No,No,11.0
+6385,82,Mestize,Universitario con título,never smoked,No,Obese (30-39.9),Yes,No,8.0
+18738,62,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,8.0
+6818,63,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+14431,62,White,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+23552,65,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,9.0
+44,77,Indigenous,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+5444,64,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+4128,65,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+9997,72,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),No,No,6.0
+14198,72,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,10.0
+14176,64,Mestize,Ninguno,current smoker,No,Overweight (25-29.9),Yes,No,4.0
+13014,60,Other,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,6.0
+1380,62,Afrocolombian,Universitario con título,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+417,64,Afrocolombian,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+244,62,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,9.0
+12885,62,Other,Secundaria completa,former smoker,No,Obese (30-39.9),No,Yes,11.0
+15756,65,DK response,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,12.0
+9635,63,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+13892,66,Mestize,Primaria incompleta,never smoked,Yes,Obese (30-39.9),No,Yes,14.0
+4622,60,Afrocolombian,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,7.0
+16203,81,White,Ninguno,former smoker,No,Normal (18.6-25),No,No,8.0
+10024,67,Mestize,Ninguno,former smoker,Yes,Obese (30-39.9),Yes,No,12.0
+207,62,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,6.0
+23172,66,Afrocolombian,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+20699,77,Mestize,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+10471,75,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+11701,66,Afrocolombian,Primaria incompleta,current smoker,No,Underweight (below 18.5),Yes,No,8.0
+19902,61,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),No,No,11.0
+19776,74,Afrocolombian,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,10.0
+1241,61,White,Técnico o tecnológico con título,former smoker,No,Overweight (25-29.9),No,No,3.0
+19875,61,Mestize,Primaria incompleta,current smoker,Yes,Overweight (25-29.9),Yes,No,10.0
+4201,60,Mestize,Primaria completa,current smoker,No,Normal (18.6-25),No,No,6.0
+12055,78,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+20056,72,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,10.0
+16387,69,Indigenous,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+12708,63,Other,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),Yes,No,13.0
+8207,77,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,11.0
+23266,64,Afrocolombian,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,Yes,7.0
+7462,61,DK response,Ninguno,former smoker,No,Severe obese (above 40),No,Yes,6.0
+4758,72,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,Yes,6.0
+13362,64,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,7.0
+14994,61,Mestize,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+1184,66,White,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+2715,63,DK response,Secundaria incompleta,former smoker,No,Overweight (25-29.9),No,No,9.0
+22968,60,Mestize,Técnico o tecnológico con título,current smoker,No,Obese (30-39.9),No,No,11.0
+2913,61,Indigenous,Primaria completa,former smoker,Yes,Obese (30-39.9),No,No,14.0
+7674,67,Other,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,5.0
+1897,73,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,6.0
+22758,64,Indigenous,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+8980,75,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+23371,77,Mestize,Primaria incompleta,former smoker,No,Severe obese (above 40),No,No,11.0
+3083,68,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+9307,62,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,7.0
+12559,66,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+21206,80,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,3.0
+14182,62,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,9.0
+8856,61,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,11.0
+1864,68,White,Ninguno,never smoked,No,Overweight (25-29.9),No,No,7.0
+18244,66,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+7402,63,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,7.0
+22177,73,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,6.0
+13235,62,DK response,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,7.0
+1809,83,Other,Ninguno,former smoker,No,Overweight (25-29.9),No,No,7.0
+12172,73,White,Primaria completa,former smoker,No,Underweight (below 18.5),Yes,No,4.0
+895,79,Afrocolombian,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+11925,72,White,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,11.0
+3341,71,Mestize,Postgrado sin título,current smoker,No,Normal (18.6-25),Yes,No,11.0
+22301,74,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,11.0
+19375,64,Other,Ninguno,former smoker,Yes,Overweight (25-29.9),Yes,Yes,10.0
+15224,63,White,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,9.0
+3188,63,Indigenous,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+19083,62,White,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,12.0
+2287,76,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,Yes,2.0
+4146,74,White,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,11.0
+15701,72,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,4.0
+20829,81,Mestize,Primaria incompleta,former smoker,No,Severe obese (above 40),No,No,4.0
+17660,66,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+9358,66,DK response,Primaria incompleta,never smoked,Yes,Severe obese (above 40),No,No,14.0
+4775,73,Mestize,Primaria completa,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+15254,73,Indigenous,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,1.0
+2554,70,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,11.0
+1442,66,Mestize,Secundaria completa,former smoker,Yes,Overweight (25-29.9),Yes,Yes,13.0
+3671,72,White,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,11.0
+11535,66,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,7.0
+6693,67,Mestize,Ninguno,former smoker,No,Normal (18.6-25),No,No,9.0
+13799,64,Other,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+17298,60,Indigenous,Ninguno,former smoker,Yes,Normal (18.6-25),No,No,14.0
+9756,65,DK response,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,11.0
+237,65,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,10.0
+4386,92,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),Yes,Yes,2.0
+3536,65,DK response,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+15550,67,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,8.0
+18810,60,DK response,Ninguno,never smoked,No,Obese (30-39.9),No,No,6.0
+17694,65,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,6.0
+15415,73,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,14.0
+22135,61,Afrocolombian,Primaria incompleta,current smoker,Yes,Obese (30-39.9),No,No,7.0
+10696,76,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,12.0
+6954,64,White,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+3972,66,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+4263,68,Indigenous,Ninguno,current smoker,No,Overweight (25-29.9),No,No,4.0
+4621,80,Mestize,Secundaria completa,never smoked,No,Obese (30-39.9),Yes,No,9.0
+23463,61,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+12175,77,Other,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,4.0
+5714,74,Indigenous,Técnico o tecnológico con título,former smoker,No,Obese (30-39.9),No,No,11.0
+13605,69,Indigenous,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+21792,66,White,Técnico o tecnológico con título,never smoked,No,Obese (30-39.9),No,No,11.0
+23008,66,White,Secundaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,11.0
+13989,77,White,Ninguno,current smoker,No,Normal (18.6-25),Yes,No,10.0
+11876,71,Afrocolombian,Primaria completa,never smoked,No,Obese (30-39.9),Yes,Yes,11.0
+7332,60,Mestize,Primaria completa,current smoker,No,Obese (30-39.9),No,No,7.0
+20762,73,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),Yes,Yes,9.0
+2843,77,Afrocolombian,Primaria completa,former smoker,No,Overweight (25-29.9),No,No,2.0
+18602,68,Indigenous,Ninguno,never smoked,No,Obese (30-39.9),Yes,No,6.0
+23083,76,White,Secundaria completa,current smoker,No,Normal (18.6-25),Yes,No,11.0
+8370,61,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,11.0
+19224,62,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,10.0
+380,61,Afrocolombian,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,9.0
+9043,76,DK response,Primaria completa,former smoker,No,Normal (18.6-25),Yes,No,6.0
+12845,66,White,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,9.0
+18059,63,Mestize,Primaria completa,current smoker,No,Normal (18.6-25),No,No,11.0
+2997,65,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+9858,70,DK response,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,8.0
+2624,63,White,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+20060,70,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,10.0
+11671,68,Afrocolombian,Ninguno,current smoker,No,Obese (30-39.9),Yes,Yes,7.0
+6205,77,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+6997,62,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+12286,71,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+3338,63,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),No,No,7.0
+10123,61,Afrocolombian,Ninguno,former smoker,Yes,Normal (18.6-25),No,No,14.0
+10101,70,Afrocolombian,Ninguno,former smoker,Yes,Overweight (25-29.9),No,No,13.0
+1327,68,Mestize,Primaria incompleta,current smoker,Yes,Overweight (25-29.9),Yes,No,12.0
+9538,69,DK response,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,1.0
+7768,60,Afrocolombian,Secundaria completa,never smoked,Yes,Obese (30-39.9),Yes,Yes,12.0
+14704,63,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+22999,60,DK response,Primaria completa,never smoked,No,Obese (30-39.9),No,No,9.0
+10340,77,Other,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+5145,76,Mestize,Ninguno,former smoker,Yes,Severe obese (above 40),Yes,No,14.0
+2301,62,Afrocolombian,Secundaria completa,never smoked,No,Normal (18.6-25),Yes,No,10.0
+637,68,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+12612,61,Afrocolombian,Secundaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,11.0
+12261,61,White,Secundaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,2.0
+2791,68,Indigenous,Primaria incompleta,current smoker,No,Overweight (25-29.9),No,No,11.0
+13313,70,Mestize,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+16949,67,Indigenous,Ninguno,never smoked,No,Overweight (25-29.9),No,No,8.0
+20457,78,Mestize,Técnico o tecnológico con título,never smoked,No,Obese (30-39.9),No,Yes,6.0
+3716,72,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+3105,65,Mestize,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),Yes,Yes,14.0
+2237,62,White,Primaria completa,never smoked,No,Severe obese (above 40),No,No,11.0
+12188,67,White,Primaria completa,former smoker,No,Obese (30-39.9),No,No,9.0
+18509,66,White,Ninguno,former smoker,No,Overweight (25-29.9),No,No,11.0
+9562,86,White,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,3.0
+5740,64,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+15647,80,White,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+15872,68,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,5.0
+4297,77,Mestize,Técnico o tecnológico con título,former smoker,No,Severe obese (above 40),Yes,Yes,2.0
+6033,65,Indigenous,Universitario sin título,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+16645,63,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,11.0
+6201,69,White,Ninguno,former smoker,Yes,Normal (18.6-25),Yes,No,12.0
+10987,76,Mestize,Ninguno,never smoked,No,Obese (30-39.9),Yes,No,6.0
+15574,73,DK response,Ninguno,never smoked,No,Severe obese (above 40),Yes,No,11.0
+18721,63,Mestize,Postgrado sin título,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+12897,61,Other,Secundaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+20195,76,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+16791,74,White,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+4995,72,Mestize,Ninguno,current smoker,No,Normal (18.6-25),Yes,No,9.0
+19357,64,White,Técnico o tecnológico sin título,never smoked,Yes,Normal (18.6-25),No,No,14.0
+9797,66,White,Primaria incompleta,current smoker,Yes,Normal (18.6-25),Yes,No,14.0
+15202,68,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,10.0
+18109,60,Afrocolombian,Primaria completa,former smoker,Yes,Overweight (25-29.9),No,No,12.0
+15835,60,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,4.0
+12626,77,White,Primaria completa,never smoked,No,Normal (18.6-25),No,Yes,11.0
+10483,66,White,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+22877,67,DK response,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,9.0
+12970,68,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,7.0
+14230,64,White,Secundaria completa,never smoked,No,Overweight (25-29.9),No,Yes,7.0
+4640,71,Mestize,Secundaria incompleta,former smoker,Yes,Obese (30-39.9),No,Yes,14.0
+4324,62,Mestize,Ninguno,former smoker,No,Obese (30-39.9),Yes,No,8.0
+8707,87,Afrocolombian,Secundaria completa,former smoker,No,Normal (18.6-25),No,No,11.0
+9993,61,White,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,9.0
+14705,79,White,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,10.0
+17125,63,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+22815,71,Afrocolombian,Secundaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,Yes,12.0
+6723,75,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+4291,61,White,Primaria completa,former smoker,No,Obese (30-39.9),No,No,11.0
+19150,89,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,8.0
+539,61,Mestize,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+21132,63,Mestize,Secundaria completa,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+6252,72,Mestize,Postgrado con título,never smoked,No,Obese (30-39.9),Yes,No,11.0
+9149,70,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,14.0
+23059,68,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,Yes,11.0
+9512,63,White,Ninguno,never smoked,No,Overweight (25-29.9),No,No,2.0
+6641,61,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+21214,74,White,Primaria incompleta,current smoker,No,Obese (30-39.9),No,No,9.0
+7246,64,DK response,Primaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+22947,63,Afrocolombian,Secundaria incompleta,current smoker,Yes,Obese (30-39.9),Yes,No,14.0
+10692,66,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),No,No,7.0
+10066,82,Afrocolombian,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,5.0
+11984,69,Mestize,Secundaria completa,never smoked,Yes,Normal (18.6-25),No,No,14.0
+23547,60,Mestize,Primaria completa,former smoker,No,Severe obese (above 40),Yes,Yes,11.0
+17430,61,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+11666,69,White,Primaria incompleta,former smoker,No,Normal (18.6-25),No,Yes,6.0
+14764,62,Indigenous,Universitario sin título,never smoked,No,Obese (30-39.9),No,No,7.0
+18422,68,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),No,No,1.0
+4162,69,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),No,No,7.0
+13288,78,DK response,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+7953,62,White,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,11.0
+22549,66,Afrocolombian,Universitario con título,never smoked,No,Obese (30-39.9),Yes,No,11.0
+23014,91,Indigenous,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,4.0
+7458,78,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,2.0
+4247,64,White,Postgrado con título,former smoker,Yes,Obese (30-39.9),Yes,Yes,14.0
+10494,69,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,10.0
+17628,62,Afrocolombian,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+1838,65,White,Ninguno,former smoker,No,Obese (30-39.9),Yes,Yes,7.0
+12782,71,DK response,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,3.0
+17195,63,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,9.0
+22837,75,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,7.0
+7954,72,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,7.0
+15272,89,Mestize,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+2652,69,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+3656,60,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,8.0
+4378,76,Indigenous,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+15827,69,Afrocolombian,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,9.0
+14567,66,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,Yes,5.0
+5414,60,Mestize,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,6.0
+7776,77,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+11290,71,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,10.0
+12852,64,White,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+17983,61,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16509,63,Other,Universitario sin título,current smoker,No,Normal (18.6-25),No,Yes,11.0
+8544,63,Indigenous,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16782,62,White,Secundaria incompleta,former smoker,Yes,Obese (30-39.9),No,No,14.0
+7321,64,Mestize,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,7.0
+8404,82,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,7.0
+23050,62,Afrocolombian,Secundaria incompleta,current smoker,Yes,Overweight (25-29.9),No,No,14.0
+10618,80,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+3836,68,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+3702,69,Mestize,Postgrado con título,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16141,81,Indigenous,Primaria completa,former smoker,No,Normal (18.6-25),No,No,3.0
+12134,71,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+5141,68,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,13.0
+16822,62,Indigenous,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,11.0
+16812,70,Mestize,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+6476,78,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+13956,69,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,7.0
+16604,73,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16878,60,Mestize,Técnico o tecnológico sin título,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+4008,71,White,Ninguno,never smoked,No,Severe obese (above 40),Yes,Yes,2.0
+3353,60,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+10294,85,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),No,No,3.0
+16191,68,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,6.0
+5859,61,White,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,5.0
+20295,63,Other,Secundaria incompleta,former smoker,No,Obese (30-39.9),No,No,5.0
+20390,68,Other,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+19011,61,Afrocolombian,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,10.0
+18272,67,White,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+10699,64,Mestize,Secundaria completa,former smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+8500,64,White,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,6.0
+22219,65,Afrocolombian,Universitario con título,never smoked,No,Obese (30-39.9),Yes,No,11.0
+4657,64,Indigenous,Secundaria completa,never smoked,No,Normal (18.6-25),Yes,No,11.0
+7773,68,Mestize,Ninguno,former smoker,No,Obese (30-39.9),Yes,Yes,11.0
+21648,63,Afrocolombian,Ninguno,never smoked,No,Normal (18.6-25),Yes,No,11.0
+13327,75,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),Yes,Yes,8.0
+13003,64,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+19116,78,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,2.0
+255,63,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,11.0
+3210,76,White,Primaria completa,former smoker,Yes,Normal (18.6-25),No,No,10.0
+16779,63,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,11.0
+21242,63,Mestize,Secundaria incompleta,current smoker,No,Obese (30-39.9),No,No,9.0
+20481,75,Indigenous,Primaria incompleta,current smoker,No,Overweight (25-29.9),No,No,11.0
+11197,66,Mestize,Primaria completa,never smoked,Yes,Normal (18.6-25),Yes,No,12.0
+6599,62,Mestize,Postgrado con título,never smoked,No,Obese (30-39.9),No,No,7.0
+5099,64,White,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,10.0
+771,65,Afrocolombian,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+14189,61,Mestize,Primaria completa,never smoked,No,Severe obese (above 40),Yes,Yes,7.0
+1019,60,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+3104,75,Mestize,Secundaria incompleta,never smoked,Yes,Severe obese (above 40),Yes,No,11.0
+7230,76,White,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,7.0
+12358,62,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+12912,77,Other,Primaria incompleta,never smoked,No,Underweight (below 18.5),No,No,8.0
+1417,75,White,Secundaria completa,never smoked,No,Overweight (25-29.9),No,No,6.0
+22271,63,Indigenous,Universitario con título,never smoked,Yes,Obese (30-39.9),No,No,14.0
+6463,77,Indigenous,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,5.0
+9415,87,White,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),Yes,Yes,14.0
+5237,74,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,14.0
+16996,70,Other,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,9.0
+20138,65,Afrocolombian,Secundaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+13710,66,Indigenous,Primaria incompleta,former smoker,No,Obese (30-39.9),No,Yes,7.0
+6491,72,Indigenous,Primaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,9.0
+2628,70,Mestize,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,13.0
+5533,67,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+5094,66,White,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+423,79,Afrocolombian,Primaria completa,former smoker,No,Obese (30-39.9),No,No,8.0
+15014,60,Mestize,Primaria incompleta,current smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+19943,62,White,Primaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+18130,64,White,Ninguno,former smoker,No,Obese (30-39.9),No,No,6.0
+21561,60,White,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,4.0
+1188,71,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,12.0
+11588,74,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,Yes,9.0
+10416,65,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+6058,60,White,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+1172,76,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,9.0
+6238,72,DK response,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,4.0
+20840,79,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,Yes,7.0
+13910,75,Mestize,Ninguno,never smoked,No,Obese (30-39.9),Yes,No,2.0
+10533,73,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,Yes,12.0
+19954,76,White,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+9109,62,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),No,No,11.0
+21949,84,White,Técnico o tecnológico con título,never smoked,No,Obese (30-39.9),Yes,No,8.0
+20009,76,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,7.0
+15285,66,Mestize,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),No,Yes,14.0
+4433,69,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+9370,74,White,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+10540,65,Mestize,Ninguno,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+4905,61,White,Secundaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+17065,78,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+5706,69,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),Yes,Yes,7.0
+23682,87,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+20786,69,Mestize,Primaria completa,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+10469,82,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+2224,63,White,Universitario sin título,never smoked,Yes,Overweight (25-29.9),Yes,Yes,14.0
+3771,65,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,9.0
+22510,60,DK response,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,9.0
+1791,90,White,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,4.0
+2860,82,Mestize,Universitario con título,current smoker,No,Normal (18.6-25),No,Yes,9.0
+8220,68,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+5617,78,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+11639,70,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+19643,67,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,10.0
+7649,81,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,9.0
+20504,73,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+4689,66,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,8.0
+2156,61,Mestize,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+20475,70,Afrocolombian,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,7.0
+10949,69,Mestize,Secundaria incompleta,former smoker,Yes,Severe obese (above 40),No,No,14.0
+14349,77,White,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+7421,65,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+2597,62,Afrocolombian,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,Yes,7.0
+5585,60,Mestize,Postgrado con título,never smoked,No,Severe obese (above 40),Yes,No,9.0
+16890,74,Mestize,Secundaria completa,never smoked,Yes,Normal (18.6-25),No,No,12.0
+11465,71,Afrocolombian,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+2058,67,Mestize,Secundaria completa,former smoker,No,Overweight (25-29.9),No,No,11.0
+4139,64,Afrocolombian,Ninguno,never smoked,No,Normal (18.6-25),No,No,11.0
+8030,78,DK response,Secundaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,Yes,14.0
+19599,69,Indigenous,Ninguno,never smoked,No,Obese (30-39.9),Yes,No,9.0
+20814,60,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,11.0
+17024,60,White,Secundaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+7904,61,White,Primaria completa,never smoked,Yes,Obese (30-39.9),No,No,10.0
+5014,70,Mestize,Secundaria completa,never smoked,No,Normal (18.6-25),No,Yes,11.0
+13864,75,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,6.0
+19196,70,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+14664,69,DK response,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,4.0
+3974,65,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+4198,70,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,Yes,4.0
+1872,69,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+14724,65,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),No,No,9.0
+22924,73,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,11.0
+19377,77,Mestize,Ninguno,never smoked,No,Normal (18.6-25),No,No,7.0
+5665,78,Mestize,Secundaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,7.0
+12346,75,DK response,Ninguno,former smoker,Yes,Normal (18.6-25),No,No,14.0
+22839,62,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+2921,63,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,10.0
+12694,70,Indigenous,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,9.0
+16004,67,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+23132,61,White,Primaria completa,former smoker,No,Severe obese (above 40),Yes,Yes,5.0
+14802,64,Mestize,Ninguno,former smoker,No,Normal (18.6-25),No,No,9.0
+7777,67,Mestize,Ninguno,current smoker,No,Obese (30-39.9),Yes,No,11.0
+22915,66,Mestize,Secundaria completa,former smoker,No,Obese (30-39.9),No,Yes,6.0
+18539,80,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,4.0
+9497,63,Afrocolombian,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,5.0
+9078,62,Mestize,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,12.0
+16863,62,White,Secundaria completa,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+2822,62,Indigenous,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,3.0
+523,65,White,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,Yes,11.0
+5978,61,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+21736,60,White,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+5117,61,Mestize,Ninguno,current smoker,No,Normal (18.6-25),No,No,11.0
+19693,71,Other,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,5.0
+17884,61,Indigenous,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,10.0
+12621,62,Afrocolombian,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,7.0
+10335,76,DK response,Primaria incompleta,never smoked,Yes,Normal (18.6-25),Yes,No,11.0
+18296,72,Mestize,Ninguno,never smoked,No,Normal (18.6-25),Yes,Yes,3.0
+21333,64,Mestize,Primaria completa,former smoker,No,Severe obese (above 40),Yes,No,11.0
+1299,62,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+5746,61,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+22448,65,Afrocolombian,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,6.0
+19170,70,Afrocolombian,Secundaria completa,never smoked,No,Obese (30-39.9),Yes,No,2.0
+1556,60,White,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+10302,66,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+15870,64,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,9.0
+13840,71,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),No,No,2.0
+15599,72,White,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+11351,70,White,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+13903,65,Mestize,Postgrado con título,never smoked,Yes,Obese (30-39.9),No,No,14.0
+13851,66,White,Primaria completa,never smoked,Yes,Overweight (25-29.9),No,Yes,14.0
+801,63,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,9.0
+22155,67,White,Secundaria completa,former smoker,No,Obese (30-39.9),No,No,7.0
+22810,62,Mestize,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+10630,65,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+19887,70,Indigenous,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,5.0
+6182,66,Afrocolombian,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+13450,70,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),Yes,Yes,9.0
+4379,75,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,7.0
+2130,60,Mestize,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+240,81,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,8.0
+4366,61,White,Universitario con título,former smoker,No,Normal (18.6-25),No,No,11.0
+17429,63,Afrocolombian,Secundaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+7225,72,Mestize,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+14925,60,White,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+1449,61,Indigenous,Secundaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,7.0
+13265,68,Mestize,Técnico o tecnológico con título,former smoker,No,Overweight (25-29.9),Yes,No,7.0
+11577,61,White,Secundaria incompleta,current smoker,Yes,Overweight (25-29.9),No,No,14.0
+20584,67,White,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,No,5.0
+17267,68,White,Secundaria completa,former smoker,No,Obese (30-39.9),No,No,8.0
+6351,62,Mestize,Ninguno,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+3280,69,Mestize,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,Yes,10.0
+22242,61,Mestize,Técnico o tecnológico con título,never smoked,Yes,Overweight (25-29.9),Yes,Yes,10.0
+14597,66,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+1571,81,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,9.0
+10572,80,Afrocolombian,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,2.0
+9831,62,White,Secundaria completa,never smoked,No,Normal (18.6-25),Yes,Yes,9.0
+20817,69,Indigenous,Ninguno,never smoked,Yes,Obese (30-39.9),Yes,No,11.0
+10717,65,Indigenous,Técnico o tecnológico con título,current smoker,Yes,Normal (18.6-25),Yes,No,14.0
+12114,71,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+22532,71,Mestize,Primaria incompleta,never smoked,Yes,Severe obese (above 40),Yes,Yes,11.0
+22709,84,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+10880,67,Indigenous,Técnico o tecnológico con título,former smoker,Yes,Normal (18.6-25),No,No,14.0
+14140,68,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+14940,75,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+17872,82,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,7.0
+23672,68,White,Universitario con título,never smoked,No,Obese (30-39.9),Yes,Yes,9.0
+22361,82,DK response,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,9.0
+2132,61,Afrocolombian,Secundaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,7.0
+9905,80,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),No,No,11.0
+6649,73,White,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,4.0
+19065,60,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+5584,60,Indigenous,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+23110,74,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,9.0
+9761,64,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,4.0
+2126,72,Other,Ninguno,current smoker,Yes,Normal (18.6-25),No,No,14.0
+14494,76,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,5.0
+6056,62,Other,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+5402,72,Mestize,Ninguno,never smoked,No,Severe obese (above 40),No,No,11.0
+1316,65,Afrocolombian,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+15482,72,Indigenous,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,6.0
+7711,92,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,6.0
+4114,73,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+971,60,White,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+22132,60,White,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,14.0
+19492,73,DK response,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,7.0
+18627,67,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+2249,61,Mestize,Secundaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16629,68,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,Yes,11.0
+10843,78,White,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+22750,76,Indigenous,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+17833,60,Other,Secundaria completa,never smoked,Yes,Overweight (25-29.9),No,No,12.0
+5455,65,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,7.0
+11628,68,Mestize,Primaria completa,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+7651,64,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,6.0
+20582,70,White,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,5.0
+11350,68,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,11.0
+7967,69,White,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+5328,68,Mestize,Primaria incompleta,never smoked,No,Severe obese (above 40),No,No,7.0
+12268,60,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+6910,63,Afrocolombian,Secundaria incompleta,former smoker,No,Overweight (25-29.9),No,No,7.0
+11006,61,Afrocolombian,Ninguno,former smoker,No,Underweight (below 18.5),No,Yes,10.0
+9378,69,Indigenous,Ninguno,current smoker,Yes,Severe obese (above 40),Yes,No,7.0
+291,77,DK response,Ninguno,former smoker,No,Overweight (25-29.9),No,No,7.0
+9656,73,White,Universitario con título,former smoker,Yes,Normal (18.6-25),No,No,14.0
+20700,71,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,13.0
+4050,63,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+4061,62,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,Yes,9.0
+5716,69,Mestize,Secundaria completa,former smoker,No,Overweight (25-29.9),No,Yes,11.0
+19400,64,Afrocolombian,Primaria completa,former smoker,No,Normal (18.6-25),Yes,No,9.0
+12050,61,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,Yes,11.0
+15677,69,Mestize,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+17209,73,Mestize,Secundaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,12.0
+2040,61,White,Secundaria completa,current smoker,Yes,Overweight (25-29.9),No,No,14.0
+10891,79,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+712,71,Mestize,Técnico o tecnológico con título,never smoked,No,Severe obese (above 40),Yes,No,4.0
+8319,63,Other,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,6.0
+1099,81,White,Primaria completa,former smoker,Yes,Normal (18.6-25),No,No,14.0
+17915,65,Mestize,Universitario con título,former smoker,No,Normal (18.6-25),No,No,10.0
+3516,68,White,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,No,10.0
+11086,68,White,Primaria completa,never smoked,Yes,Overweight (25-29.9),Yes,No,12.0
+892,76,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+1655,67,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+20750,61,Mestize,Postgrado con título,never smoked,Yes,Obese (30-39.9),No,No,12.0
+10637,67,Afrocolombian,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+22170,63,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+12381,63,Mestize,Técnico o tecnológico con título,never smoked,No,Normal (18.6-25),No,Yes,4.0
+13692,66,White,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,5.0
+3589,68,Mestize,Secundaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+15317,66,White,Postgrado con título,never smoked,Yes,Obese (30-39.9),No,No,14.0
+9952,70,Mestize,Secundaria incompleta,former smoker,Yes,Obese (30-39.9),No,Yes,14.0
+9042,64,Indigenous,Ninguno,current smoker,No,Normal (18.6-25),Yes,Yes,10.0
+4476,67,DK response,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,4.0
+22608,61,White,Primaria incompleta,current smoker,No,Obese (30-39.9),Yes,Yes,11.0
+14068,80,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),No,No,7.0
+15925,76,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,11.0
+18548,77,Mestize,Ninguno,never smoked,No,Obese (30-39.9),No,No,10.0
+14381,74,Other,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,2.0
+12432,93,DK response,Ninguno,never smoked,No,Obese (30-39.9),No,No,2.0
+21456,61,Mestize,Secundaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+23492,77,White,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,7.0
+6017,72,Afrocolombian,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+14514,79,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,4.0
+5498,82,Mestize,Ninguno,never smoked,No,Overweight (25-29.9),No,No,6.0
+6278,72,Mestize,Técnico o tecnológico con título,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+64,78,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+6762,69,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,8.0
+10188,62,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),No,No,11.0
+1884,95,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,2.0
+21405,84,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,7.0
+10131,63,Afrocolombian,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,11.0
+17229,70,White,Ninguno,former smoker,Yes,Overweight (25-29.9),No,Yes,14.0
+22808,86,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,2.0
+3944,60,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+21162,73,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,5.0
+7790,67,Afrocolombian,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,2.0
+4394,64,White,Técnico o tecnológico con título,never smoked,No,Obese (30-39.9),Yes,No,5.0
+10419,67,White,Secundaria completa,former smoker,No,Obese (30-39.9),No,No,9.0
+6764,62,Indigenous,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,Yes,4.0
+16137,75,White,Ninguno,former smoker,No,Obese (30-39.9),Yes,Yes,5.0
+19555,85,Mestize,Ninguno,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+5581,61,Indigenous,Ninguno,current smoker,No,Overweight (25-29.9),No,No,11.0
+5149,66,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+13684,65,Afrocolombian,Primaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,7.0
+15981,67,Other,Primaria incompleta,never smoked,No,Underweight (below 18.5),Yes,No,11.0
+9680,65,Other,Secundaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+3107,68,White,Ninguno,never smoked,Yes,Obese (30-39.9),Yes,Yes,14.0
+12807,70,Mestize,Primaria incompleta,former smoker,No,Severe obese (above 40),Yes,No,11.0
+17407,63,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),Yes,No,11.0
+12865,61,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+9289,61,Afrocolombian,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),Yes,No,12.0
+10047,72,Afrocolombian,Universitario con título,never smoked,Yes,Normal (18.6-25),Yes,No,14.0
+12292,71,Other,Primaria incompleta,never smoked,No,Normal (18.6-25),No,Yes,9.0
+3599,62,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,4.0
+5783,76,Indigenous,Primaria incompleta,current smoker,No,Overweight (25-29.9),No,No,9.0
+12702,61,Indigenous,Primaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,14.0
+18090,68,Mestize,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,Yes,14.0
+6940,61,Mestize,Secundaria completa,never smoked,No,Obese (30-39.9),Yes,No,11.0
+21705,75,Indigenous,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,9.0
+15277,71,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,10.0
+701,85,White,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,7.0
+23468,66,Indigenous,Secundaria incompleta,never smoked,No,Severe obese (above 40),Yes,Yes,4.0
+11367,74,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,6.0
+4954,60,White,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+53,65,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+17119,68,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+4725,74,Mestize,Ninguno,former smoker,No,Obese (30-39.9),Yes,Yes,7.0
+5150,64,White,Ninguno,never smoked,No,Normal (18.6-25),Yes,No,9.0
+776,84,Mestize,Técnico o tecnológico sin título,former smoker,No,Normal (18.6-25),No,No,9.0
+9478,69,DK response,Primaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,No,10.0
+4230,83,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,4.0
+9240,84,White,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+16515,63,Afrocolombian,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+12291,66,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+14746,77,DK response,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,9.0
+9295,77,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+2837,66,Indigenous,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+8655,63,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+10704,71,White,Técnico o tecnológico con título,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+21767,70,White,Primaria incompleta,never smoked,No,Severe obese (above 40),No,Yes,2.0
+12024,64,White,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+16839,73,White,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+6655,70,Mestize,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+4885,80,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+17985,65,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+7044,78,Mestize,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+13535,89,White,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+21361,75,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,3.0
+9083,62,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,7.0
+23390,62,Mestize,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,3.0
+818,68,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+18078,66,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),No,No,10.0
+16134,71,Mestize,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,No,12.0
+13330,66,White,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,Yes,14.0
+976,67,Mestize,Primaria completa,former smoker,No,Obese (30-39.9),No,No,6.0
+22322,69,Mestize,Secundaria completa,never smoked,No,Obese (30-39.9),No,Yes,11.0
+16813,66,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,Yes,7.0
+15869,77,Mestize,Técnico o tecnológico con título,former smoker,No,Normal (18.6-25),No,No,9.0
+13709,60,Mestize,Primaria incompleta,current smoker,No,Obese (30-39.9),No,No,11.0
+11858,64,White,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+680,65,White,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),No,Yes,10.0
+10257,60,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,10.0
+5057,64,Mestize,Secundaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+22631,64,Mestize,Técnico o tecnológico sin título,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+10768,78,Afrocolombian,Ninguno,current smoker,No,Underweight (below 18.5),No,No,11.0
+20198,60,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+9359,61,White,Primaria completa,current smoker,Yes,Overweight (25-29.9),No,No,14.0
+3920,73,White,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+14222,78,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),Yes,No,7.0
+12730,72,Afrocolombian,Primaria completa,never smoked,No,Normal (18.6-25),Yes,No,11.0
+2933,62,Other,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+12890,92,Other,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,9.0
+924,60,White,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,14.0
+21672,83,White,Técnico o tecnológico con título,former smoker,No,Overweight (25-29.9),Yes,Yes,9.0
+1361,63,Other,Ninguno,never smoked,No,Normal (18.6-25),Yes,No,6.0
+22424,80,White,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,11.0
+9252,68,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+1776,65,DK response,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+3160,81,Mestize,Ninguno,never smoked,No,Normal (18.6-25),No,No,3.0
+4778,76,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,8.0
+5133,79,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,6.0
+14929,72,Indigenous,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+6180,80,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,4.0
+7388,61,Mestize,Secundaria completa,never smoked,Yes,Overweight (25-29.9),No,No,12.0
+7142,60,Mestize,Técnico o tecnológico con título,never smoked,No,Obese (30-39.9),Yes,No,7.0
+13337,67,Mestize,Secundaria completa,never smoked,Yes,Severe obese (above 40),Yes,Yes,13.0
+6782,65,White,Universitario con título,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+17319,69,Other,Primaria completa,never smoked,Yes,Overweight (25-29.9),Yes,Yes,14.0
+19685,68,Mestize,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,Yes,10.0
+9972,63,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,Yes,3.0
+559,62,Mestize,Primaria completa,current smoker,No,Obese (30-39.9),No,No,3.0
+18173,74,White,Ninguno,current smoker,No,Normal (18.6-25),No,No,7.0
+17902,70,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+4370,63,Mestize,Primaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,9.0
+14445,62,Mestize,Universitario con título,never smoked,Yes,Normal (18.6-25),No,No,14.0
+5726,62,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,6.0
+9789,82,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+12723,71,Afrocolombian,Secundaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+13831,85,White,Ninguno,former smoker,No,Obese (30-39.9),Yes,No,2.0
+5917,61,Indigenous,Primaria completa,current smoker,No,Normal (18.6-25),No,No,11.0
+5016,63,Mestize,Secundaria incompleta,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+11043,65,White,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,No,6.0
+3299,74,Indigenous,Secundaria completa,never smoked,No,Overweight (25-29.9),Yes,No,10.0
+15816,64,Other,Ninguno,never smoked,No,Overweight (25-29.9),No,No,11.0
+17981,60,Afrocolombian,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+2457,60,Afrocolombian,Ninguno,current smoker,No,Normal (18.6-25),No,No,11.0
+322,78,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,6.0
+6148,61,White,Primaria completa,former smoker,No,Overweight (25-29.9),No,No,11.0
+22405,62,Other,Primaria completa,former smoker,Yes,Severe obese (above 40),Yes,No,14.0
+23536,67,Mestize,Primaria incompleta,current smoker,No,Severe obese (above 40),No,No,9.0
+20570,90,Mestize,Ninguno,current smoker,No,Overweight (25-29.9),Yes,No,6.0
+12586,85,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+8193,62,Other,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+20375,61,Mestize,Secundaria completa,former smoker,No,Overweight (25-29.9),Yes,No,4.0
+10171,64,Mestize,Primaria completa,current smoker,No,Normal (18.6-25),No,No,11.0
+19023,71,Indigenous,Ninguno,current smoker,No,Normal (18.6-25),No,No,7.0
+22526,92,Other,Secundaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+22138,81,Mestize,Técnico o tecnológico con título,never smoked,No,Severe obese (above 40),Yes,Yes,8.0
+21208,68,Mestize,Técnico o tecnológico con título,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+7103,61,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,2.0
+1338,64,White,Ninguno,never smoked,No,Overweight (25-29.9),Yes,No,9.0
+8408,61,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,10.0
+19424,72,Other,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,9.0
+22243,63,Indigenous,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,Yes,6.0
+20407,70,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,11.0
+3690,68,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,9.0
+498,60,Indigenous,Secundaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+1499,60,White,Primaria completa,never smoked,No,Normal (18.6-25),No,No,9.0
+14346,75,Mestize,Ninguno,never smoked,No,Obese (30-39.9),No,No,9.0
+18538,66,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,7.0
+18624,66,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+7702,69,Afrocolombian,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+6371,84,Mestize,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),Yes,Yes,9.0
+18307,61,Mestize,Técnico o tecnológico con título,former smoker,Yes,Severe obese (above 40),No,No,14.0
+20289,65,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+11250,77,Afrocolombian,Ninguno,never smoked,Yes,Obese (30-39.9),Yes,No,12.0
+4821,89,Mestize,Ninguno,never smoked,No,Normal (18.6-25),Yes,No,5.0
+19644,60,White,Secundaria completa,never smoked,No,Severe obese (above 40),No,Yes,11.0
+17656,60,DK response,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,Yes,4.0
+13002,75,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,5.0
+1835,69,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+156,67,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+8910,80,DK response,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+7845,63,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+21077,64,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),No,No,7.0
+22488,60,White,Secundaria incompleta,former smoker,Yes,Severe obese (above 40),Yes,No,12.0
+798,70,Mestize,Postgrado con título,never smoked,No,Normal (18.6-25),Yes,No,11.0
+5743,72,White,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+16690,64,Other,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+15867,61,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+923,75,DK response,Primaria incompleta,former smoker,No,Severe obese (above 40),Yes,Yes,1.0
+18736,82,Afrocolombian,Técnico o tecnológico con título,never smoked,No,Severe obese (above 40),Yes,No,7.0
+168,61,Indigenous,Primaria completa,never smoked,No,Severe obese (above 40),Yes,No,5.0
+17099,75,White,Postgrado con título,former smoker,No,Overweight (25-29.9),Yes,Yes,6.0
+18424,64,Mestize,Secundaria completa,former smoker,No,Overweight (25-29.9),No,No,11.0
+11020,71,Indigenous,Universitario con título,former smoker,No,Overweight (25-29.9),Yes,Yes,7.0
+6833,85,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,10.0
+16346,76,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+8243,82,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,1.0
+2076,64,Indigenous,Primaria completa,current smoker,No,Obese (30-39.9),Yes,No,11.0
+6341,67,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+13101,90,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),No,No,11.0
+19497,76,Mestize,Ninguno,never smoked,No,Normal (18.6-25),No,No,11.0
+1031,66,White,Primaria completa,current smoker,Yes,Normal (18.6-25),No,No,14.0
+7891,60,Mestize,Primaria completa,former smoker,Yes,Obese (30-39.9),Yes,No,12.0
+14462,72,White,Ninguno,never smoked,No,Obese (30-39.9),Yes,No,2.0
+20166,68,Mestize,Ninguno,never smoked,No,Obese (30-39.9),Yes,Yes,2.0
+19462,62,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+12561,61,Indigenous,Universitario con título,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+22688,65,Afrocolombian,Secundaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+9347,69,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+7630,61,Indigenous,Secundaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+1589,64,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+1898,70,Other,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,4.0
+19046,75,Other,Primaria completa,current smoker,No,Normal (18.6-25),No,No,11.0
+7747,73,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+1588,62,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,7.0
+22392,61,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+15540,65,Indigenous,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,9.0
+9557,67,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+21565,61,White,Primaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,14.0
+18260,68,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+5439,66,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,Yes,5.0
+7866,81,White,Ninguno,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+7802,66,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,Yes,11.0
+17846,70,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,7.0
+11949,75,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+19263,67,Afrocolombian,Secundaria incompleta,never smoked,Yes,Obese (30-39.9),No,No,12.0
+1062,60,DK response,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,Yes,6.0
+11954,65,Mestize,Primaria incompleta,current smoker,No,Overweight (25-29.9),No,No,7.0
+19384,62,Other,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,7.0
+1296,81,Mestize,Primaria completa,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+19999,66,Mestize,Ninguno,former smoker,No,Obese (30-39.9),No,No,11.0
+12663,76,DK response,Primaria completa,current smoker,No,Normal (18.6-25),No,No,7.0
+8615,73,Afrocolombian,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+18816,65,White,Primaria incompleta,never smoked,No,Severe obese (above 40),No,No,5.0
+3135,83,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,2.0
+2074,60,Mestize,Universitario con título,former smoker,No,Normal (18.6-25),No,No,11.0
+3636,61,Mestize,Postgrado con título,current smoker,Yes,Severe obese (above 40),No,No,14.0
+12446,69,DK response,Ninguno,former smoker,No,Obese (30-39.9),No,No,7.0
+3866,74,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,7.0
+23221,61,White,Primaria completa,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+16790,80,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,8.0
+18381,62,Mestize,Universitario con título,never smoked,Yes,Overweight (25-29.9),No,No,14.0
+4208,75,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),Yes,Yes,11.0
+775,65,Other,Secundaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+5631,67,Mestize,Ninguno,current smoker,No,Overweight (25-29.9),No,No,7.0
+1322,77,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+4661,68,Mestize,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),Yes,Yes,14.0
+2530,67,DK response,Ninguno,never smoked,No,Obese (30-39.9),No,No,11.0
+19423,62,Other,Secundaria completa,former smoker,No,Overweight (25-29.9),No,Yes,11.0
+14441,67,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,9.0
+9444,60,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+19373,84,Other,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,3.0
+19702,77,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,9.0
+696,65,Mestize,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+20658,65,Mestize,Secundaria completa,never smoked,Yes,Normal (18.6-25),Yes,No,14.0
+16976,66,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+15641,75,Indigenous,Primaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+1983,75,Other,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,7.0
+22006,74,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,4.0
+10750,66,Afrocolombian,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,10.0
+14780,61,Indigenous,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,Yes,11.0
+23216,70,White,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+16838,61,Afrocolombian,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+20023,72,Mestize,Ninguno,never smoked,No,Normal (18.6-25),Yes,Yes,11.0
+11766,61,DK response,Secundaria completa,current smoker,Yes,Obese (30-39.9),No,No,14.0
+16764,68,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+14437,60,Mestize,Primaria incompleta,current smoker,Yes,Normal (18.6-25),No,No,14.0
+3401,63,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,6.0
+13292,61,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+14918,65,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,5.0
+111,73,White,Primaria incompleta,current smoker,No,Normal (18.6-25),Yes,No,11.0
+7041,75,Mestize,Primaria completa,former smoker,Yes,Normal (18.6-25),Yes,No,10.0
+305,62,Mestize,Secundaria completa,former smoker,Yes,Overweight (25-29.9),Yes,Yes,12.0
+23273,82,Afrocolombian,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+18475,61,White,Secundaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,4.0
+19223,73,Indigenous,Primaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+19987,60,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+6815,61,DK response,Primaria incompleta,former smoker,Yes,Underweight (below 18.5),No,No,14.0
+11604,61,Mestize,Primaria completa,former smoker,Yes,Obese (30-39.9),No,No,14.0
+9049,80,Afrocolombian,Ninguno,never smoked,No,Overweight (25-29.9),Yes,Yes,10.0
+3403,61,White,Ninguno,never smoked,No,Overweight (25-29.9),No,No,6.0
+3354,63,Mestize,Ninguno,never smoked,No,Normal (18.6-25),Yes,No,11.0
+8189,68,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,Yes,9.0
+6571,82,Mestize,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,8.0
+14231,61,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,Yes,7.0
+18705,60,White,Ninguno,current smoker,No,Overweight (25-29.9),No,No,10.0
+2486,61,Indigenous,Ninguno,current smoker,Yes,Normal (18.6-25),Yes,No,12.0
+14644,62,Mestize,Primaria completa,former smoker,Yes,Normal (18.6-25),No,No,14.0
+13533,60,Afrocolombian,Secundaria completa,former smoker,No,Overweight (25-29.9),No,No,11.0
+13431,77,White,Técnico o tecnológico con título,never smoked,Yes,Obese (30-39.9),Yes,No,9.0
+10608,73,Afrocolombian,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+10402,68,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),No,Yes,5.0
+6909,71,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,9.0
+17449,61,Mestize,Primaria incompleta,current smoker,Yes,Obese (30-39.9),Yes,No,9.0
+3456,68,Mestize,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+13182,76,White,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+16819,63,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,11.0
+8662,67,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+19934,62,Other,Secundaria incompleta,never smoked,No,Severe obese (above 40),No,No,9.0
+4395,62,Mestize,Técnico o tecnológico sin título,former smoker,Yes,Normal (18.6-25),No,No,14.0
+22273,64,Indigenous,Primaria completa,current smoker,No,Normal (18.6-25),No,No,9.0
+9079,64,Mestize,Secundaria incompleta,never smoked,No,Severe obese (above 40),No,No,2.0
+6004,64,Indigenous,Primaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+9623,76,White,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+10498,62,Afrocolombian,Ninguno,current smoker,No,Normal (18.6-25),Yes,No,11.0
+16557,69,Afrocolombian,Ninguno,current smoker,No,Normal (18.6-25),No,No,11.0
+5786,63,Mestize,Ninguno,current smoker,No,Obese (30-39.9),No,No,11.0
+22821,62,Afrocolombian,Secundaria completa,former smoker,No,Normal (18.6-25),Yes,No,7.0
+11255,83,DK response,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,8.0
+18799,72,DK response,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+18410,60,Mestize,Secundaria completa,never smoked,No,Normal (18.6-25),No,No,9.0
+2163,68,Afrocolombian,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,6.0
+4865,65,Indigenous,Primaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,Yes,12.0
+8918,79,Mestize,Universitario con título,never smoked,No,Obese (30-39.9),No,Yes,9.0
+22603,70,White,Secundaria completa,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+12244,63,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,6.0
+10709,80,Indigenous,Secundaria completa,never smoked,Yes,Obese (30-39.9),Yes,Yes,12.0
+8181,66,Mestize,Ninguno,current smoker,Yes,Normal (18.6-25),No,No,10.0
+18677,62,DK response,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+10616,78,Afrocolombian,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,No,7.0
+7751,71,Indigenous,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+15102,60,White,Primaria completa,former smoker,No,Normal (18.6-25),No,No,9.0
+2378,87,Mestize,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+8566,76,Mestize,Primaria incompleta,former smoker,Yes,Obese (30-39.9),Yes,No,14.0
+6606,69,Mestize,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,11.0
+18287,68,Mestize,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),Yes,Yes,14.0
+7304,89,Indigenous,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,2.0
+15854,74,White,Ninguno,never smoked,No,Obese (30-39.9),No,No,7.0
+18690,67,Indigenous,Primaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,11.0
+19718,80,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+8169,60,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+7536,61,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+11931,66,Mestize,Secundaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+3552,67,Mestize,Primaria completa,former smoker,No,Normal (18.6-25),No,No,9.0
+18588,65,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),No,No,11.0
+17032,69,Mestize,Secundaria completa,former smoker,Yes,Overweight (25-29.9),No,Yes,14.0
+2463,73,White,Primaria completa,current smoker,No,Severe obese (above 40),No,Yes,11.0
+22753,71,White,Secundaria completa,never smoked,No,Normal (18.6-25),No,No,11.0
+21284,64,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),No,No,9.0
+21247,70,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,2.0
+8173,60,Afrocolombian,Secundaria completa,current smoker,No,Obese (30-39.9),Yes,No,4.0
+7633,69,Indigenous,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,No,11.0
+9333,76,Mestize,Secundaria completa,former smoker,No,Severe obese (above 40),Yes,No,8.0
+14730,61,White,Secundaria completa,former smoker,No,Overweight (25-29.9),No,No,7.0
+17632,77,White,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,Yes,7.0
+16676,69,White,Primaria incompleta,former smoker,No,Underweight (below 18.5),Yes,Yes,9.0
+13663,66,Mestize,Secundaria completa,current smoker,No,Obese (30-39.9),No,No,11.0
+2067,67,Mestize,Secundaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+7983,63,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,9.0
+7562,63,Mestize,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,9.0
+13030,69,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,10.0
+2005,70,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,9.0
+6576,62,Afrocolombian,Primaria completa,never smoked,No,Obese (30-39.9),Yes,Yes,7.0
+11765,67,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,11.0
+13379,81,White,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+2669,77,White,Ninguno,never smoked,No,Obese (30-39.9),Yes,Yes,9.0
+1841,60,White,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+3812,68,White,Ninguno,former smoker,No,Obese (30-39.9),No,No,7.0
+21302,63,White,Primaria incompleta,never smoked,No,Severe obese (above 40),Yes,No,6.0
+8899,69,Afrocolombian,Secundaria incompleta,former smoker,No,Severe obese (above 40),Yes,No,4.0
+19736,67,Mestize,Primaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+6708,78,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,10.0
+4923,75,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+1248,65,DK response,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),Yes,No,12.0
+15100,69,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,11.0
+20907,68,Mestize,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,5.0
+15861,84,DK response,Primaria incompleta,former smoker,No,Obese (30-39.9),No,Yes,5.0
+4543,71,Mestize,Primaria completa,former smoker,No,Underweight (below 18.5),No,No,11.0
+1679,64,DK response,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,Yes,14.0
+21415,61,White,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,6.0
+14394,68,White,Postgrado con título,former smoker,Yes,Obese (30-39.9),No,No,14.0
+3076,75,White,Primaria completa,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+6332,63,Indigenous,Ninguno,never smoked,No,Normal (18.6-25),No,No,7.0
+22264,62,Indigenous,Primaria completa,never smoked,Yes,Obese (30-39.9),Yes,No,10.0
+15370,65,Afrocolombian,Ninguno,current smoker,No,Overweight (25-29.9),No,No,7.0
+1755,63,Mestize,Primaria completa,former smoker,Yes,Overweight (25-29.9),Yes,No,14.0
+3489,68,White,Primaria incompleta,current smoker,No,Overweight (25-29.9),No,No,9.0
+2022,73,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+5928,68,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,5.0
+17683,73,White,Primaria completa,former smoker,No,Obese (30-39.9),No,No,9.0
+8891,60,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+6987,68,Mestize,Primaria incompleta,current smoker,No,Obese (30-39.9),No,No,11.0
+20006,73,Other,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+286,82,Mestize,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,14.0
+8871,60,Mestize,Primaria completa,never smoked,No,Obese (30-39.9),Yes,No,9.0
+4306,74,White,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,9.0
+10548,65,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,No,4.0
+1578,62,Mestize,Secundaria completa,former smoker,Yes,Overweight (25-29.9),No,Yes,14.0
+14238,74,White,Primaria incompleta,never smoked,No,Obese (30-39.9),No,Yes,1.0
+959,77,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,7.0
+6864,73,White,Primaria completa,current smoker,No,Obese (30-39.9),Yes,No,1.0
+22421,71,DK response,Secundaria incompleta,never smoked,No,Severe obese (above 40),No,No,7.0
+295,61,Mestize,Primaria completa,former smoker,No,Overweight (25-29.9),Yes,Yes,11.0
+10430,63,Mestize,Secundaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,5.0
+12804,70,Afrocolombian,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,Yes,11.0
+16087,81,White,Primaria incompleta,never smoked,No,Underweight (below 18.5),No,No,3.0
+22592,75,Afrocolombian,Primaria incompleta,former smoker,No,Obese (30-39.9),No,No,3.0
+1579,62,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+11128,72,Other,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+4398,77,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),No,No,8.0
+6016,73,Afrocolombian,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,7.0
+9192,83,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,Yes,9.0
+13541,76,Afrocolombian,Primaria incompleta,former smoker,No,Normal (18.6-25),Yes,No,11.0
+1456,74,Mestize,Primaria incompleta,current smoker,No,Overweight (25-29.9),Yes,No,11.0
+15326,67,White,Secundaria incompleta,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+19082,72,Mestize,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,Yes,14.0
+2177,61,Mestize,Secundaria completa,former smoker,No,Overweight (25-29.9),Yes,No,7.0
+20736,83,Afrocolombian,Primaria completa,former smoker,No,Normal (18.6-25),Yes,No,11.0
+8322,85,Indigenous,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+17805,71,Indigenous,Ninguno,former smoker,Yes,Normal (18.6-25),Yes,No,14.0
+21198,73,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+2785,65,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,Yes,7.0
+785,65,White,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,4.0
+16924,62,Other,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,11.0
+3764,74,White,Ninguno,former smoker,No,Severe obese (above 40),Yes,No,10.0
+17158,66,Indigenous,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,No,11.0
+13063,78,Mestize,Primaria completa,never smoked,No,Normal (18.6-25),Yes,Yes,11.0
+9362,66,Mestize,Primaria completa,never smoked,Yes,Obese (30-39.9),Yes,Yes,14.0
+21602,74,Mestize,Primaria incompleta,former smoker,No,Severe obese (above 40),No,No,4.0
+2128,71,Mestize,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+7538,72,White,Primaria completa,current smoker,No,Normal (18.6-25),No,No,9.0
+718,74,Mestize,Ninguno,former smoker,No,Normal (18.6-25),No,No,11.0
+3993,76,White,Primaria completa,never smoked,No,Overweight (25-29.9),No,No,7.0
+6119,62,Afrocolombian,Primaria completa,current smoker,No,Overweight (25-29.9),Yes,No,11.0
+20987,84,Other,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,7.0
+10267,65,Mestize,Primaria incompleta,never smoked,No,Obese (30-39.9),No,Yes,9.0
+15510,74,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,7.0
+14242,64,White,Primaria completa,current smoker,No,Normal (18.6-25),Yes,No,11.0
+11520,71,Other,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+16754,69,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,No,11.0
+13830,60,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,7.0
+137,61,Mestize,Universitario con título,current smoker,No,Normal (18.6-25),No,No,11.0
+15992,80,White,Ninguno,current smoker,No,Obese (30-39.9),Yes,No,7.0
+14725,63,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,9.0
+6956,65,White,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,8.0
+3520,65,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,6.0
+13008,75,White,Primaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+1165,70,Mestize,Primaria incompleta,former smoker,No,Overweight (25-29.9),Yes,Yes,9.0
+21525,72,White,Ninguno,current smoker,Yes,Normal (18.6-25),No,No,14.0
+10754,65,White,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,4.0
+8249,86,White,Primaria incompleta,current smoker,No,Normal (18.6-25),No,No,11.0
+10824,63,White,Secundaria incompleta,former smoker,No,Obese (30-39.9),No,Yes,7.0
+11412,62,Mestize,Primaria incompleta,former smoker,Yes,Overweight (25-29.9),No,No,14.0
+7779,66,Afrocolombian,Ninguno,former smoker,Yes,Normal (18.6-25),No,No,14.0
+21116,63,Indigenous,Primaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,4.0
+12680,69,Mestize,Secundaria completa,former smoker,Yes,Normal (18.6-25),No,No,12.0
+15086,63,Mestize,Postgrado con título,never smoked,No,Severe obese (above 40),No,No,11.0
+3045,68,White,Ninguno,never smoked,No,Obese (30-39.9),No,No,7.0
+8117,69,Mestize,Secundaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,14.0
+8999,84,Mestize,Ninguno,never smoked,Yes,Normal (18.6-25),Yes,No,12.0
+8686,82,Afrocolombian,Primaria incompleta,former smoker,Yes,Normal (18.6-25),No,No,12.0
+10015,68,Other,Ninguno,former smoker,No,Overweight (25-29.9),No,No,7.0
+2570,62,White,Secundaria incompleta,current smoker,Yes,Overweight (25-29.9),No,No,14.0
+1582,63,Mestize,Postgrado con título,former smoker,Yes,Normal (18.6-25),No,No,14.0
+12222,72,Afrocolombian,Primaria completa,never smoked,Yes,Obese (30-39.9),Yes,No,12.0
+12046,68,Afrocolombian,Ninguno,former smoker,No,Overweight (25-29.9),Yes,No,8.0
+2307,65,White,Primaria completa,never smoked,Yes,Overweight (25-29.9),Yes,No,14.0
+23197,67,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,6.0
+8054,88,Mestize,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,1.0
+15320,72,White,Secundaria incompleta,former smoker,No,Normal (18.6-25),No,No,11.0
+4084,64,Mestize,Postgrado con título,never smoked,Yes,Normal (18.6-25),No,No,12.0
+22660,68,Indigenous,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,11.0
+21475,70,Afrocolombian,Primaria completa,former smoker,No,Obese (30-39.9),Yes,No,6.0
+23505,66,Mestize,Técnico o tecnológico con título,never smoked,No,Overweight (25-29.9),No,No,9.0
+20044,67,White,Universitario con título,former smoker,No,Severe obese (above 40),Yes,No,9.0
+1681,65,Mestize,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,11.0
+18000,65,Mestize,Ninguno,former smoker,No,Overweight (25-29.9),No,No,11.0
+7252,67,DK response,Primaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+4287,70,White,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+505,62,Mestize,Primaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,5.0
+2716,66,White,Primaria incompleta,former smoker,No,Overweight (25-29.9),No,No,11.0
+13898,66,Mestize,Primaria incompleta,never smoked,Yes,Severe obese (above 40),Yes,No,9.0
+14490,64,Mestize,Secundaria incompleta,never smoked,No,Obese (30-39.9),No,No,7.0
+5965,71,Mestize,Secundaria completa,current smoker,No,Overweight (25-29.9),No,No,2.0
+12442,60,Mestize,Postgrado con título,never smoked,Yes,Normal (18.6-25),Yes,No,14.0
+13256,62,Mestize,Técnico o tecnológico sin título,never smoked,Yes,Normal (18.6-25),No,No,13.0
+11724,71,Mestize,Primaria incompleta,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+3797,65,White,Ninguno,never smoked,No,Obese (30-39.9),Yes,Yes,2.0
+2813,60,Mestize,Primaria incompleta,former smoker,No,Obese (30-39.9),Yes,Yes,7.0
+4731,64,Mestize,Universitario con título,never smoked,Yes,Overweight (25-29.9),Yes,No,12.0
+13093,60,DK response,Ninguno,never smoked,No,Normal (18.6-25),No,No,7.0
+6961,65,White,Primaria incompleta,never smoked,No,Normal (18.6-25),No,No,10.0
+1699,68,Afrocolombian,Ninguno,never smoked,Yes,Obese (30-39.9),Yes,No,14.0
+6837,63,Afrocolombian,Primaria incompleta,former smoker,No,Severe obese (above 40),Yes,No,7.0
+18733,60,DK response,Secundaria incompleta,never smoked,No,Obese (30-39.9),Yes,No,11.0
+84,65,Mestize,Secundaria incompleta,never smoked,No,Normal (18.6-25),Yes,No,11.0
+19523,66,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0
+12934,60,White,Primaria incompleta,never smoked,Yes,Normal (18.6-25),No,No,9.0
+21068,67,Mestize,Secundaria incompleta,never smoked,Yes,Overweight (25-29.9),Yes,Yes,14.0
+12322,72,Mestize,Ninguno,former smoker,No,Normal (18.6-25),Yes,No,4.0
+22097,64,Mestize,Secundaria incompleta,never smoked,No,Overweight (25-29.9),Yes,No,11.0

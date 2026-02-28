@@ -50,7 +50,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## Dataset base (simulado)
+    ## Dataset base
 
     Para practicar sin depender de archivos, usaremos un dataset pequeño con:
 
