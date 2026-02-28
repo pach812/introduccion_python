@@ -50,6 +50,400 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    # Modelo de Programa y Ejecución
+
+    Un programa es una secuencia ordenada de instrucciones que el intérprete ejecuta de arriba hacia abajo. Cada línea modifica el estado interno del programa antes de continuar con la siguiente.
+
+    Conceptos clave:
+
+    - Ejecución secuencial.
+    - Estado del programa.
+    - Determinismo.
+    - Errores como parte del proceso.
+    - Depuración sistemática.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    print("Paso 1")
+    x = 10
+    y = x * 2
+    print("Resultado:", y)
+    ```
+
+    Orden de ejecución:
+
+    1. Se imprime "Paso 1".
+    2. Se asigna 10 a `x`.
+    3. Se calcula `x * 2`.
+    4. Se imprime el resultado.
+
+    La ejecución siempre respeta el orden, salvo que una estructura de control lo modifique.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Variables como Modelos de Memoria
+
+    Una variable es un nombre que referencia un objeto en memoria. El valor no “vive dentro” del nombre; el nombre apunta al objeto.
+
+    Tipos básicos:
+
+    - `int`
+    - `float`
+    - `str`
+    - `bool`
+
+    Aspectos fundamentales:
+
+    - `=` es asignación.
+    - El tipo determina el comportamiento.
+    - Python es dinámicamente tipado.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    a = 5
+    b = a
+    a = 10
+
+    print(a)  # 10
+    print(b)  # 5
+    ```
+
+    `b` mantiene la referencia original al valor 5. Cambiar `a` no modifica `b`.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Ejecución Condicional
+
+    Las estructuras condicionales permiten modificar el flujo del programa según una expresión booleana.
+
+    Estructura general:
+
+    ```python
+    if condicion:
+        ...
+    elif otra_condicion:
+        ...
+    else:
+        ...
+    ```
+
+    Conceptos clave:
+
+    - Expresiones booleanas.
+    - Comparaciones.
+    - Operadores lógicos.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    edad = 20
+
+    if edad >= 18:
+        print("Mayor de edad")
+    else:
+        print("Menor de edad")
+    ```
+
+    La condición se evalúa primero; solo el bloque verdadero se ejecuta.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Secuencias
+
+    Una secuencia es una colección ordenada de elementos.
+
+    Tipos principales:
+
+    ## `list`
+
+    Esquema general:
+    ```python
+    my_list = [element1, element2, element3]
+    ```
+    Caracteristicas:
+    - Son elementos mutables (pueden cambiar después de ser creadas).
+    - Pueden contener elementos de diferentes tipos (números, cadenas, otras listas, etc.).
+    - Permiten operaciones como agregar, eliminar o modificar elementos.
+    - Pueden anidarse (listas dentro de listas).
+    - Tienen métodos incorporados como `append()`, `remove()`, `sort()`, etc.
+
+    ## `tuple`
+
+    Esquema general:
+    ```python
+    my_tuple = (element1, element2, element3)
+    ```
+
+    Caracteristicas:
+    - Son inmutables (no pueden cambiar después de ser creadas).
+    - Pueden contener elementos de diferentes tipos.
+    - Permiten operaciones de acceso pero no de modificación (no puedes agregar, eliminar o modificar elementos).
+    - Pueden anidarse (tuplas dentro de tuplas).
+    - No tienen métodos para modificar la tupla, pero sí métodos para contar elementos o encontrar índices.
+
+    Propiedades conjuntas:
+
+    - Indexación.
+    - Slicing.
+    - Iterabilidad.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    numeros = [10, 20, 30, 40]
+
+    print(numeros[0])     # 10
+    print(numeros[1:3])   # [20, 30]
+
+    numeros.append(50)
+    print(numeros)
+    ```
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Funciones
+
+    Una función encapsula lógica reutilizable y promueve modularidad.
+
+    ```python
+    def function_name(parameters):
+        # cuerpo de la función
+        return result
+    ```
+
+    Conceptos clave:
+
+    - Parámetros.
+    - Argumentos.
+    - Retorno.
+    - Ámbito local.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    def calcular_imc(peso, altura):
+        return peso / (altura ** 2)
+
+    imc = calcular_imc(70, 1.75)
+    print(imc)
+    ```
+
+    La función recibe datos, procesa y devuelve un resultado.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Iteraciones
+
+    Las iteraciones permiten repetir instrucciones bajo condiciones definidas.
+
+    Tipos:
+
+    - `for` (iteración sobre secuencias).
+    - `while` (iteración condicional).
+
+    Esquema general:
+    ```python
+    for variable in secuencia:
+        # bloque de código a repetir
+
+    while condición:
+        # bloque de código a repetir
+    ```
+    ---
+
+    ## Ejemplo
+
+    ```python
+    for i in range(5):
+        print(i)
+    ```
+
+    ```python
+    contador = 0
+    while contador < 3:
+        print(contador)
+        contador += 1
+    ```
+
+    La condición de parada es esencial para evitar bucles infinitos.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Comprensiones
+
+    Las comprensiones permiten construir colecciones de manera declarativa.
+
+    Estructura:
+    ```python
+    [expresión for item in iterable if condición]
+    ```
+
+    Ventajas:
+
+    - Sintaxis compacta.
+    - Mayor expresividad.
+    - Código más limpio cuando se usa correctamente.
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    cuadrados = [x**2 for x in range(6)]
+    print(cuadrados)
+    ```
+
+    ```python
+    pares = [x for x in range(10) if x % 2 == 0]
+    print(pares)
+    ```
+
+    Se combinan iteración y condición en una sola expresión.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Diccionarios y Conjuntos
+
+    ## Diccionarios
+
+    Estructuras clave–valor ideales para datos estructurados.
+
+    Estructura general:
+    ```python
+    my_dict = {
+        "key1": value1,
+        "key2": value2,
+        ...
+    }
+    ```
+
+    Caracteristicas:
+    - acceso rápido por clave
+    - no ordenados (hasta Python 3.7, ahora mantienen orden de inserción)
+    - valores pueden ser de cualquier tipo (incluso otros diccionarios)
+    - útiles para representar objetos, configuraciones, etc.
+    - operaciones comunes: `dict.get()`, `dict.keys()`, `dict.values()`, `dict.items()`
+
+    ## Conjuntos
+
+    Colecciones no ordenadas sin duplicados.
+
+    estructura general:
+    ```python
+    my_set = {element1, element2, ...}
+    ```
+    Caracteristicas:
+    - no permiten elementos duplicados
+    - operaciones matemáticas: unión, intersección, diferencia
+    - útiles para eliminar duplicados, verificar pertenencia, operaciones de conjunto
+    - operaciones comunes: `set.union()`, `set.intersection()`, `set.difference()`, `in` para pertenencia
+
+    ---
+
+    ## Ejemplo
+
+    ```python
+    persona = {
+        "nombre": "Ana",
+        "edad": 30
+    }
+    print(persona["nombre"]) #> 'Ana'
+    ```
+
+    ```python
+    a = {1, 2, 3}
+    b = {3, 4, 5}
+
+    print(a.union(b))
+    print(a.intersection(b))
+    ```
+
+    Los diccionarios organizan información; los conjuntos permiten operaciones matemáticas.
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # Pseudocódigo y Utilidades
+
+    El pseudocódigo permite estructurar la lógica antes de programar.
+
+    Ventajas:
+
+    - Claridad conceptual.
+    - Independencia del lenguaje.
+    - Mejor planificación.
+
+    ---
+
+    ## Ejemplo
+
+    ```text
+    SI temperatura > 38
+        MOSTRAR "Fiebre"
+    SINO
+        MOSTRAR "Normal"
+    FIN
+    ```
+
+    Utilidades frecuentes:
+
+    ```python
+    type(10)
+    len([1, 2, 3])
+    help(print)
+    ```
+
+    Estas herramientas ayudan a inspeccionar y comprender el comportamiento del programa.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Dataset base
 
     Para practicar sin depender de archivos, usaremos un dataset pequeño con:
