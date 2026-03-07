@@ -182,16 +182,6 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _():
-    import marimo as mo
-    from pathlib import Path
-
-    img_path = Path("https://github.com/pach812/introduccion_python/blob/master/pre-session/Semana%201/public/")
-    img_path = mo.notebook_dir() / "public"
-    return img_path, mo
-
-
-@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     # Semana 1 · Lección 1 — Modelo de programa y ejecución (Python)
