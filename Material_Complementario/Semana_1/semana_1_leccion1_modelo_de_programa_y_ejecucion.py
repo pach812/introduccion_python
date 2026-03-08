@@ -18,13 +18,11 @@ app = marimo.App(
 
 @app.cell(hide_code=True)
 def _():
-    import marimo as mo
-
-    return (mo,)
+    return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     from __future__ import annotations
 
     from dataclasses import dataclass
@@ -33,9 +31,10 @@ def _(mo):
     from urllib.parse import unquote, urlparse
 
     import requests
+    import marimo as mo
 
 
-    DEBUG = True
+    DEBUG = False
 
 
     def debug_print(*args):
@@ -321,7 +320,7 @@ def _(mo):
     # Run
     # ---------------------------------------------------------------------
 
-    tree_url = "https://github.com/pach812/introduccion_python/tree/master/Material_Complementario/Semana_1/public"
+    tree_url = "https://github.com/pach812/introduccion_python/tree/master/Material_Complementario/Semana_1/scr"
 
     local_public = download_github_folder(
         tree_url=tree_url,
@@ -342,7 +341,7 @@ def _(mo):
             print(f" - {p} | size={p.stat().st_size} bytes")
         else:
             print(f" - {p}")
-    return (img_path,)
+    return img_path, mo
 
 
 @app.cell(hide_code=True)

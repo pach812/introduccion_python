@@ -25,6 +25,7 @@ env/
 # =========================
 education/
 generated_presets/
+dev/
 
 # =========================
 # macOS
