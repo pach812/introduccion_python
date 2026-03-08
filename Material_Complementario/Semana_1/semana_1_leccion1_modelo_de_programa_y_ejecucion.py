@@ -221,6 +221,7 @@ def _():
         *,
         github_token: str | None = None,
         overwrite: bool = False,
+        prefix: str | None = None,
     ) -> Path:
         """
         Download all files from a public GitHub folder into dest_dir.
@@ -229,17 +230,25 @@ def _():
         ----------
         tree_url:
             GitHub tree URL.
+
         dest_dir:
             Local destination directory.
+
         github_token:
             Optional GitHub token.
+
         overwrite:
             If True, overwrite existing files.
+
+        prefix:
+            Only download files whose name starts with this prefix.
         """
+
         debug_print("Entering download_github_folder()")
         debug_print("tree_url =", tree_url)
         debug_print("dest_dir =", dest_dir)
         debug_print("overwrite =", overwrite)
+        debug_print("prefix =", prefix)
 
         base_dir = get_local_base_dir()
         debug_print("base_dir =", base_dir)
@@ -255,66 +264,75 @@ def _():
         headers = {"Accept": "application/vnd.github+json"}
         if github_token:
             headers["Authorization"] = f"Bearer {github_token}"
-            debug_print("GitHub token provided")
-        else:
-            debug_print("No GitHub token provided")
 
         with requests.Session() as session:
+
             session.headers.update(headers)
-            debug_print("Session headers set")
 
             for item in _walk_github_dir(
                 session=session,
                 target=target,
                 base_path=target.path,
             ):
+
                 download_url = item.get("download_url")
                 rel_path = item["path"]
 
-                debug_print("Processing file item")
-                debug_print("rel_path =", rel_path)
-                debug_print("download_url =", download_url)
+                filename = Path(rel_path).name
+
+                debug_print("Processing file:", filename)
+
+                # -------------------------------------------------
+                # PREFIX FILTER
+                # -------------------------------------------------
+
+                if prefix is not None:
+                    if not filename.startswith(prefix):
+                        debug_print("Skipping (prefix mismatch):", filename)
+                        continue
 
                 if not download_url:
                     debug_print("Skipping because download_url is missing")
                     continue
 
+                # -------------------------------------------------
+
                 if target.path:
-                    prefix = target.path.rstrip("/") + "/"
-                    rel_under_root = rel_path.removeprefix(prefix)
+                    prefix_root = target.path.rstrip("/") + "/"
+                    rel_under_root = rel_path.removeprefix(prefix_root)
                 else:
                     rel_under_root = rel_path
 
-                debug_print("rel_under_root =", rel_under_root)
-
                 local_path = dest_path / rel_under_root
+
                 debug_print("local_path =", local_path)
 
                 local_path.parent.mkdir(parents=True, exist_ok=True)
-                debug_print("Ensured parent directory exists:", local_path.parent)
 
                 if local_path.exists():
+
                     if overwrite:
-                        debug_print("File exists and overwrite=True, deleting:", local_path)
+                        debug_print("Overwriting file:", local_path)
                         local_path.unlink()
                     else:
-                        debug_print("File already exists, skipping:", local_path)
+                        debug_print("File exists, skipping:", local_path)
                         continue
 
-                debug_print("Downloading file from:", download_url)
+                debug_print("Downloading:", download_url)
+
                 response = session.get(download_url, timeout=60)
-                debug_print("download status_code =", response.status_code)
                 response.raise_for_status()
 
                 content = response.content
                 debug_print("downloaded bytes =", len(content))
 
                 local_path.write_bytes(content)
-                debug_print("Wrote file:", local_path)
+
+                debug_print("Saved:", local_path)
 
         debug_print("Leaving download_github_folder()")
-        return dest_path
 
+        return dest_path
 
     # ---------------------------------------------------------------------
     # Run
@@ -326,6 +344,7 @@ def _():
         tree_url=tree_url,
         dest_dir="public",
         overwrite=True,
+        prefix="l1"
     )
 
     img_path = local_public
