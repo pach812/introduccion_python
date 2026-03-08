@@ -8,7 +8,7 @@
 
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.20.2"
 app = marimo.App(
     width="medium",
     css_file="/usr/local/_marimo/custom.css",
@@ -28,38 +28,97 @@ def _(mo):
     from __future__ import annotations
 
     from dataclasses import dataclass
+    from pathlib import Path
     from typing import Iterable
     from urllib.parse import unquote, urlparse
 
     import requests
 
-    from pathlib import Path
 
-    img_path = mo.notebook_location() / "public"
+    DEBUG = True
+
+
+    def debug_print(*args):
+        """Print debug messages when DEBUG is enabled."""
+        if DEBUG:
+            print("[DEBUG]", *args)
+
 
     @dataclass(frozen=True)
     class GitHubTreeTarget:
         owner: str
         repo: str
         ref: str
-        path: str  # repo-relative path (can be empty)
+        path: str
+
+
+    def get_local_base_dir() -> Path:
+        """
+        Resolve a reliable local base directory for file writes.
+        """
+        debug_print("Entering get_local_base_dir()")
+
+        try:
+            notebook_dir = mo.notebook_dir()
+            debug_print("mo.notebook_dir() =", notebook_dir)
+            debug_print("type(mo.notebook_dir()) =", type(notebook_dir))
+
+            base_dir = Path(notebook_dir)
+            debug_print("Using mo.notebook_dir() as base_dir =", base_dir)
+            debug_print("Leaving get_local_base_dir()")
+            return base_dir
+
+        except Exception as exc:
+            debug_print("mo.notebook_dir() failed with:", repr(exc))
+
+        try:
+            loc = mo.notebook_location()
+            debug_print("mo.notebook_location() =", loc)
+            debug_print("type(mo.notebook_location()) =", type(loc))
+
+            loc_str = str(loc)
+            parsed = urlparse(loc_str)
+
+            debug_print("loc_str =", loc_str)
+            debug_print("parsed.scheme =", parsed.scheme)
+            debug_print("parsed.netloc =", parsed.netloc)
+            debug_print("parsed.path =", parsed.path)
+
+            if parsed.scheme == "file":
+                base_dir = Path(unquote(parsed.path)).parent
+                debug_print("Using file:// notebook parent =", base_dir)
+                debug_print("Leaving get_local_base_dir()")
+                return base_dir
+
+        except Exception as exc:
+            debug_print("mo.notebook_location() failed with:", repr(exc))
+
+        base_dir = Path.cwd()
+        debug_print("Falling back to Path.cwd() =", base_dir)
+        debug_print("Leaving get_local_base_dir()")
+        return base_dir
 
 
     def parse_github_tree_url(tree_url: str) -> GitHubTreeTarget:
         """
-        Parse a GitHub 'tree' URL like:
+        Parse a GitHub tree URL like:
         https://github.com/<owner>/<repo>/tree/<ref>/<path>
-
-        Returns owner, repo, ref and decoded path.
         """
+        debug_print("Entering parse_github_tree_url()")
+        debug_print("tree_url =", tree_url)
+
         parsed = urlparse(tree_url)
+
         if parsed.netloc.lower() != "github.com":
             raise ValueError("Expected a github.com URL.")
 
         parts = [p for p in parsed.path.split("/") if p]
-        # Expected: owner / repo / tree / ref / (path...)
+        debug_print("URL parts =", parts)
+
         if len(parts) < 4 or parts[2] != "tree":
-            raise ValueError("Expected a URL of the form https://github.com/<owner>/<repo>/tree/<ref>/<path>")
+            raise ValueError(
+                "Expected URL format: https://github.com/<owner>/<repo>/tree/<ref>/<path>"
+            )
 
         owner = parts[0]
         repo = parts[1]
@@ -67,7 +126,16 @@ def _(mo):
         path = "/".join(parts[4:]) if len(parts) > 4 else ""
         path = unquote(path)
 
-        return GitHubTreeTarget(owner=owner, repo=repo, ref=ref, path=path)
+        target = GitHubTreeTarget(
+            owner=owner,
+            repo=repo,
+            ref=ref,
+            path=path,
+        )
+
+        debug_print("Parsed target =", target)
+        debug_print("Leaving parse_github_tree_url()")
+        return target
 
 
     def _github_contents(
@@ -77,16 +145,33 @@ def _(mo):
     ) -> list[dict]:
         """
         Call GitHub REST API 'Get repository content' for a directory path.
-        For public repos, auth is optional (but rate-limits are stricter).
         """
-        api_url = f"https://api.github.com/repos/{target.owner}/{target.repo}/contents/{path}"
-        r = session.get(api_url, params={"ref": target.ref}, timeout=30)
-        r.raise_for_status()
+        debug_print("Entering _github_contents()")
+        debug_print("target =", target)
+        debug_print("path =", path)
 
-        data = r.json()
+        api_url = (
+            f"https://api.github.com/repos/"
+            f"{target.owner}/{target.repo}/contents/{path}"
+        )
+
+        debug_print("api_url =", api_url)
+
+        response = session.get(api_url, params={"ref": target.ref}, timeout=30)
+
+        debug_print("response.status_code =", response.status_code)
+        debug_print("response.url =", response.url)
+
+        response.raise_for_status()
+
+        data = response.json()
+        debug_print("type(response.json()) =", type(data))
+
         if isinstance(data, dict):
-            # This means the path is a file, not a directory
             raise ValueError(f"Path '{path}' is a file, expected a directory.")
+
+        debug_print("Number of items returned =", len(data))
+        debug_print("Leaving _github_contents()")
         return data
 
 
@@ -96,88 +181,167 @@ def _(mo):
         base_path: str,
     ) -> Iterable[dict]:
         """
-        Recursively yield file entries from a GitHub directory using the Contents API.
-        Each yielded dict corresponds to a file item with 'path' and 'download_url'.
+        Recursively yield file entries from a GitHub directory.
         """
-        items = _github_contents(session=session, target=target, path=base_path)
+        debug_print("Entering _walk_github_dir()")
+        debug_print("base_path =", base_path)
+
+        items = _github_contents(
+            session=session,
+            target=target,
+            path=base_path,
+        )
 
         for item in items:
             item_type = item.get("type")
+            item_path = item.get("path")
+
+            debug_print("Inspecting item:", {"type": item_type, "path": item_path})
+
             if item_type == "file":
+                debug_print("Yielding file:", item_path)
                 yield item
+
             elif item_type == "dir":
-                yield from _walk_github_dir(session=session, target=target, base_path=item["path"])
+                debug_print("Descending into directory:", item_path)
+                yield from _walk_github_dir(
+                    session=session,
+                    target=target,
+                    base_path=item["path"],
+                )
+
             else:
-                # skip symlinks/submodules or unexpected types
-                continue
+                debug_print("Skipping unsupported item type:", item_type)
+
+        debug_print("Leaving _walk_github_dir() for base_path =", base_path)
 
 
-    def download_github_folder_if_public_missing(
+    def download_github_folder(
         tree_url: str,
         dest_dir: str | Path = "public",
         *,
         github_token: str | None = None,
+        overwrite: bool = False,
     ) -> Path:
         """
-        If dest_dir does not exist in the current working directory, create it and
-        download all files from the GitHub folder specified by tree_url.
+        Download all files from a public GitHub folder into dest_dir.
 
         Parameters
         ----------
         tree_url:
-            GitHub folder URL in 'tree' form.
+            GitHub tree URL.
         dest_dir:
-            Local destination folder (created only if missing).
+            Local destination directory.
         github_token:
-            Optional GitHub token to increase rate limits.
-
-        Returns
-        -------
-        Path to the local dest_dir.
+            Optional GitHub token.
+        overwrite:
+            If True, overwrite existing files.
         """
-        dest_dir = mo.notebook_location() / dest_dir
-        if dest_dir.exists():
-            return dest_dir
+        debug_print("Entering download_github_folder()")
+        debug_print("tree_url =", tree_url)
+        debug_print("dest_dir =", dest_dir)
+        debug_print("overwrite =", overwrite)
 
-        dest_dir.mkdir(parents=True, exist_ok=True)
+        base_dir = get_local_base_dir()
+        debug_print("base_dir =", base_dir)
+
+        dest_path = base_dir / Path(dest_dir)
+        debug_print("dest_path =", dest_path)
+
+        dest_path.mkdir(parents=True, exist_ok=True)
 
         target = parse_github_tree_url(tree_url)
+        debug_print("Parsed target =", target)
 
         headers = {"Accept": "application/vnd.github+json"}
         if github_token:
             headers["Authorization"] = f"Bearer {github_token}"
+            debug_print("GitHub token provided")
+        else:
+            debug_print("No GitHub token provided")
 
         with requests.Session() as session:
             session.headers.update(headers)
+            debug_print("Session headers set")
 
-            for item in _walk_github_dir(session=session, target=target, base_path=target.path):
+            for item in _walk_github_dir(
+                session=session,
+                target=target,
+                base_path=target.path,
+            ):
                 download_url = item.get("download_url")
                 rel_path = item["path"]
 
+                debug_print("Processing file item")
+                debug_print("rel_path =", rel_path)
+                debug_print("download_url =", download_url)
+
                 if not download_url:
+                    debug_print("Skipping because download_url is missing")
                     continue
 
-                # Preserve folder structure relative to the chosen GitHub folder root
                 if target.path:
-                    rel_under_root = Path(rel_path).as_posix().replace(target.path.rstrip("/") + "/", "", 1)
+                    prefix = target.path.rstrip("/") + "/"
+                    rel_under_root = rel_path.removeprefix(prefix)
                 else:
                     rel_under_root = rel_path
 
-                local_path = dest_dir / rel_under_root
+                debug_print("rel_under_root =", rel_under_root)
+
+                local_path = dest_path / rel_under_root
+                debug_print("local_path =", local_path)
+
                 local_path.parent.mkdir(parents=True, exist_ok=True)
+                debug_print("Ensured parent directory exists:", local_path.parent)
 
                 if local_path.exists():
-                    continue
+                    if overwrite:
+                        debug_print("File exists and overwrite=True, deleting:", local_path)
+                        local_path.unlink()
+                    else:
+                        debug_print("File already exists, skipping:", local_path)
+                        continue
 
-                r = session.get(download_url, timeout=60)
-                r.raise_for_status()
-                local_path.write_bytes(r.content)
+                debug_print("Downloading file from:", download_url)
+                response = session.get(download_url, timeout=60)
+                debug_print("download status_code =", response.status_code)
+                response.raise_for_status()
 
-        return dest_dir
+                content = response.content
+                debug_print("downloaded bytes =", len(content))
 
-    tree_url = "https://github.com/pach812/introduccion_python/tree/master/Material%20Complementario/Semana%201/public"
-    local_public = download_github_folder_if_public_missing(tree_url=tree_url, dest_dir="public")
-    _var = 0
+                local_path.write_bytes(content)
+                debug_print("Wrote file:", local_path)
+
+        debug_print("Leaving download_github_folder()")
+        return dest_path
+
+
+    # ---------------------------------------------------------------------
+    # Run
+    # ---------------------------------------------------------------------
+
+    tree_url = "https://github.com/pach812/introduccion_python/tree/master/Material_Complementario/Semana_1/public"
+
+    local_public = download_github_folder(
+        tree_url=tree_url,
+        dest_dir="public",
+        overwrite=True,
+    )
+
+    img_path = local_public
+
+    print("\nRESULTS")
+    print("base_dir =", get_local_base_dir())
+    print("local_public =", local_public)
+    print("local_public.exists() =", local_public.exists())
+
+    print("\nFiles:")
+    for p in list(local_public.rglob("*"))[:20]:
+        if p.is_file():
+            print(f" - {p} | size={p.stat().st_size} bytes")
+        else:
+            print(f" - {p}")
     return (img_path,)
 
 
