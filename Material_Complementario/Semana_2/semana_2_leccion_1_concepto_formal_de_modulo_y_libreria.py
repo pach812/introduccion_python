@@ -403,7 +403,7 @@ def _():
         )
 
         return _test_content.render()
-
+    dosis_total_mg
     _()
     return
 
@@ -491,7 +491,7 @@ def _():
     print("media:", media)
     print("sd:", sd)
     print("z:", z)
-    return
+    return (media,)
 
 
 @app.cell(hide_code=True)
@@ -593,7 +593,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _():
+def _(media):
     def _():
         import math
 
@@ -687,10 +687,9 @@ def _():
             ],
             namespace=globals()
         )
-
+        media
         return _test_content.render()
     _()
-
     return
 
 
@@ -966,7 +965,7 @@ def _():
     )
 
     puntaje_riesgo
-    mo.accordion(_test_content.items)
+    _test_content.render()
     return
 
 
