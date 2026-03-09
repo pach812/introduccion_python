@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GLOSSARY>
+<INFO>
+<NAME><![CDATA[Glosario pedagógico de Python — Semana 1]]></NAME>
+<INTRO><![CDATA[Glosario introductorio para estudiantes que están empezando en tecnología y programación. Cada entrada incluye una definición más desarrollada y un ejemplo breve de Python para ayudar a conectar la idea con código real.]]></INTRO>
+<ALLOWDUPLICATEDENTRIES>0</ALLOWDUPLICATEDENTRIES>
+<DISPLAYFORMAT>dictionary</DISPLAYFORMAT>
+<SHOWSPECIAL>1</SHOWSPECIAL>
+<SHOWALPHABET>1</SHOWALPHABET>
+<SHOWALL>1</SHOWALL>
+<ALLOWCOMMENTS>0</ALLOWCOMMENTS>
+<USEDYNALINK>1</USEDYNALINK>
+<DEFAULTAPPROVAL>1</DEFAULTAPPROVAL>
+<GLOBALGLOSSARY>0</GLOBALGLOSSARY>
+<ENTBYPAGE>10</ENTBYPAGE>
+<ENTRIES>
+<ENTRY>
+<CONCEPT><![CDATA[programa]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> Un programa es una secuencia organizada de instrucciones que una computadora puede ejecutar para resolver una tarea. No es solamente 'código suelto': normalmente tiene un objetivo, una lógica y una salida esperada. En Python, un programa puede ser muy pequeño, como imprimir un saludo, o mucho más grande, como analizar datos o automatizar procesos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombre = "Ana"
+print("Hola,", nombre)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[script]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> Un script es un archivo de Python que contiene código guardado para ejecutarse después. La idea central es que, en vez de escribir línea por línea cada vez, guardas el procedimiento en un archivo `.py` y lo reutilizas. Esto ayuda a organizar mejor el trabajo y a dejar una versión reproducible de lo que hiciste.</p><p><strong>Ejemplo en Python:</strong></p><pre><code># archivo: saludo.py
+nombre = "Ana"
+print(f"Hola, {nombre}")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[intérprete]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> El intérprete es el programa que lee tu código de Python y lo ejecuta. A diferencia de otros lenguajes que suelen compilarse primero, Python normalmente interpreta las instrucciones y las va evaluando. Por eso, cuando hay un error de sintaxis o una operación inválida, el intérprete te muestra un mensaje para ayudarte a corregirlo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 3 + 4
+print(x)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[ejecución secuencial]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> La ejecución secuencial significa que Python, por defecto, procesa las instrucciones en el orden en que aparecen: primero la línea 1, luego la 2, luego la 3. Entender esto es clave porque muchas veces el resultado depende del orden. Si intentas usar una variable antes de crearla, fallará.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 2
+y = x + 3
+print(y)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[modo interactivo]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> El modo interactivo permite escribir una instrucción, ejecutarla de inmediato y ver el resultado en el momento. Es ideal para explorar ideas, hacer pruebas pequeñas y aprender. No está pensado para proyectos grandes, sino para experimentar rápidamente.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>2 + 3
+len("python")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[modo script]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> El modo script consiste en ejecutar un archivo completo de Python. Es la forma más útil cuando ya quieres guardar tu trabajo, compartirlo o volver a correrlo más tarde. A diferencia del modo interactivo, aquí el código queda organizado en un archivo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 20
+es_mayor = edad >= 18
+print(es_mayor)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[error de sintaxis]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> Un error de sintaxis aparece cuando el código no respeta las reglas formales del lenguaje. En ese caso, Python ni siquiera puede empezar a ejecutar el programa. Son errores de escritura del lenguaje: paréntesis mal cerrados, dos puntos faltantes o comillas incompletas, por ejemplo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code># Ejemplo con error:
+# if edad >= 18
+#     print("Mayor de edad")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[error en tiempo de ejecución]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> Un error en tiempo de ejecución ocurre cuando el programa sí arranca, pero se detiene mientras se está ejecutando porque encuentra una operación imposible o inválida. Es distinto del error de sintaxis: aquí el problema aparece al correr el código.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 10
+y = 0
+# print(x / y)  # produciría un ZeroDivisionError</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[error lógico]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 1</strong></p><p><strong>Definición:</strong> Un error lógico ocurre cuando el programa se ejecuta sin que Python se queje, pero produce un resultado incorrecto. Suelen ser los errores más difíciles de detectar porque el código 'parece funcionar'. Para encontrarlos, hace falta revisar la lógica y probar casos concretos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>precio = 100
+descuento = 20
+total = precio - descuento / 100   # lógica incorrecta
+print(total)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[variable]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Una variable es un nombre que apunta a un valor. Sirve para guardar información temporalmente y reutilizarla en distintas partes del programa. Las variables hacen que el código sea más legible, porque en vez de repetir valores, usas nombres con sentido.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 28
+print(edad)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[tipo de dato]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> El tipo de dato describe qué clase de valor estás manejando y qué operaciones tienen sentido con él. Por ejemplo, un entero (`int`) se usa para contar, un decimal (`float`) para cantidades con fracción, una cadena (`str`) para texto y un booleano (`bool`) para verdadero o falso.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 28          # int
+peso = 72.5        # float
+nombre = "Ana"     # str
+activo = True      # bool</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[expresión]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Una expresión es cualquier combinación de valores, variables, operadores o funciones que Python puede evaluar para producir un resultado. Muchas líneas de código contienen expresiones. Por ejemplo, una suma, una comparación o una llamada a una función son expresiones.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>resultado = 2 + 3 * 4
+print(resultado)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[sentencia]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Una sentencia es una instrucción completa que Python puede ejecutar. A diferencia de una expresión, una sentencia no siempre 'devuelve' un valor. Por ejemplo, asignar una variable, escribir un `if` o usar `print()` forman parte de sentencias dentro del programa.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 5
+print(x)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[precedencia de operadores]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> La precedencia de operadores define qué operaciones se resuelven primero cuando una expresión tiene varios operadores. En general, multiplicación y división se evalúan antes que suma y resta. Cuando quieras evitar dudas, usa paréntesis para hacer explícita la intención.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>resultado1 = 2 + 3 * 4
+resultado2 = (2 + 3) * 4
+print(resultado1, resultado2)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[expresión comparativa]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Una expresión comparativa compara dos valores y produce `True` o `False`. Son fundamentales para tomar decisiones con `if`, `while` y otras estructuras de control. Ejemplos comunes son `==`, `!=`, `<`, `>`, `<=` y `>=`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 20
+print(edad >= 18)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[expresión lógica]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Una expresión lógica combina condiciones usando operadores como `and`, `or` y `not`. Su propósito es construir reglas más complejas a partir de comparaciones simples. Son muy útiles cuando una decisión depende de varias condiciones al mismo tiempo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 20
+tiene_id = True
+print(edad >= 18 and tiene_id)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[evaluación booleana]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> La evaluación booleana es el proceso por el cual Python decide si algo cuenta como verdadero o falso. No solo `True` y `False` participan aquí: también existen valores 'truthy' y 'falsy'. Por ejemplo, `0`, `''`, `[]` y `{}` suelen evaluarse como falsos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombre = ""
+if nombre:
+    print("Hay texto")
+else:
+    print("La cadena está vacía")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[cortocircuito]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> El cortocircuito ocurre cuando Python deja de evaluar una expresión lógica porque ya puede decidir el resultado final. Por ejemplo, en `and`, si la primera parte es falsa, la segunda ya no cambia el resultado. Esto es útil y también evita algunos errores.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 0
+print(x != 0 and 10 / x > 1)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[input()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> `input()` es una función que permite pedir información al usuario desde el teclado. Lo que devuelve es texto, así que muchas veces hace falta convertir ese valor con `int()` o `float()` antes de hacer cálculos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombre = input("Escribe tu nombre: ")
+print(f"Hola, {nombre}")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[comentario]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Un comentario es texto dentro del código que Python ignora al ejecutar el programa. Sirve para explicar ideas, documentar decisiones o dejar recordatorios. Un buen comentario aclara la intención del código, no repite lo obvio.</p><p><strong>Ejemplo en Python:</strong></p><pre><code># Este valor representa la edad del paciente
+edad = 67</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[nombre mnemónico]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 2</strong></p><p><strong>Definición:</strong> Un nombre mnemónico es un nombre de variable o función elegido para que sea fácil recordar qué representa. En vez de usar nombres vagos como `x` o `a1`, se prefieren nombres con significado, como `edad_paciente` o `total_ventas`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad_paciente = 67
+total_ventas = 1200.50</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[control de flujo]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> El control de flujo es el conjunto de mecanismos que permiten alterar el orden normal de ejecución del programa. Gracias a él, un programa puede decidir, repetir acciones o salir antes de tiempo. Aquí entran estructuras como `if`, `for`, `while`, `break` y `continue`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 16
+if edad >= 18:
+    print("Puede ingresar")
+else:
+    print("Aún no puede ingresar")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[if]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> `if` es la estructura básica para tomar decisiones. Ejecuta un bloque de código solo si la condición asociada es verdadera. Es uno de los pilares de la programación porque permite que el programa responda a diferentes situaciones.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>temperatura = 38
+if temperatura >= 38:
+    print("Fiebre")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[elif]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> `elif` significa 'else if' y sirve para evaluar una condición adicional si la condición anterior no se cumplió. Permite construir decisiones con varios caminos posibles sin anidar demasiados `if`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nota = 4.2
+if nota >= 4.5:
+    print("Excelente")
+elif nota >= 3.0:
+    print("Aprobado")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[else]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> `else` define qué debe ocurrir cuando ninguna de las condiciones anteriores se cumple. Funciona como la ruta por defecto dentro de una estructura condicional.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nota = 2.5
+if nota >= 3.0:
+    print("Aprobado")
+else:
+    print("Reprobado")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[condición compuesta]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> Una condición compuesta combina dos o más condiciones simples mediante operadores lógicos. Es útil cuando una decisión depende de varios requisitos al mismo tiempo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 25
+tiene_cita = True
+if edad >= 18 and tiene_cita:
+    print("Puede pasar")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[anidamiento]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> El anidamiento ocurre cuando una estructura está dentro de otra, por ejemplo un `if` dentro de otro `if` o un `for` dentro de otro `for`. Es válido, pero conviene usarlo con cuidado para no volver el código difícil de leer.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 30
+tiene_id = True
+
+if edad >= 18:
+    if tiene_id:
+        print("Ingreso permitido")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[operador ternario]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 3</strong></p><p><strong>Definición:</strong> El operador ternario permite escribir una decisión simple en una sola línea. Su forma general es: `valor_si_true if condicion else valor_si_false`. Es útil para casos breves, pero no conviene abusar de él si la lógica se vuelve confusa.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 20
+mensaje = "Mayor" if edad >= 18 else "Menor"
+print(mensaje)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[lista]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> Una lista es una colección ordenada y mutable de elementos. 'Ordenada' significa que cada elemento tiene una posición; 'mutable' significa que la lista puede cambiar después de creada. Es uno de los contenedores más usados en Python.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>frutas = ["manzana", "pera", "uva"]
+print(frutas[0])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[tupla]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> Una tupla es una colección ordenada de elementos, parecida a una lista, pero inmutable. Eso significa que una vez creada no puedes cambiar sus elementos. Suele usarse para agrupar datos que no deberían modificarse.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>punto = (3, 5)
+print(punto[1])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[cadena de texto]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> Una cadena de texto, o `str`, representa texto: palabras, frases, símbolos o incluso números escritos como caracteres. Las cadenas son secuencias, así que pueden indexarse y partirse con slicing.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombre = "Python"
+print(nombre[0])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[indexación]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> La indexación es la forma de acceder a un elemento específico de una secuencia usando su posición. En Python, los índices empiezan en 0. Por eso, el primer elemento está en la posición 0, no en la 1.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>numeros = [10, 20, 30]
+print(numeros[1])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[slicing]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> El slicing permite extraer una parte de una secuencia, como una sublista o un fragmento de texto. La sintaxis general es `inicio:fin`, donde el índice final no se incluye.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>texto = "programacion"
+print(texto[0:5])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[mutabilidad]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> La mutabilidad describe si un objeto puede cambiar después de haber sido creado. Las listas y diccionarios son mutables; las tuplas y cadenas no lo son en ese mismo sentido. Este concepto es muy importante para evitar cambios inesperados.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>numeros = [1, 2, 3]
+numeros[0] = 99
+print(numeros)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[método]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 4</strong></p><p><strong>Definición:</strong> Un método es una función que pertenece a un objeto y se usa con la sintaxis `objeto.metodo()`. Los métodos permiten realizar acciones específicas según el tipo de dato. Por ejemplo, las cadenas, listas y diccionarios tienen sus propios métodos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>texto = "hola"
+print(texto.upper())</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[función]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> Una función es un bloque de código reutilizable que realiza una tarea específica. Permite evitar repeticiones, organizar mejor el programa y hacer que el código sea más fácil de mantener. Puede recibir entradas y devolver un resultado.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def saludar(nombre):
+    return f"Hola, {nombre}"
+
+print(saludar("Ana"))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[parámetro]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> Un parámetro es el nombre que aparece en la definición de una función y representa la información que la función espera recibir. Actúa como una variable local dentro de la función.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def cuadrado(numero):
+    return numero ** 2</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[argumento]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> Un argumento es el valor concreto que se pasa a una función cuando se la llama. Es decir, el parámetro está en la definición; el argumento aparece en la ejecución.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def cuadrado(numero):
+    return numero ** 2
+
+print(cuadrado(4))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[valor por defecto]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> Un valor por defecto es un valor que un parámetro toma automáticamente si la función se llama sin proporcionar ese argumento. Esto vuelve más flexibles a las funciones.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def saludar(nombre, saludo="Hola"):
+    return f"{saludo}, {nombre}"
+
+print(saludar("Ana"))
+print(saludar("Ana", "Bienvenida"))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[return]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> `return` se usa dentro de una función para devolver un resultado. Cuando Python encuentra `return`, la función termina y entrega ese valor a quien la llamó. No es lo mismo que `print()`: imprimir muestra algo en pantalla; retornar entrega un dato para seguir trabajando con él.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def sumar(a, b):
+    return a + b
+
+resultado = sumar(2, 3)
+print(resultado)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[ámbito]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> El ámbito, o *scope*, define en qué parte del programa existe una variable y puede usarse. Una variable creada dentro de una función normalmente solo existe dentro de esa función. Esto ayuda a evitar conflictos entre nombres.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = "global"
+
+def mostrar():
+    y = "local"
+    print(x)
+    print(y)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[docstring]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 5</strong></p><p><strong>Definición:</strong> Un docstring es un texto de documentación escrito al inicio de una función, clase o módulo, normalmente entre triples comillas. Sirve para explicar qué hace el bloque de código, qué parámetros recibe y qué devuelve.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def sumar(a, b):
+    """Suma dos números y devuelve el resultado."""
+    return a + b</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[iteración]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> La iteración es el proceso de repetir una acción varias veces. En Python, suele hacerse con `for` y `while`. Es útil para recorrer colecciones, aplicar procesos repetitivos o construir resultados paso a paso.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>for numero in [1, 2, 3]:
+    print(numero)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[for]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> `for` se usa para recorrer elementos de una secuencia o de cualquier objeto iterable. Es ideal cuando ya sabes sobre qué conjunto de elementos quieres iterar.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>for letra in "sol":
+    print(letra)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[while]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> `while` repite un bloque de código mientras una condición sea verdadera. Se usa cuando no sabes exactamente cuántas repeticiones habrá, pero sí conoces la condición para continuar.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>contador = 0
+while contador < 3:
+    print(contador)
+    contador += 1</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[range()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> `range()` genera una secuencia de números enteros, muy útil para controlar repeticiones en bucles `for`. Puede recibir uno, dos o tres argumentos: fin, inicio-fin, o inicio-fin-paso.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>for i in range(3):
+    print(i)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[break]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> `break` interrumpe inmediatamente un bucle. Cuando Python encuentra esta instrucción, sale del `for` o del `while`, aunque todavía quedaran iteraciones pendientes.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>for numero in range(10):
+    if numero == 4:
+        break
+    print(numero)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[continue]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> `continue` hace que el bucle salte a la siguiente iteración sin ejecutar el resto del bloque actual. Es útil cuando quieres omitir casos concretos sin detener todo el ciclo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>for numero in range(5):
+    if numero == 2:
+        continue
+    print(numero)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[acumulador]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 6</strong></p><p><strong>Definición:</strong> Un acumulador es una variable que va guardando un resultado parcial a medida que un bucle avanza. Es una técnica muy común para sumar, contar, concatenar o construir resultados progresivos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>total = 0
+for numero in [1, 2, 3, 4]:
+    total += numero
+print(total)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[diccionario]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> Un diccionario es una estructura que guarda pares de clave y valor. A diferencia de una lista, aquí no accedes por posición, sino por una clave. Es muy útil para representar registros, configuraciones o relaciones entre conceptos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>paciente = {"nombre": "Ana", "edad": 34}
+print(paciente["nombre"])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[clave]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> La clave es el identificador que se usa para acceder a un valor dentro de un diccionario. Debe ser única dentro de ese diccionario. En la práctica, funciona como una etiqueta con significado.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>paciente = {"nombre": "Ana", "edad": 34}
+print(paciente.keys())</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[valor]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> En un diccionario, el valor es la información asociada a una clave. Por ejemplo, si la clave es `'edad'`, el valor podría ser `34`. La relación clave-valor es la base de los diccionarios.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>paciente = {"nombre": "Ana", "edad": 34}
+print(paciente["edad"])</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[get()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> `get()` es un método de los diccionarios que permite buscar una clave sin producir error si la clave no existe. En lugar de fallar, puede devolver `None` o un valor por defecto que tú indiques.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>paciente = {"nombre": "Ana"}
+print(paciente.get("edad"))
+print(paciente.get("edad", "No registrada"))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[items()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> `items()` es un método de diccionario que devuelve pares de clave y valor. Es especialmente útil para recorrer un diccionario completo con un bucle `for`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>paciente = {"nombre": "Ana", "edad": 34}
+for clave, valor in paciente.items():
+    print(clave, valor)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[conjunto]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> Un conjunto, o `set`, es una colección no ordenada de elementos únicos. Su principal ventaja es que elimina duplicados automáticamente y permite operaciones matemáticas de conjuntos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>ids = {101, 102, 102, 103}
+print(ids)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[deduplicación]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> La deduplicación es el proceso de eliminar elementos repetidos. En Python, una forma rápida de hacerlo es convertir una lista en un conjunto, aunque eso puede perder el orden original.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>numeros = [1, 2, 2, 3, 3, 3]
+sin_duplicados = set(numeros)
+print(sin_duplicados)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[unión]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> La unión de conjuntos combina todos los elementos de dos conjuntos, sin repetir ninguno. En Python se puede hacer con el operador `|` o con el método `.union()`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>a = {1, 2, 3}
+b = {3, 4, 5}
+print(a | b)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[intersección]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> La intersección de conjuntos devuelve solo los elementos que están presentes en ambos conjuntos. En Python puede hacerse con `&` o con `.intersection()`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>a = {1, 2, 3}
+b = {2, 3, 4}
+print(a & b)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[diferencia]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 7</strong></p><p><strong>Definición:</strong> La diferencia entre conjuntos devuelve los elementos que están en un conjunto pero no en el otro. El orden importa: `a - b` no es lo mismo que `b - a`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>a = {1, 2, 3}
+b = {2, 4}
+print(a - b)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[list comprehension]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 8</strong></p><p><strong>Definición:</strong> Una *list comprehension* es una forma compacta de construir listas a partir de un iterable, a menudo aplicando una transformación o un filtro. Es una herramienta muy usada en Python porque puede hacer el código más expresivo y breve.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>cuadrados = [x ** 2 for x in range(5)]
+print(cuadrados)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[dict comprehension]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 8</strong></p><p><strong>Definición:</strong> Una *dict comprehension* permite construir diccionarios de manera compacta, generando claves y valores dentro de una sola expresión. Resulta útil cuando quieres transformar datos rápidamente.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>cuadrados = {x: x ** 2 for x in range(4)}
+print(cuadrados)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[set comprehension]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 8</strong></p><p><strong>Definición:</strong> Una *set comprehension* crea un conjunto de forma compacta. Es útil cuando quieres transformar elementos y, al mismo tiempo, quedarte solo con valores únicos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>residuos = {x % 3 for x in range(10)}
+print(residuos)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[filtro en comprensión]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 8</strong></p><p><strong>Definición:</strong> Un filtro en una comprensión es una condición que decide qué elementos entran y cuáles no. Aparece normalmente al final de la comprensión, después del `for`.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>pares = [x for x in range(10) if x % 2 == 0]
+print(pares)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[comprensión anidada]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 8</strong></p><p><strong>Definición:</strong> Una comprensión anidada incluye más de un `for` y, a veces, varias condiciones. Puede ser poderosa, pero también más difícil de leer. Conviene usarla cuando la lógica sigue siendo clara.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>pares = [(x, y) for x in [1, 2] for y in [10, 20]]
+print(pares)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[pseudocódigo]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> El pseudocódigo es una forma de describir la lógica de una solución sin usar la sintaxis exacta de un lenguaje de programación. Sirve para pensar el problema antes de escribir el código real.</p><p><strong>Ejemplo cercano en Python:</strong></p><pre><code># Pseudocódigo:
+# pedir número
+# si el número es par:
+#     mostrar "par"
+# si no:
+#     mostrar "impar" </code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[especificación]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> Una especificación describe con claridad qué debe hacer un programa: entradas, salidas, reglas, restricciones y comportamiento esperado. Es importante porque programar bien no es solo escribir código, sino resolver exactamente el problema correcto.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>def es_par(numero):
+    return numero % 2 == 0</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[type()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `type()` devuelve el tipo de un objeto. Es una herramienta básica de exploración y depuración, especialmente útil cuando todavía estás aprendiendo cómo representa Python los datos.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 3.14
+print(type(x))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[isinstance()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `isinstance()` permite comprobar si un valor pertenece a un tipo específico. A menudo se prefiere sobre `type()` cuando quieres validar tipos de forma más flexible.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>x = 3.14
+print(isinstance(x, float))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[help()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `help()` muestra documentación sobre funciones, clases, módulos y otros objetos. Es una herramienta excelente para aprender desde el propio entorno de Python sin salir a buscar información afuera.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>help(len)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[dir()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `dir()` lista los nombres disponibles dentro de un objeto o módulo, como atributos y métodos. Sirve para explorar qué cosas puedes hacer con un valor determinado.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>texto = "hola"
+print(dir(texto))</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[enumerate()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `enumerate()` permite recorrer un iterable obteniendo al mismo tiempo la posición y el valor. Es muy útil cuando necesitas el índice sin manejar un contador manualmente.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>frutas = ["manzana", "pera", "uva"]
+for i, fruta in enumerate(frutas):
+    print(i, fruta)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[zip()]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `zip()` combina varios iterables elemento por elemento. Se usa mucho cuando dos listas relacionadas deben recorrerse al mismo tiempo.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombres = ["Ana", "Luis"]
+edades = [28, 31]
+
+for nombre, edad in zip(nombres, edades):
+    print(nombre, edad)</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[f-string]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> Una *f-string* es una forma moderna y muy legible de insertar valores dentro de texto. Empieza con la letra `f` antes de las comillas y permite escribir expresiones entre llaves.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>nombre = "Ana"
+edad = 28
+print(f"{nombre} tiene {edad} años")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+<ENTRY>
+<CONCEPT><![CDATA[assert]]></CONCEPT>
+<DEFINITION><![CDATA[<p><strong>Lección 9</strong></p><p><strong>Definición:</strong> `assert` se usa para verificar que una condición sea verdadera durante el desarrollo. Si la condición falla, Python lanza un error. Es útil para detectar problemas temprano y dejar claras ciertas suposiciones del programa.</p><p><strong>Ejemplo en Python:</strong></p><pre><code>edad = 28
+assert edad >= 0
+print("Edad válida")</code></pre>]]></DEFINITION>
+<FORMAT>1</FORMAT>
+<USEDYNALINK>1</USEDYNALINK>
+<CASESENSITIVE>0</CASESENSITIVE>
+<FULLMATCH>1</FULLMATCH>
+<TEACHERENTRY>1</TEACHERENTRY>
+</ENTRY>
+</ENTRIES>
+<CATEGORIES>
+</CATEGORIES>
+</INFO>
+</GLOSSARY>
