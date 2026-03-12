@@ -1,74 +1,92 @@
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "numpy==2.4.2",
+#     "pandas==3.0.1",
+#     "requests==2.32.5",
+#     "pytest==9.0.2",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
-
-@app.cell(hide_code=True)
-def _():
+with app.setup(hide_code=True):
     import marimo as mo
-
-    return (mo,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-# Semana 2 · Lección 5  
-## Métodos avanzados de agrupación y resumen en pandas
-
-**Propósito de la sesión.** Aprender a construir resúmenes descriptivos reproducibles a partir de datos clínicos tabulares usando:  
-- `groupby` (segmentación)  
-- `agg` (múltiples métricas)  
-- `merge` (enriquecer tablas con metadatos)  
-- `pivot_table` (tablas de contingencia / resúmenes tipo “excel”)
-
-**Regla de oro.** Primero definimos:  
-1) *unidad de análisis* (paciente, visita, laboratorio)  
-2) *variables de estratificación* (sexo, hospital, diagnóstico)  
-3) *métrica* (promedio, mediana, conteo, proporción)
-
-[Esquema conceptual: “Datos → Agrupar → Resumir → Interpretar”]
-"""
-    )
-    return
-
-
-@app.cell
-def _():
     import numpy as np
     import pandas as pd
-
-    return np, pd
+    from setup import TipContent, TestContent
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 1) Dataset de ejemplo (salud pública / clínica)
+    mo.md(r"""
+    # Semana 2 · Lección 5
+    ## Métodos avanzados de agrupación y resumen en pandas
 
-Usaremos un dataset sintético de **visitas ambulatorias**. Cada fila representa una visita de un paciente:
+    **Propósito de la sesión:** aprender a construir resúmenes descriptivos reproducibles a partir de datos clínicos tabulares usando cuatro herramientas centrales de pandas:
 
-- `patient_id`: identificador del paciente  
-- `visit_id`: identificador de la visita  
-- `hospital`: institución  
-- `sex`: sexo biológico reportado (categoría)  
-- `age`: edad en años (numérica)  
-- `condition`: condición principal de la visita (categoría)  
-- `sbp`: presión arterial sistólica (mmHg)  
-- `ldl`: LDL colesterol (mg/dL)  
-- `days_to_next`: días hasta la próxima visita (proxy simple de seguimiento)
+    - `groupby` para segmentar datos en subgrupos
+    - `agg` para calcular varias métricas por grupo
+    - `merge` para enriquecer tablas con información adicional
+    - `pivot_table` para construir tablas resumen tipo matriz
 
-**Objetivo analítico.** Construir resúmenes por hospital/sexo/condición para describir carga y severidad.
-"""
-    )
+    ### Regla de oro de la sesión
+
+    Antes de resumir una tabla, conviene definir tres cosas:
+
+    1. **unidad de análisis**
+       Por ejemplo: paciente, visita, prueba de laboratorio.
+
+    2. **variables de estratificación**
+       Por ejemplo: sexo, hospital, condición, región.
+
+    3. **métrica de interés**
+       Por ejemplo: conteo, promedio, mediana, proporción.
+
+    A lo largo de la lección seguiremos esta secuencia conceptual:
+
+    **datos → agrupar → resumir → interpretar**
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 1) Dataset de ejemplo: visitas ambulatorias
+
+    Trabajaremos con un dataset sintético de **visitas ambulatorias**.
+
+    Cada fila representa una visita de un paciente, no un paciente único.
+
+    Las variables del dataset son:
+
+    - `patient_id`: identificador del paciente
+    - `visit_id`: identificador único de la visita
+    - `hospital`: institución donde ocurrió la visita
+    - `sex`: sexo reportado
+    - `age`: edad en años
+    - `condition`: condición principal de la visita
+    - `sbp`: presión arterial sistólica
+    - `ldl`: colesterol LDL
+    - `days_to_next`: días hasta la siguiente visita
+
+    ### Objetivo analítico
+
+    Construir resúmenes por hospital, sexo, condición o región para describir:
+
+    - volumen de visitas,
+    - perfil clínico,
+    - y posibles señales de severidad o seguimiento.
+    """)
     return
 
 
 @app.cell
-def _(np, pd):
+def _():
     rng = np.random.default_rng(20260228)
 
     n_patients = 180
@@ -88,17 +106,17 @@ def _(np, pd):
         age = int(np.clip(age, 18, 90))
         hospital = rng.choice(hospitals, p=[0.4, 0.35, 0.25])
 
-        for _i in range(int(k)):
+        for _ in range(int(k)):
             condition = rng.choice(conditions, p=[0.35, 0.30, 0.20, 0.15])
 
-            # Simplificación: "severidad" se refleja en distribución de SBP/LDL por condición
+            # Simplificación didáctica:
+            # la "severidad" se refleja en distribuciones distintas de PAS y LDL
             base_sbp = {"HTA": 145, "T2D": 135, "EPOC": 128, "ASMA": 124}[condition]
             sbp = float(rng.normal(loc=base_sbp, scale=12))
 
             base_ldl = {"HTA": 125, "T2D": 135, "EPOC": 120, "ASMA": 118}[condition]
             ldl = float(rng.normal(loc=base_ldl, scale=22))
 
-            # Seguimiento (días a próxima visita) con dispersión amplia
             days_to_next = int(np.clip(rng.gamma(shape=2.2, scale=18), 1, 180))
 
             rows.append(
@@ -125,34 +143,27 @@ def _(np, pd):
     assert visits["age"].between(18, 90).all()
 
     visits.head(10)
-    return (
-        hospitals,
-        patient_ids,
-        rows,
-        sexes,
-        visits,
-        visit_counter,
-        visits_per_patient,
-        rng,
-        conditions,
-    )
+    return (visits,)
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 2) `groupby`: segmentación y métricas simples
+    mo.md(r"""
+    ## 2) `groupby`: segmentar la tabla en subgrupos
 
-`groupby` se interpreta como:  
-> “particionar el DataFrame por una o más columnas, y luego aplicar una función resumen por grupo”.
+    `groupby` puede leerse así:
 
-Ejemplos típicos en salud:
-- Promedio de PAS (SBP) por sexo.
-- Conteo de visitas por hospital.
-- Mediana de LDL por condición.
-"""
-    )
+    > “separo la tabla por una o más columnas y luego calculo un resumen dentro de cada grupo”.
+
+    Ejemplos típicos en salud:
+
+    - promedio de PAS por sexo,
+    - conteo de visitas por hospital,
+    - promedio de LDL por condición,
+    - seguimiento medio por región.
+
+    La idea central es que primero defines **cómo partir la tabla**, y después **qué resumen calcular dentro de cada parte**.
+    """)
     return
 
 
@@ -168,93 +179,193 @@ def _(visits):
         .sort_values("sex")
     )
 
-    # Validación: debe haber exactamente 2 filas (female/male)
     assert visits_by_sex.shape[0] == 2
 
     visits_by_sex
-    return (visits_by_sex,)
+    return
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-### Mini‑reto 1 (guiado): PAS promedio por hospital
+    mo.md(r"""
+    En este ejemplo, cada fila del resultado representa un sexo, y las columnas resumen lo que ocurre dentro de ese grupo.
 
-**Tarea.** Construye un resumen con `groupby` que tenga:  
-- una fila por `hospital`  
-- `n_visits`: número de visitas  
-- `mean_sbp`: PAS promedio  
-- `min_age` y `max_age`: edad mínima y máxima observada  
+    Observa que `groupby` no produce por sí solo el resumen final.
 
-Entrega un DataFrame llamado `summary_hospital`.
+    Para eso necesitamos una segunda parte: **definir qué métricas queremos calcular**.
+    """)
+    return
 
-**Restricción.** No uses bucles; usa `groupby` + `agg`.
-"""
-    )
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Mini-reto 1 — PAS promedio por hospital
+
+    **Dominio:** servicios de salud / resumen institucional
+
+    En este primer reto vas a construir un resumen por hospital.
+
+    La meta es producir una tabla en la que cada fila represente una institución y las columnas contengan métricas descriptivas simples.
+
+    Este ejercicio busca reforzar dos ideas:
+
+    - cómo agrupar una tabla por una variable categórica,
+    - y cómo calcular varias métricas dentro de cada grupo.
+
+    Antes de programar, piensa:
+
+    - qué variable define los grupos,
+    - qué columna sirve para contar visitas,
+    - y qué columnas deben resumirse con promedio o extremos.
+    """)
     return
 
 
 @app.cell
-def _(mo):
-    tip_content = mo.md(
-        r"""
-### Tip
-
-- Piensa en `groupby("hospital", as_index=False)` para que `hospital` quede como columna.
-- Con `agg` puedes definir varias salidas:  
-  `n_visits=("visit_id", "count")`, `mean_sbp=("sbp", "mean")`, `min_age=("age","min")`, `max_age=("age","max")`.
-- Si quieres un orden estable, agrega `.sort_values("hospital")` al final.
-"""
-    )
-    return (tip_content,)
-
-
-@app.cell
-def _(visits):
+def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    # Construye `summary_hospital` según el mini-reto 1.
-
+    # TODO: construir el resumen pedido
     summary_hospital = None
+    return (summary_hospital,)
 
-    # --- Validaciones (no editar) ---
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Variable de agrupación>
+    El resultado debe tener una fila por institución.
+
+    Piensa cuál columna define naturalmente esos grupos.
+    """,
+            r"""
+    <Múltiples métricas>
+    Necesitas construir varias columnas resumen al mismo tiempo.
+
+    Revisa cómo `agg` permite asignar nombres nuevos a distintas métricas calculadas sobre columnas específicas.
+    """,
+            r"""
+    <Formato del resultado>
+    Conviene mantener la variable de agrupación como columna explícita y no como índice.
+
+    También puede ser útil ordenar el resultado para que quede más estable y legible.
+    """,
+            r"""
+    <solucion>
+
+    ```python
+    summary_hospital = (
+        visits.groupby("hospital", as_index=False)
+        .agg(
+            n_visits=("visit_id", "count"),
+            mean_sbp=("sbp", "mean"),
+            min_age=("age", "min"),
+            max_age=("age", "max"),
+        )
+        .sort_values("hospital")
+    )
+    ```
+    """,
+        ]
+    )
+
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(summary_hospital):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia del resultado>
+    Verifica que `summary_hospital` haya sido definido.
+
+    ```python
     assert summary_hospital is not None, (
         "Debes asignar un DataFrame a `summary_hospital`."
     )
+    print("Objeto definido correctamente.")
+    ```
+    """,
+            r"""
+    <Columnas esperadas>
+    Verifica que el resultado tenga exactamente las columnas pedidas.
+
+    ```python
     assert list(summary_hospital.columns) == [
         "hospital",
         "n_visits",
         "mean_sbp",
         "min_age",
         "max_age",
-    ], "Columnas esperadas: hospital, n_visits, mean_sbp, min_age, max_age."
-    assert summary_hospital["hospital"].nunique() == summary_hospital.shape[0]
-    assert summary_hospital["n_visits"].sum() == visits.shape[0]
-    return (summary_hospital,)
+    ], (
+        "Las columnas esperadas son: hospital, n_visits, mean_sbp, min_age, max_age."
+    )
+    print("Columnas correctas.")
+    ```
+    """,
+            r"""
+    <Una fila por hospital>
+    Verifica que el resumen tenga una sola fila por institución.
+
+    ```python
+    assert summary_hospital["hospital"].nunique() == summary_hospital.shape[0], (
+        "Debe haber exactamente una fila por hospital."
+    )
+    print("Estructura por hospital correcta.")
+    ```
+    """,
+            r"""
+    <Conteo total consistente>
+    Verifica que la suma de visitas por hospital coincida con el total de filas del dataset original.
+
+    ```python
+    assert summary_hospital["n_visits"].sum() == visits.shape[0], (
+        "La suma de `n_visits` debe coincidir con el número total de visitas."
+    )
+    print("Conteo total consistente.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    summary_hospital
+    _test_content.render()
+    return
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 3) `agg`: múltiples métricas por grupo (forma “tabla de reporte”)
+    mo.md(r"""
+    ## 3) `agg`: varias métricas por grupo
 
-En práctica clínica o epidemiología descriptiva, un reporte suele incluir:
-- tamaño muestral (`count`)
-- tendencia central (`mean`, `median`)
-- dispersión (`std`, `min`, `max`)
-- *métricas ad hoc* (por ejemplo, proporción de “alto riesgo”)
+    En un análisis descriptivo real, rara vez basta con una sola métrica.
 
-`agg` permite declarar explícitamente qué métrica se calcula sobre qué columna.
-"""
-    )
+    Con frecuencia queremos combinar en un mismo reporte:
+
+    - tamaño muestral,
+    - media o mediana,
+    - medidas extremas,
+    - proporciones,
+    - y otras métricas derivadas.
+
+    `agg` permite declarar explícitamente:
+
+    - qué columna resumir,
+    - qué función aplicar,
+    - y cómo llamar la nueva columna en la tabla final.
+    """)
     return
 
 
 @app.cell
-def _(pd, visits):
+def _(visits):
     def prop_high_sbp(s: pd.Series) -> float:
-        # Proporción de visitas con PAS ≥ 140 mmHg (umbral clínico simplificado)
+        # Proporción de visitas con PAS elevada
         return float((s >= 140).mean())
 
     report_condition_sex = (
@@ -269,43 +380,34 @@ def _(pd, visits):
         .sort_values(["condition", "sex"])
     )
 
-    assert set(report_condition_sex.columns) == {
-        "condition",
-        "sex",
-        "n_visits",
-        "mean_age",
-        "median_sbp",
-        "prop_high_sbp",
-        "mean_ldl",
-    }
-
     report_condition_sex.head(12)
-    return prop_high_sbp, report_condition_sex
+    return
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 4) `pivot_table`: resúmenes “tipo Excel” con dos ejes
+    mo.md(r"""
+    ## 4) `pivot_table`: resúmenes tipo matriz
 
-`pivot_table` es útil cuando quieres:
-- filas = una dimensión (p. ej., hospital)
-- columnas = otra dimensión (p. ej., condición)
-- valores = una métrica (conteo o promedio)
+    `pivot_table` es útil cuando quieres organizar un resumen con dos ejes visibles:
 
-En salud pública, esto aparece como:
-- tabla de “casos por hospital y diagnóstico”
-- promedio de biomarcadores por subgrupo
+    - filas = una dimensión
+    - columnas = otra dimensión
+    - celdas = una métrica
 
-**Nota.** `pivot_table` usa `aggfunc` por defecto `mean`.
-"""
-    )
+    Esto se parece mucho a una tabla resumen de Excel.
+
+    En salud pública, este tipo de estructura aparece en preguntas como:
+
+    - cuántos casos hay por hospital y condición,
+    - cuál es el promedio de una medición por institución y sexo,
+    - cómo se distribuye una métrica entre dos dimensiones categóricas.
+    """)
     return
 
 
 @app.cell
-def _(pd, visits):
+def _(visits):
     pivot_counts = pd.pivot_table(
         visits,
         index="hospital",
@@ -317,88 +419,172 @@ def _(pd, visits):
         margins_name="TOTAL",
     )
 
-    # Validación: debe tener fila TOTAL y columna TOTAL
     assert "TOTAL" in pivot_counts.index
     assert "TOTAL" in pivot_counts.columns
 
     pivot_counts
-    return (pivot_counts,)
+    return
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-### Mini‑reto 2 (guiado): tabla de PAS promedio por hospital y sexo
+    mo.md(r"""
+    ## Mini-reto 2 — PAS promedio por hospital y sexo
 
-**Tarea.** Construye una tabla con `pivot_table` que tenga:
-- `index="hospital"`
-- `columns="sex"`
-- valores: promedio de `sbp`
-- redondea a 1 decimal
+    **Dominio:** estructura tabular / comparación entre subgrupos
 
-Guárdala en `pivot_sbp`.
+    En este reto construirás una tabla resumen con dos ejes:
 
-**Interpretación esperada.** Cada celda debe representar *promedio de PAS* en ese subgrupo (hospital × sexo).
-"""
-    )
+    - hospitales en las filas,
+    - sexo en las columnas,
+    - y el promedio de PAS dentro de cada subgrupo.
+
+    Este ejercicio busca reforzar:
+
+    - cómo definir filas y columnas en una tabla pivote,
+    - qué variable debe resumirse,
+    - y cómo hacer el resultado más legible.
+
+    Antes de programar, piensa:
+
+    - qué dimensión irá en el índice,
+    - qué dimensión irá en las columnas,
+    - y qué métrica debe ocupar las celdas.
+    """)
     return
 
 
 @app.cell
-def _(mo):
-    tip_content = mo.md(
-        r"""
-### Tip
-
-- `pd.pivot_table(..., values="sbp", aggfunc="mean")` te da promedios.
-- Después puedes usar `.round(1)` para redondear.
-- Si quieres evitar `NaN` (por ejemplo, subgrupos sin visitas), usa `fill_value=...` con cuidado:  
-  para promedios, suele ser mejor **dejar NaN** para no inventar datos.
-"""
-    )
-    return (tip_content,)
-
-
-@app.cell
-def _(visits):
-    import pandas as pd
-
+def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    # Construye `pivot_sbp` según el mini-reto 2.
-
+    # TODO: construir la tabla pivote pedida
     pivot_sbp = None
-
-    # --- Validaciones (no editar) ---
-    assert pivot_sbp is not None, "Debes asignar una tabla a `pivot_sbp`."
-    assert list(pivot_sbp.index.name for _ in [0])[0] == "hospital", (
-        "El índice debe ser hospital."
-    )
-    assert set(pivot_sbp.columns).issubset({"female", "male"}), (
-        "Columnas esperadas: female/male (o subset)."
-    )
-    return pd, pivot_sbp
+    return (pivot_sbp,)
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 5) `merge`: enriquecer una tabla con metadatos
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Estructura de la tabla>
+    Una tabla pivote se define separando claramente qué variable irá por filas y cuál por columnas.
 
-En análisis de servicios de salud, es común tener:
-- tabla de eventos/visitas
-- tabla de metadatos de instituciones (región, nivel de complejidad, etc.)
+    Aquí necesitas una dimensión institucional y una dimensión demográfica.
+    """,
+            r"""
+    <Métrica en las celdas>
+    Las celdas no deben contener conteos, sino una medida resumen de una variable clínica.
 
-`merge` permite unir ambas por una llave (p. ej., `hospital`) para luego resumir por los atributos nuevos.
-"""
+    Revisa cuál es la columna a resumir y qué función de agregación corresponde.
+    """,
+            r"""
+    <Presentación del resultado>
+    Después de construir la tabla, puede ser útil redondear para facilitar la lectura.
+
+    Hazlo sin cambiar la estructura principal de la tabla.
+    """,
+            r"""
+    <solucion>
+
+    ```python
+    pivot_sbp = pd.pivot_table(
+        visits,
+        index="hospital",
+        columns="sex",
+        values="sbp",
+        aggfunc="mean",
+    ).round(1)
+    ```
+    """,
+        ]
     )
+
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(pivot_sbp):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia del resultado>
+    Verifica que `pivot_sbp` haya sido definido.
+
+    ```python
+    assert pivot_sbp is not None, "Debes asignar una tabla a `pivot_sbp`."
+    print("Objeto definido correctamente.")
+    ```
+    """,
+            r"""
+    <Índice correcto>
+    Verifica que el índice represente hospitales.
+
+    ```python
+    assert pivot_sbp.index.name == "hospital", (
+        "El índice debe llamarse `hospital`."
+    )
+    print("Índice correcto.")
+    ```
+    """,
+            r"""
+    <Columnas esperadas>
+    Verifica que las columnas correspondan a categorías de sexo.
+
+    ```python
+    assert set(pivot_sbp.columns).issubset({"female", "male"}), (
+        "Las columnas esperadas son `female` y/o `male`."
+    )
+    print("Columnas correctas.")
+    ```
+    """,
+            r"""
+    <Tipo de resumen>
+    Verifica que el resultado mantenga estructura tabular.
+
+    ```python
+    assert hasattr(pivot_sbp, "loc"), (
+        "`pivot_sbp` debe comportarse como un DataFrame."
+    )
+    print("Estructura tabular correcta.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    pivot_sbp
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5) `merge`: enriquecer una tabla con metadatos
+
+    En muchos análisis de servicios de salud, la información está separada en varias tablas.
+
+    Por ejemplo:
+
+    - una tabla de visitas o eventos,
+    - y otra tabla con metadatos de las instituciones.
+
+    `merge` permite unir ambas usando una llave común, como `hospital`.
+
+    La utilidad de esto es que, una vez enriquecida la tabla principal, podemos resumir por variables nuevas que antes no estaban disponibles, como:
+
+    - región,
+    - nivel de complejidad,
+    - tipo de institución.
+    """)
     return
 
 
 @app.cell
-def _(pd):
-    hospitals_meta = pd.DataFrame(
+def _():
+    hospitales_meta = pd.DataFrame(
         {
             "hospital": ["HOSP_A", "HOSP_B", "HOSP_C"],
             "region": ["Urbana", "Urbana", "Rural"],
@@ -406,16 +592,17 @@ def _(pd):
         }
     )
 
-    assert hospitals_meta["hospital"].is_unique
-    hospitals_meta
-    return (hospitals_meta,)
+    assert hospitales_meta["hospital"].is_unique
+
+    hospitales_meta
+    return (hospitales_meta,)
 
 
 @app.cell
-def _(pd, visits, hospitals_meta):
-    visits_enriched = visits.merge(hospitals_meta, on="hospital", how="left")
+def _(hospitales_meta, visits):
+    # Unimos visitas con metadatos institucionales
+    visits_enriched = visits.merge(hospitales_meta, on="hospital", how="left")
 
-    # Validaciones
     assert visits_enriched.shape[0] == visits.shape[0]
     assert visits_enriched["region"].isna().sum() == 0
 
@@ -425,21 +612,31 @@ def _(pd, visits, hospitals_meta):
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## 6) Caso aplicado: “tasa de seguimiento temprano” por región
+    mo.md(r"""
+    ## 6) Caso aplicado: seguimiento temprano por región y condición
 
-Definimos un indicador simple (didáctico):  
-- *seguimiento temprano* = próxima visita dentro de 30 días (`days_to_next <= 30`)
+    Una vez enriquecida la tabla, podemos derivar indicadores nuevos y luego resumirlos.
 
-Luego estimamos la **proporción** de seguimiento temprano por región y condición.
-"""
-    )
+    Definiremos un indicador simple de ejemplo:
+
+    - **seguimiento temprano** = próxima visita en 30 días o menos
+
+    Después estimaremos su proporción por:
+
+    - región,
+    - condición.
+
+    Observa la secuencia:
+
+    1. crear una bandera booleana,
+    2. agrupar por subgrupos,
+    3. resumir con conteo y proporción.
+    """)
     return
 
 
 @app.cell
-def _(pd, visits_enriched):
+def _(visits_enriched):
     visits_flags = visits_enriched.assign(
         early_follow_up=lambda d: d["days_to_next"] <= 30
     )
@@ -453,92 +650,178 @@ def _(pd, visits_enriched):
         .sort_values(["region", "condition"])
     )
 
-    # Validaciones
     assert followup_by_region_condition["prop_early_follow_up"].between(0, 1).all()
 
     followup_by_region_condition
-    return followup_by_region_condition, visits_flags
+    return
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-### Mini‑reto 3 (final, guiado): riesgo alto por región con `merge` + `groupby`
+    mo.md(r"""
+    ## Mini-reto 3 — Riesgo alto por región con `merge` + `groupby`
 
-**Contexto.** Ya tienes `visits_enriched` (visitas + metadatos de hospital).  
-Define “alto riesgo cardiometabólico” como:  
-- `sbp >= 140` **o** `ldl >= 160`
+    **Dominio:** servicios de salud / priorización poblacional
 
-**Tarea.** Construye un DataFrame `risk_by_region` con:
-- una fila por `region`
-- `n_visits`: conteo de visitas
-- `prop_high_risk`: proporción de alto riesgo (entre 0 y 1)
-- `mean_age`: edad promedio
+    En este reto final integrarás varias ideas de la sesión en una sola secuencia de trabajo.
 
-**Reglas.**
-- Usa `assign` para crear la columna booleana `high_risk`.
-- Usa `groupby` + `agg` para el resumen.
-- Ordena por `prop_high_risk` descendente para priorizar regiones con mayor carga.
+    Ya dispones de `visits_enriched`, es decir, una tabla de visitas que ya fue enriquecida con metadatos institucionales.
 
-Este mini‑reto integra toda la sesión: **enriquecer (merge) → derivar indicador → agrupar → resumir**.
-"""
-    )
+    Debes definir una bandera de **alto riesgo cardiometabólico** usando un criterio simple y luego resumirla por región.
+
+    Este ejercicio integra:
+
+    - derivación de una variable booleana,
+    - agrupación por subgrupo,
+    - cálculo de proporciones,
+    - y ordenamiento del resultado para priorización.
+
+    Antes de programar, piensa:
+
+    - qué condición lógica define alto riesgo,
+    - cómo crear esa nueva columna sin modificar manualmente fila por fila,
+    - y qué métricas resumen deben quedar finalmente por región.
+    """)
     return
 
 
 @app.cell
-def _(mo):
-    tip_content = mo.md(
-        r"""
-### Tip
-
-- Para la columna booleana, combina condiciones con `|` y paréntesis:  
-  `(d["sbp"] >= 140) | (d["ldl"] >= 160)`
-- En `agg`, para proporciones de booleanos, `mean` funciona porque `True=1` y `False=0`.
-- Asegúrate de mantener el resultado como DataFrame y de incluir `region` como columna (no como índice).
-"""
-    )
-    return (tip_content,)
-
-
-@app.cell
-def _(visits_enriched):
+def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    # Construye `risk_by_region` según el mini-reto 3.
-
+    # TODO: construir el resumen final pedido
     risk_by_region = None
-
-    # --- Validaciones (no editar) ---
-    assert risk_by_region is not None, "Debes asignar un DataFrame a `risk_by_region`."
-    assert list(risk_by_region.columns) == [
-        "region",
-        "n_visits",
-        "prop_high_risk",
-        "mean_age",
-    ], "Columnas esperadas: region, n_visits, prop_high_risk, mean_age."
-    assert risk_by_region["prop_high_risk"].between(0, 1).all()
-    assert risk_by_region["n_visits"].sum() == visits_enriched.shape[0]
     return (risk_by_region,)
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-## Cierre conceptual
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Bandera booleana>
+    El primer paso no es agrupar, sino derivar una variable nueva que identifique alto riesgo.
 
-En análisis tabular en salud, estas operaciones forman el “núcleo” de un reporte descriptivo:
+    Esa variable debe construirse combinando dos condiciones clínicas con un operador lógico.
+    """,
+            r"""
+    <De la bandera al resumen>
+    Una vez creada la nueva columna, debes agrupar por región y calcular varias métricas.
 
-- `groupby` define *estratos* (subpoblaciones).
-- `agg` define *métricas* por estrato.
-- `pivot_table` define *matrices* para comparar dimensiones.
-- `merge` permite integrar *contexto* (metadatos) antes de resumir.
+    Recuerda que el promedio de una columna booleana puede interpretarse como proporción.
+    """,
+            r"""
+    <Orden del resultado>
+    El resultado final debe ayudar a priorizar regiones con mayor carga de riesgo.
 
-En la siguiente sesión, este estilo de resumen se vuelve una pieza de arquitectura:  
-**tablas limpias + resúmenes estandarizados = outputs reproducibles**.
-"""
+    Por eso conviene ordenar por la proporción calculada, de mayor a menor.
+    """,
+            r"""
+    <solucion>
+
+    ```python
+    risk_by_region = (
+        visits_enriched.assign(
+            high_risk=lambda d: (d["sbp"] >= 140) | (d["ldl"] >= 160)
+        )
+        .groupby("region", as_index=False)
+        .agg(
+            n_visits=("visit_id", "count"),
+            prop_high_risk=("high_risk", "mean"),
+            mean_age=("age", "mean"),
+        )
+        .sort_values("prop_high_risk", ascending=False)
     )
+    ```
+    """,
+        ]
+    )
+
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(risk_by_region):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia del resultado>
+    Verifica que `risk_by_region` haya sido definido.
+
+    ```python
+    assert risk_by_region is not None, (
+        "Debes asignar un DataFrame a `risk_by_region`."
+    )
+    print("Objeto definido correctamente.")
+    ```
+    """,
+            r"""
+    <Columnas esperadas>
+    Verifica que el resultado tenga exactamente las columnas solicitadas.
+
+    ```python
+    assert list(risk_by_region.columns) == [
+        "region",
+        "n_visits",
+        "prop_high_risk",
+        "mean_age",
+    ], (
+        "Las columnas esperadas son: region, n_visits, prop_high_risk, mean_age."
+    )
+    print("Columnas correctas.")
+    ```
+    """,
+            r"""
+    <Rango de proporciones>
+    Verifica que la proporción se mantenga entre 0 y 1.
+
+    ```python
+    assert risk_by_region["prop_high_risk"].between(0, 1).all(), (
+        "`prop_high_risk` debe estar entre 0 y 1."
+    )
+    print("Rango de proporciones correcto.")
+    ```
+    """,
+            r"""
+    <Consistencia del conteo>
+    Verifica que la suma de visitas por región coincida con el total del dataset enriquecido.
+
+    ```python
+    assert risk_by_region["n_visits"].sum() == visits_enriched.shape[0], (
+        "La suma de `n_visits` debe coincidir con el total de visitas."
+    )
+    print("Conteo total consistente.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    risk_by_region
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Cierre conceptual
+
+    En análisis tabular en salud, estas operaciones forman el núcleo de muchos reportes descriptivos reproducibles:
+
+    - `groupby` define los **estratos** o subgrupos,
+    - `agg` define las **métricas** por estrato,
+    - `pivot_table` organiza comparaciones en forma de matriz,
+    - `merge` integra contexto adicional antes del resumen.
+
+    La idea más importante de esta sesión es que resumir bien no significa solo “calcular números”.
+
+    También implica decidir con claridad:
+
+    - qué unidad estás resumiendo,
+    - qué grupos quieres comparar,
+    - y qué métrica responde realmente a tu pregunta analítica.
+    """)
     return
 
 
