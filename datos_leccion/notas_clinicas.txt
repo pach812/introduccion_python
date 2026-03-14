@@ -1,0 +1,5 @@
+id_paciente|nota
+101|Presion arterial elevada en la primera visita
+102|Se recomienda control de HbA1c
+103|Se requiere repetir la medicion de presion arterial
+104|Sintomas respiratorios estables

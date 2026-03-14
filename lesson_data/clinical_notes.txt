@@ -1,0 +1,5 @@
+patient_id|note
+101|Elevated blood pressure on first visit
+102|HbA1c follow-up recommended
+103|Repeat blood pressure measurement needed
+104|Stable respiratory symptoms

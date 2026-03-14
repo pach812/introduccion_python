@@ -1,0 +1,17 @@
+[
+  {
+    "patient_id": 101,
+    "vaccinated_flu": true,
+    "community": "urban"
+  },
+  {
+    "patient_id": 102,
+    "vaccinated_flu": false,
+    "community": "rural"
+  },
+  {
+    "patient_id": 103,
+    "vaccinated_flu": true,
+    "community": "urban"
+  }
+]

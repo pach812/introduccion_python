@@ -464,6 +464,7 @@ dependencies = [
     { name = "marimo", extra = ["recommended"] },
     { name = "numpy" },
     { name = "pandas" },
+    { name = "pyreadr" },
     { name = "pytest" },
     { name = "requests" },
 ]
@@ -489,6 +490,7 @@ requires-dist = [
     { name = "marimo", extras = ["recommended"], specifier = ">=0.19.11" },
     { name = "numpy", specifier = ">=2.4.2" },
     { name = "pandas", specifier = ">=3.0.1" },
+    { name = "pyreadr", specifier = ">=0.5.4" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "requests", specifier = ">=2.32.5" },
 ]
@@ -1211,6 +1213,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ba/63/06673d1eb6d8f83c0ea1f677d770e12565fb516928b4109c9e2055656a9e/pymdown_extensions-10.21.tar.gz", hash = "sha256:39f4a020f40773f6b2ff31d2cd2546c2c04d0a6498c31d9c688d2be07e1767d5", size = 853363, upload-time = "2026-02-15T20:44:06.748Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6f/2c/5b079febdc65e1c3fb2729bf958d18b45be7113828528e8a0b5850dd819a/pymdown_extensions-10.21-py3-none-any.whl", hash = "sha256:91b879f9f864d49794c2d9534372b10150e6141096c3908a455e45ca72ad9d3f", size = 268877, upload-time = "2026-02-15T20:44:05.464Z" },
+]
+
+[[package]]
+name = "pyreadr"
+version = "0.5.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pandas" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/fe/90584d7f74bde81f57d44d640ead55c5f91c450ae47f569c803e138b5bc9/pyreadr-0.5.4.tar.gz", hash = "sha256:05b18cc830dceda3ef3d477bd8e50f072474e177f0cf67b6ad4fb3d7f3de11fd", size = 1292809, upload-time = "2025-11-25T16:40:14.191Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/84/4d/c431887359a159ea6fb4bdf0d029d1e4a0fc2de01a486e5aa1a7dc07cf24/pyreadr-0.5.4-cp314-cp314-macosx_10_15_x86_64.whl", hash = "sha256:4bd6c2a12ffa9e71c34ec6732f1ef811217d81a97ac644ad90d6b36ef0ac48ba", size = 320054, upload-time = "2025-11-25T16:40:03.9Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/7e/09925b2924f0814d79e1dfefa44bf34ce958af11c70f2fe9aece14c1965b/pyreadr-0.5.4-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:9af6b4bffbf17bdf9b8b6bf06d1e217d1ab791d9b42450bd4753e294fb414c94", size = 320133, upload-time = "2025-11-25T16:40:05.226Z" },
+    { url = "https://files.pythonhosted.org/packages/62/a0/1d3cdf154d403c20514e5db8758935b860208c12998871c9fba2a1de266b/pyreadr-0.5.4-cp314-cp314-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:54292e3745533d267a856394c4d019330219f36e838898c9b387da05bb99a220", size = 774824, upload-time = "2025-11-25T16:40:07.038Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/17/0cc6ed7d2c67daad92a96faccb765c30709c576019b6ec5eb3da1e4c36ac/pyreadr-0.5.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e247d2b69bfb636f7e1c15df7360829f7eff4af0736d2dc0c495747cb86c69ac", size = 770862, upload-time = "2025-11-25T16:40:08.938Z" },
+    { url = "https://files.pythonhosted.org/packages/b7/4d/fa61e6f884f797c2c571e82dbf477531f59790a1e26346d95cec39305d7b/pyreadr-0.5.4-cp314-cp314-win_amd64.whl", hash = "sha256:730041e7f46fce79b40e54bdbbb7cd2bcb96951163d0962221b7a11b7c46157f", size = 2384417, upload-time = "2025-11-25T16:40:10.985Z" },
 ]
 
 [[package]]

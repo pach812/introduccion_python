@@ -1,0 +1,7 @@
+patient_id,age,sex,hospital,diagnosis,sbp,follow_up_days
+101,67,female,Hospital Norte,HTN,148,30
+102,54,male,Hospital Sur,T2D,136,90
+103,72,female,Hospital Norte,HTN,154,30
+104,49,female,Hospital Centro,ASTHMA,118,180
+105,61,male,Hospital Sur,COPD,142,60
+106,58,male,Hospital Centro,T2D,130,90

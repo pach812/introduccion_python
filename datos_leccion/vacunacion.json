@@ -1,0 +1,17 @@
+[
+  {
+    "id_paciente": 101,
+    "vacunado_influenza": true,
+    "comunidad": "urbana"
+  },
+  {
+    "id_paciente": 102,
+    "vacunado_influenza": false,
+    "comunidad": "rural"
+  },
+  {
+    "id_paciente": 103,
+    "vacunado_influenza": true,
+    "comunidad": "urbana"
+  }
+]
