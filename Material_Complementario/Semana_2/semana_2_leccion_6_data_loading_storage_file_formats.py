@@ -5,7 +5,7 @@
 #     "pandas==3.0.1",
 #     "pytest==9.0.2",
 #     "requests==2.32.5",
-#     "pyreadr==0.5.3",
+#     "pyreadr==0.5.4",
 # ]
 # ///
 
@@ -21,8 +21,20 @@ with app.setup(hide_code=True):
     import marimo as mo
     import numpy as np
     import pandas as pd
-    import pyreadr
     from setup import TipContent, TestContent
+
+
+@app.cell(hide_code=True)
+def _():
+    try:
+        import pyreadr
+        use_r = False
+    except ImportError:
+        use_r = False
+        mo.md(r""" No se pudo instalar la librería `pyreadr`. Si quieres trabajar con archivos `.rds`, asegúrate de tener esta dependencia instalada en tu entorno de Python desde tu ordenador.
+
+        Deberas saltar las partes relacionadas con archivos `.rds` en esta sesión, pero puedes seguir trabajando con los otros formatos sin problemas.""") 
+    return pyreadr, use_r
 
 
 @app.cell(hide_code=True)
@@ -72,7 +84,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _():
+def _(pyreadr):
     data_dir = Path("datos_leccion")
     data_dir.mkdir(exist_ok=True)
 
@@ -217,7 +229,7 @@ def _(data_dir):
     return (notes_text,)
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(notes_text):
     mo.vstack(
         [
@@ -658,24 +670,28 @@ def _():
     return
 
 
-@app.cell
-def _(data_dir):
-    resultado_rds = pyreadr.read_r(data_dir / "pacientes_r.rds")
-    rds_keys = list(resultado_rds.keys())
-    pacientes_rds = resultado_rds[None]
+@app.cell(hide_code=True)
+def _(data_dir, pyreadr, use_r):
+    if use_r:
+        resultado_rds = pyreadr.read_r(data_dir / "pacientes_r.rds")
+        rds_keys = list(resultado_rds.keys())
+        pacientes_rds = resultado_rds[None]
 
-    assert pacientes_rds.shape == (6, 7)
-    assert list(pacientes_rds.columns) == [
-        "id_paciente",
-        "edad",
-        "sexo",
-        "hospital",
-        "diagnostico",
-        "pas",
-        "dias_seguimiento",
-    ]
+        assert pacientes_rds.shape == (6, 7)
+        assert list(pacientes_rds.columns) == [
+            "id_paciente",
+            "edad",
+            "sexo",
+            "hospital",
+            "diagnostico",
+            "pas",
+            "dias_seguimiento",
+        ]
 
-    pacientes_rds
+        pacientes_rds
+    else:
+        rds_keys = None
+        mo.md(r"""No se pudo leer el archivo `.rds` porque no está disponible la librería `pyreadr`. Si quieres trabajar con archivos `.rds`, asegúrate de tener esta dependencia instalada en tu entorno de Python desde tu ordenador. Deberas saltar las partes relacionadas con archivos `.rds` en esta sesión, pero puedes seguir trabajando con los otros formatos sin problemas.""")
     return (rds_keys,)
 
 
