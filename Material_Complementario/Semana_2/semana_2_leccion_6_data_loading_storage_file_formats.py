@@ -28,12 +28,14 @@ with app.setup(hide_code=True):
 def _():
     try:
         import pyreadr
-        use_r = False
+        use_r = True
+        msg = "Inicio de actividad con soporte para archivos `.rds` de R."
     except ImportError:
         use_r = False
-        mo.md(r""" No se pudo instalar la librería `pyreadr`. Si quieres trabajar con archivos `.rds`, asegúrate de tener esta dependencia instalada en tu entorno de Python desde tu ordenador.
+        msg = mo.md(r""" No se pudo instalar la librería `pyreadr`. Si quieres trabajar con archivos `.rds`, asegúrate de tener esta dependencia instalada en tu entorno de Python desde tu ordenador.
 
         Deberas saltar las partes relacionadas con archivos `.rds` en esta sesión, pero puedes seguir trabajando con los otros formatos sin problemas.""") 
+    msg
     return pyreadr, use_r
 
 
