@@ -84,7 +84,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(pyreadr):
+def _(pyreadr, use_r):
     data_dir = Path("datos_leccion")
     data_dir.mkdir(exist_ok=True)
 
@@ -110,7 +110,9 @@ def _(pyreadr):
     pacientes_base.to_csv(data_dir / "pacientes.csv", index=False)
     pacientes_base.to_csv(data_dir / "pacientes.tsv", sep="\t", index=False)
     pacientes_base.to_stata(data_dir / "pacientes_stata.dta", write_index=False)
-    pyreadr.write_rds(data_dir / "pacientes_r.rds", pacientes_base)
+    if use_r:
+        pyreadr.write_rds(data_dir / "pacientes_r.rds", pacientes_base)
+
 
     lineas_notas = [
         "id_paciente|nota",
