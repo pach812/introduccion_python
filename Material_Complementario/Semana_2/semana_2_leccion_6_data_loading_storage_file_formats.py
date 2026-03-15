@@ -219,7 +219,7 @@ def _():
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(data_dir):
     ruta_notas = data_dir / "notas_clinicas.txt"
 
@@ -233,7 +233,7 @@ def _(data_dir):
     return (notes_text,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(notes_text):
     mo.vstack(
         [
