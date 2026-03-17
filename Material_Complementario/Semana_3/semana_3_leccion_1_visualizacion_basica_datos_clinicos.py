@@ -5,6 +5,8 @@
 #     "matplotlib",
 #     "numpy",
 #     "pandas",
+#     "requests",
+#     "pytest",
 # ]
 # ///
 
