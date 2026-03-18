@@ -732,9 +732,18 @@ class TestContent(BaseAccordionContent):
         )
 
 
-@app.cell
-def _():
-    return
+@app.function
+def find_data_file(filename: str) -> Path:
+    """Locate a data file in common execution directories."""
+    candidates = [
+        Path.cwd() / filename,
+        Path(__file__).resolve().parent / filename,
+        Path("/mnt/data") / filename,
+    ]
+    for path in candidates:
+        if path.exists():
+            return path
+    raise FileNotFoundError(f"No se encontró el archivo: {filename}")
 
 
 if __name__ == "__main__":

@@ -14,7 +14,6 @@ import marimo
 __generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
-
 with app.setup(hide_code=True):
     import marimo as mo
     import numpy as np
@@ -24,54 +23,7 @@ with app.setup(hide_code=True):
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
 
-    class TipContent:
-        def __init__(self, items_raw):
-            self.items_raw = items_raw
-
-        def render(self):
-            sections = {}
-            for i, raw in enumerate(self.items_raw, start=1):
-                text = raw.strip()
-                if text.startswith("<") and ">" in text:
-                    tag = text[1:text.index(">")].strip()
-                    body = text[text.index(">") + 1 :].strip()
-                else:
-                    tag = f"tip_{i}"
-                    body = text
-                sections[tag] = mo.md(body)
-            return mo.accordion(sections)
-
-    class TestContent:
-        def __init__(self, items_raw, namespace):
-            self.items_raw = items_raw
-            self.namespace = namespace
-
-        def render(self):
-            outputs = []
-            for raw in self.items_raw:
-                text = raw.strip()
-                if text.startswith("<") and ">" in text:
-                    title = text[1:text.index(">")].strip()
-                    body = text[text.index(">") + 1 :].strip()
-                else:
-                    title = "test"
-                    body = text
-
-                code = ""
-                if "```python" in body:
-                    code = body.split("```python", 1)[1].split("```", 1)[0].strip()
-
-                ok = True
-                result = ""
-                if code:
-                    try:
-                        exec(code, self.namespace, self.namespace)
-                        result = "✅ Test superado"
-                    except Exception as exc:
-                        ok = False
-                        result = f"❌ {type(exc).__name__}: {exc}"
-                outputs.append(mo.md(f"**{title}**\n\n{result}"))
-            return mo.vstack(outputs)
+    from setup import TipContent, TestContent, find_data_file
 
 
 @app.cell(hide_code=True)
@@ -113,27 +65,18 @@ def _():
 
     Esto contrasta con una lógica más automática, donde la librería decide parte importante de la representación.
 
-    Aquí el objetivo pedagógico es comprender que **el gráfico es un objeto construido explícitamente**.
+    Aquí el objetivo es comprender que **el gráfico es un objeto construido explícitamente**.
     """)
     return
 
 
 @app.cell
 def _():
-    data_path = Path(__file__).resolve().parent / "dataset_clase_semana2_small.csv"
+    data_path = find_data_file("public/dataset_clase_semana2_small.csv")
     df = pd.read_csv(data_path)
 
-    numeric_cols = ["age", "sbp_mmHg", "glucose_mg_dL", "ldl_mg_dL"]
-    categorical_cols = [
-        "sex",
-        "ethnicity",
-        "residence_area",
-        "Diabetes",
-        "hypertension",
-        "bmi_category",
-        "smoking_status",
-        "education_grouped",
-    ]
+    numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+    categorical_cols = df.select_dtypes(include="str").columns.tolist()
 
     assert data_path.exists()
     assert df.shape[0] > 0
@@ -148,7 +91,7 @@ def _(df):
     mo.md(f"""
     ## 2) Dataset de trabajo
 
-    Utilizaremos un dataset sintético de salud con **{df.shape[0]} registros** y **{df.shape[1]} variables**.
+    Utilizaremos un subset de la Encuesta sobre Salud, Bienestar y Envejecimiento (SABE) con **{df.shape[0]} registros** y **{df.shape[1]} variables**.
 
     Cada fila representa un individuo y contiene variables demográficas, factores de riesgo y mediciones clínicas.
 
@@ -168,8 +111,8 @@ def _(df):
     return
 
 
-@app.cell
-def _(df, numeric_cols, categorical_cols):
+@app.cell(hide_code=True)
+def _(categorical_cols, df, numeric_cols):
     summary_numeric = df[numeric_cols].describe().round(2)
     summary_categorical = pd.DataFrame(
         {
@@ -185,7 +128,7 @@ def _(df, numeric_cols, categorical_cols):
         mo.md("### Resumen categórico"),
         summary_categorical,
     ])
-    return summary_categorical, summary_numeric
+    return
 
 
 @app.cell(hide_code=True)
@@ -206,20 +149,26 @@ def _():
     - `fig` representa la figura completa.
     - `ax` representa el área concreta donde se dibuja el gráfico.
 
-    Esta separación es importante porque permite añadir control local sobre cada visualización. En el capítulo introductorio de Matplotlib de *Python for Data Analysis* se enfatiza que es preferible trabajar con métodos del objeto `Axes` para controlar directamente cada componente del gráfico. fileciteturn2file6
+    Esta separación es importante porque permite añadir control local sobre cada visualización.
+
+    Es preferible **trabajar con métodos del objeto `Axes`** para controlar directamente cada componente del gráfico.
     """)
     return
 
 
 @app.cell
 def _(df):
+    # Para mostrar la evolución de PAS media por edad sin grupos etarios, se puede usar el siguiente código:
     sbp_by_age = (
         df.groupby("age", as_index=False)
         .agg(mean_sbp=("sbp_mmHg", "mean"))
         .sort_values("age")
     )
 
+    # Gráfico de línea para PAS media por edad
     fig_line, ax_line = plt.subplots(figsize=(8, 4.5))
+
+    # La función `plot` de Matplotlib se utiliza para crear un gráfico de línea. Aquí se especifica el eje x con las edades y el eje y con la PAS media correspondiente a cada edad. Se añaden marcadores para resaltar cada punto de datos y se ajusta el grosor de la línea para mejorar la visualización.
     ax_line.plot(
         sbp_by_age["age"],
         sbp_by_age["mean_sbp"],
@@ -227,20 +176,26 @@ def _(df):
         linewidth=1.8,
         label="PAS media por edad",
     )
+
+    # Se establecen el título del gráfico y las etiquetas de los ejes para proporcionar contexto clínico. 
     ax_line.set_title("Presión arterial sistólica media por edad")
     ax_line.set_xlabel("Edad (años)")
     ax_line.set_ylabel("PAS media (mmHg)")
+
+    # La leyenda se activa para identificar la serie de datos representada, y se añade una cuadrícula suave para facilitar la lectura de los valores. 
     ax_line.legend()
     ax_line.grid(True, alpha=0.3)
+
+    # Finalmente, `tight_layout()` se llama para ajustar automáticamente los márgenes y evitar que los elementos del
     fig_line.tight_layout()
     fig_line
-    return ax_line, fig_line, sbp_by_age
+    return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    En este primer ejemplo se observa claramente la lógica imperativa:
+    En este primer ejemplo se observa claramente la lógica imperativa en la que se basa Matplotlib:
 
     - se crea el espacio gráfico,
     - se agrega una línea,
@@ -248,7 +203,7 @@ def _():
     - se añade leyenda,
     - y se mejora la legibilidad con cuadrícula suave.
 
-    Matplotlib permite añadir leyendas, etiquetas de ejes y títulos mediante métodos explícitos del objeto `Axes`, lo que hace visible la construcción paso a paso del gráfico. fileciteturn2file1
+    Matplotlib permite añadir leyendas, etiquetas de ejes y títulos mediante métodos explícitos del objeto `Axes`, lo que hace visible la construcción paso a paso del gráfico.
     """)
     return
 
@@ -265,21 +220,37 @@ def _():
     - ¿la distribución parece simétrica?,
     - ¿existen posibles valores extremos?
 
-    En clínica y salud pública, este tipo de gráfico es útil para inspeccionar variables como edad, glucosa, presión arterial o colesterol.
+    En clínica y salud pública, este tipo de gráfico es útil para inspeccionar variables numéricas como edad, glucosa, presión arterial o colesterol.
     """)
     return
 
 
 @app.cell
 def _(df):
+    # Crear figura y eje
     fig_hist, ax_hist = plt.subplots(figsize=(7, 4.5))
-    ax_hist.hist(df["glucose_mg_dL"].dropna(), bins=18, edgecolor="black")
+
+    # Histograma
+    # - Datos: df["glucose_mg_dL"].dropna() -> elimina valores faltantes
+    # - bins: 18 -> número de intervalos
+    # - edgecolor: "black" -> bordes para mejor lectura
+    ax_hist.hist(
+        df["glucose_mg_dL"].dropna(),
+        bins=18,
+        edgecolor="black"
+    )
+
+    # Título y etiquetas
     ax_hist.set_title("Distribución de glucosa en sangre")
     ax_hist.set_xlabel("Glucosa (mg/dL)")
     ax_hist.set_ylabel("Frecuencia")
+
+    # Ajuste de layout
     fig_hist.tight_layout()
+
+    # Mostrar figura
     fig_hist
-    return ax_hist, fig_hist
+    return
 
 
 @app.cell(hide_code=True)
@@ -307,7 +278,7 @@ def _():
 def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
     fig_reto1, ax_reto1 = None, None
-    return ax_reto1, fig_reto1
+    return (fig_reto1,)
 
 
 @app.cell(hide_code=True)
@@ -344,7 +315,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(ax_reto1, fig_reto1):
+def _(fig_reto1):
     _test_content = TestContent(
         items_raw=[
             r"""
@@ -413,7 +384,7 @@ def _(df):
     ax_bar.tick_params(axis="x", rotation=30)
     fig_bar.tight_layout()
     fig_bar
-    return ax_bar, bmi_counts, fig_bar
+    return
 
 
 @app.cell(hide_code=True)
@@ -455,7 +426,7 @@ def _(df):
     ax_scatter.grid(True, alpha=0.2)
     fig_scatter.tight_layout()
     fig_scatter
-    return ax_scatter, df_scatter, fig_scatter
+    return
 
 
 @app.cell(hide_code=True)
@@ -481,7 +452,7 @@ def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
     hypertension_by_sex = None
     fig_reto2, ax_reto2 = None, None
-    return ax_reto2, fig_reto2, hypertension_by_sex
+    return fig_reto2, hypertension_by_sex
 
 
 @app.cell(hide_code=True)
@@ -525,7 +496,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(ax_reto2, fig_reto2, hypertension_by_sex):
+def _(fig_reto2, hypertension_by_sex):
     _test_content = TestContent(
         items_raw=[
             r"""
@@ -588,7 +559,7 @@ def _(df):
 
     fig_grid.tight_layout()
     fig_grid
-    return axes_grid, fig_grid
+    return
 
 
 @app.cell(hide_code=True)
@@ -644,7 +615,7 @@ def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
     sbp_by_age_group = None
     fig_reto3, ax_reto3 = None, None
-    return ax_reto3, fig_reto3, sbp_by_age_group
+    return fig_reto3, sbp_by_age_group
 
 
 @app.cell(hide_code=True)
@@ -701,7 +672,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(ax_reto3, fig_reto3, sbp_by_age_group):
+def _(fig_reto3, sbp_by_age_group):
     _test_content = TestContent(
         items_raw=[
             r"""
