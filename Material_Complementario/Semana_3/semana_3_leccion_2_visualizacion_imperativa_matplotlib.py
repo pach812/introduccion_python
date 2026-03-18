@@ -1416,16 +1416,16 @@ def _():
                 sharex=True,
                 sharey=True,
             )
-
-            sex_values = sorted(df["sex"].dropna().astype(str).unique().tolist())[:2]
-
-            for ax, sex_value in zip(axes_reto5, sex_values):
-                subset = df.loc[df["sex"] == sex_value, "sbp_mmHg"].dropna()
-                ax.hist(subset, bins=15, edgecolor="black")
-                ax.set_title(f"PAS en {sex_value}")
-                ax.set_xlabel("PAS (mmHg)")
-                ax.set_ylabel("Frecuencia")
-
+        
+            _sex_values = sorted(df["sex"].dropna().astype(str).unique().tolist())[:2]
+        
+            for _ax, _sex_value in zip(axes_reto5, _sex_values):
+                _subset = df.loc[df["sex"] == _sex_value, "sbp_mmHg"].dropna()
+                _ax.hist(_subset, bins=15, edgecolor="black")
+                _ax.set_title(f"PAS en {_sex_value}")
+                _ax.set_xlabel("PAS (mmHg)")
+                _ax.set_ylabel("Frecuencia")
+        
             fig_reto5.tight_layout()
             ```
             """,

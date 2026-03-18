@@ -527,7 +527,7 @@ def _(sbp_by_age_group):
     # Crear gráfico de línea con Altair
     # - mark_line(point=True): línea + puntos en cada categoría
     chart_line_sbp = (
-        alt.Chart(sbp_by_age_group)
+        alt.Chart(sbp_by_age_group.dropna())
         .mark_line(point=True)
 
         # Codificación de variables
