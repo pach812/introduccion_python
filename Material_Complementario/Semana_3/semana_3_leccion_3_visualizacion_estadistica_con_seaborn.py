@@ -6,6 +6,7 @@
 #     "pandas==3.0.1",
 #     "pytest==9.0.2",
 #     "requests==2.32.5",
+#     "seaborn==0.13.2",
 # ]
 # ///
 
@@ -14,157 +15,120 @@ import marimo
 __generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
-
 with app.setup(hide_code=True):
     import marimo as mo
     import numpy as np
     import pandas as pd
-    import seaborn as sns
     import matplotlib.pyplot as plt
-    from pathlib import Path
+    import seaborn as sns
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
 
-    sns.set_theme(style="whitegrid")
-    pd.options.display.max_columns = 50
-    pd.options.display.float_format = "{:.2f}".format
-
-    def locate_dataset() -> Path:
-        candidates = [
-            Path(__file__).with_name("dataset_clase_semana2_small.csv"),
-            Path("dataset_clase_semana2_small.csv"),
-            Path("/mnt/data/dataset_clase_semana2_small.csv"),
-        ]
-        for path in candidates:
-            if path.exists():
-                return path
-        raise FileNotFoundError(
-            "No se encontró dataset_clase_semana2_small.csv en una ruta accesible."
-        )
-
-    def render_tips(items: list[str]):
-        blocks = []
-        for idx, item in enumerate(items, start=1):
-            blocks.append(
-                mo.md(
-                    rf"""
-**Tip {idx}.** {item}
-"""
-                )
-            )
-        return mo.accordion({"Tips": mo.vstack(blocks)})
-
-    def note(text: str):
-        return mo.callout(mo.md(text), kind="info")
+    from setup import TipContent, TestContent, find_data_file
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-# Semana 3 · Lección 3 · Visualización estadística con seaborn
+    # Semana 3 · Lección 3
+    ## Visualización estadística con Seaborn
 
-## Propósito de la sesión
+    **Propósito de la sesión:** aprender a construir visualizaciones estadísticas declarativas con Seaborn para comparar grupos, explorar distribuciones y representar relaciones entre variables con menor fricción que en Matplotlib puro.
 
-En esta lección trabajaremos la **visualización estadística con seaborn** como una capa de abstracción que se integra naturalmente con `pandas`.
+    En la lección anterior trabajaste el enfoque imperativo de Matplotlib:
 
-La idea no es dibujar gráficos “bonitos” por sí mismos, sino usar gráficos para responder preguntas analíticas sobre datos de salud.
+    - crear `Figure` y `Axes`,
+    - dibujar manualmente,
+    - agregar líneas, texto y anotaciones,
+    - controlar el gráfico paso a paso.
 
-### Preguntas que guían la sesión
+    En esta lección cambiaremos de nivel de abstracción:
 
-- ¿Cómo cambia una variable numérica entre grupos clínicos?
-- ¿Cómo exploramos una relación entre dos medidas continuas?
-- ¿Cómo resumimos correlaciones entre variables numéricas?
-- ¿Qué aporta seaborn por encima de matplotlib cuando ya tenemos un `DataFrame`?
+    > pasamos de **decir cómo dibujar** a **declarar qué relación queremos mostrar**.
 
-### Librerías de la sesión
+    Seaborn no reemplaza el razonamiento analítico.
 
-- `pandas` para manipulación tabular
-- `matplotlib` como base de dibujo
-- `seaborn` para visualización estadística de alto nivel
+    Lo que hace es facilitar tareas como:
 
-### Regla metodológica
+    - comparar distribuciones entre grupos,
+    - codificar categorías con color,
+    - agregar capas estadísticas,
+    - construir paneles múltiples de forma consistente.
 
-Antes de elegir un gráfico, define primero:
+    Idea central:
 
-1. la **pregunta analítica**,
-2. el **tipo de variables** involucradas,
-3. y la **comparación** que realmente quieres mostrar.
-""")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-## 1) Dataset de trabajo
-
-Usaremos el dataset adjunto de la semana 2, que contiene variables sociodemográficas, clínicas y funcionales de una cohorte sintética en salud.
-
-Cada fila representa una persona. Esto es importante porque las visualizaciones que construyamos deben interpretarse a nivel individual agregado por subgrupos.
-
-Nos concentraremos en cuatro tipos de variables:
-
-- **numéricas:** `age`, `sbp_mmHg`, `glucose_mg_dL`, `ldl_mg_dL`
-- **categóricas clínicas:** `hypertension`, `Diabetes`, `bmi_category`
-- **categóricas sociodemográficas:** `sex`, `education_grouped`
-- **categóricas derivadas:** `sbp_cat`, `glucose_cat`, `ldl_cat`
-""")
+    > **menos código no significa menos pensamiento; significa que el esfuerzo puede concentrarse más en la pregunta analítica que en la mecánica del dibujo.**
+    """)
     return
 
 
 @app.cell
 def _():
-    data_path = locate_dataset()
+    data_path = find_data_file("public/dataset_clase_semana2_small.csv")
     df = pd.read_csv(data_path)
 
-    expected_columns = {
-        "ID",
-        "age",
-        "sex",
-        "Diabetes",
-        "hypertension",
-        "bmi_category",
-        "sbp_mmHg",
-        "glucose_mg_dL",
-        "ldl_mg_dL",
-    }
-    assert expected_columns.issubset(df.columns)
+    numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+    categorical_cols = df.select_dtypes(include="object").columns.tolist()
+
+    assert data_path.exists()
+    assert df.shape[0] > 0
+    assert set(numeric_cols).issubset(df.columns)
+
     df.head()
-    return data_path, df
+    return categorical_cols, df, numeric_cols
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(df):
-    df_info = pd.DataFrame(
+    mo.md(f"""
+    ## Dataset de trabajo
+
+    Utilizaremos el mismo dataset clínico de las lecciones anteriores para mantener continuidad conceptual y comparabilidad entre estrategias de visualización.
+
+    El dataset contiene **{df.shape[0]} registros** y **{df.shape[1]} variables**.
+
+    Cada fila representa un individuo y contiene variables demográficas, factores de riesgo y mediciones clínicas.
+
+    Variables que usaremos con más frecuencia en esta sesión:
+
+    - `age`
+    - `sbp_mmHg`
+    - `glucose_mg_dL`
+    - `ldl_mg_dL`
+    - `sex`
+    - `hypertension`
+    - `Diabetes`
+    - `bmi_category`
+
+    En esta lección no cambia el dominio del problema.
+
+    Lo que cambia es la forma de representar preguntas como:
+
+    - ¿cómo se distribuye una variable dentro de cada grupo?
+    - ¿cómo se comparan dos categorías?
+    - ¿cómo cambia una relación al introducir una tercera variable?
+    - ¿cuándo conviene usar varios paneles en lugar de una sola figura?
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(categorical_cols, df, numeric_cols):
+    summary_numeric = df[numeric_cols].describe().round(2)
+    summary_categorical = pd.DataFrame(
         {
-            "column": df.columns,
-            "dtype": df.dtypes.astype(str).values,
-            "missing": df.isna().sum().values,
-            "n_unique": df.nunique(dropna=False).values,
+            "variable": categorical_cols,
+            "n_unique": [df[col].nunique(dropna=False) for col in categorical_cols],
+            "missing": [int(df[col].isna().sum()) for col in categorical_cols],
         }
     )
-    df_info
-    return (df_info,)
 
-
-@app.cell(hide_code=True)
-def _(data_path, df):
     mo.vstack(
         [
-            note(
-                rf"""
-**Ruta detectada del dataset:** `{data_path}`
-
-**Dimensión del dataset:** {df.shape[0]} filas × {df.shape[1]} columnas.
-"""
-            ),
-            mo.md(r"""
-Observa que ya no estamos en una fase de carga o limpieza intensa: esa parte del curso ya fue cubierta.
-
-Aquí partimos de un `DataFrame` listo para explorar y nos enfocamos en la relación entre:
-
-- el tipo de variable,
-- la pregunta analítica,
-- y el gráfico más informativo.
-"""),
+            mo.md("### Resumen numérico"),
+            summary_numeric,
+            mo.md("### Resumen categórico"),
+            summary_categorical,
         ]
     )
     return
@@ -173,534 +137,1067 @@ Aquí partimos de un `DataFrame` listo para explorar y nos enfocamos en la relac
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## 2) Seaborn como interfaz estadística sobre `DataFrame`
+    ## 1) Cambio conceptual: de instrucciones a relaciones
 
-Mientras `matplotlib` nos obliga a controlar explícitamente muchos componentes del gráfico, seaborn trabaja mejor cuando ya tenemos un `DataFrame` y podemos decirle directamente:
+    En Matplotlib trabajabas de esta forma:
 
-- qué columna va al eje `x`,
-- qué columna va al eje `y`,
-- y qué variable define los grupos.
+    ```python
+    fig, ax = plt.subplots()
+    ax.scatter(...)
+    ax.set_title(...)
+    ax.set_xlabel(...)
+    ```
 
-Esto permite pasar más rápido de la tabla a una visualización con intención analítica.
+    Allí la lógica principal era:
 
-En esta sesión trabajaremos cuatro gráficos centrales:
+    - crear el eje,
+    - elegir la geometría,
+    - y construir manualmente el gráfico.
 
-1. `boxplot` para comparar distribuciones por grupo,
-2. `regplot` para evaluar asociación entre variables numéricas,
-3. `violinplot` para inspeccionar forma y densidad de una distribución,
-4. `heatmap` para resumir correlaciones en forma matricial.
-""")
+    En Seaborn, el patrón suele ser:
+
+    ```python
+    sns.<grafica>(data=df, x="variable_1", y="variable_2")
+    ```
+
+    Aquí la lógica cambia:
+
+    - das un dataset,
+    - declaras qué variable va en cada dimensión,
+    - y Seaborn genera una representación coherente por defecto.
+
+    Esto es útil porque desplaza la atención desde el detalle mecánico hacia la pregunta analítica.
+
+    Idea clave:
+
+    > **Seaborn es especialmente útil cuando quieres expresar una relación entre variables de forma rápida, consistente y estadísticamente informativa.**
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## 3) `boxplot`: comparar distribuciones entre grupos clínicos
+    ## 2) Primer ejemplo: scatterplot declarativo
 
-Un `boxplot` resume una distribución usando una lógica compacta:
+    Empezaremos con una relación sencilla entre dos variables numéricas:
 
-- mediana,
-- cuartiles,
-- dispersión,
-- y posibles valores extremos.
+    - presión arterial sistólica (`sbp_mmHg`)
+    - glucosa (`glucose_mg_dL`)
 
-Es útil cuando queremos responder preguntas del tipo:
+    La pregunta analítica es:
 
-> ¿La presión arterial sistólica parece distinta entre personas con y sin hipertensión?
+    > ¿existe algún patrón conjunto visible entre ambas variables?
 
-Aquí la lógica de variables es:
-
-- variable categórica en `x`: `hypertension`
-- variable numérica en `y`: `sbp_mmHg`
-""")
+    Aquí Seaborn se apoya en Matplotlib, pero nos permite construir el gráfico con una sintaxis más centrada en datos y variables.
+    """)
     return
 
 
 @app.cell
 def _(df):
-    hypertension_order = ["No", "Yes"]
-    boxplot_input = df[["hypertension", "sbp_mmHg"]].dropna().copy()
+    # Crear figura y eje
+    fig_scatter_base, ax_scatter_base = plt.subplots(figsize=(7, 4.5))
 
-    fig_box, ax_box = plt.subplots(figsize=(8, 4.5))
+    # Scatter plot con seaborn
+    # - data: DataFrame de origen
+    # - x: variable en eje X (PAS)
+    # - y: variable en eje Y (glucosa)
+    # - ax: eje donde se dibuja
+    sns.scatterplot(
+        data=df,
+        x="sbp_mmHg",
+        y="glucose_mg_dL",
+        ax=ax_scatter_base,
+    )
+
+    # Título y etiquetas
+    ax_scatter_base.set_title("Relación entre PAS y glucosa")
+    ax_scatter_base.set_xlabel("PAS (mmHg)")
+    ax_scatter_base.set_ylabel("Glucosa (mg/dL)")
+
+    # Ajuste de layout
+    fig_scatter_base.tight_layout()
+
+    # Mostrar figura
+    fig_scatter_base
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 3) Codificación estética: `hue`, `style` y `size`
+
+    Una de las ventajas más importantes de Seaborn es que permite agregar dimensiones adicionales del dataset usando codificaciones visuales.
+
+    Algunas de las más frecuentes son:
+
+    - `hue`: cambia color según una variable,
+    - `style`: cambia forma o estilo,
+    - `size`: cambia tamaño.
+
+    En esta sesión nos centraremos sobre todo en `hue`, porque es una de las formas más útiles de introducir una variable categórica adicional sin tener que construir varios gráficos manualmente.
+
+    Ejemplo:
+
+    ```python
+    sns.scatterplot(
+        data=df,
+        x="sbp_mmHg",
+        y="glucose_mg_dL",
+        hue="Diabetes"
+    )
+    ```
+
+    Esto permite responder una pregunta distinta:
+
+    > ¿la relación entre PAS y glucosa se distribuye igual según estado de diabetes?
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # Crear figura y eje
+    fig_scatter_hue, ax_scatter_hue = plt.subplots(figsize=(7, 4.5))
+
+    # Scatter plot con agrupación por color (hue)
+    # - x / y: variables numéricas
+    # - hue: separa puntos por categoría (estado de diabetes)
+    # - alpha: transparencia para manejar solapamiento
+    sns.scatterplot(
+        data=df,
+        x="sbp_mmHg",
+        y="glucose_mg_dL",
+        hue="Diabetes",
+        alpha=0.75,
+        ax=ax_scatter_hue,
+    )
+
+    # Título y etiquetas
+    ax_scatter_hue.set_title("Relación entre PAS y glucosa según diabetes")
+    ax_scatter_hue.set_xlabel("PAS (mmHg)")
+    ax_scatter_hue.set_ylabel("Glucosa (mg/dL)")
+
+    # Ajuste de layout
+    fig_scatter_hue.tight_layout()
+
+    # Mostrar figura
+    fig_scatter_hue
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 4) Distribuciones con Seaborn: `histplot`
+
+    En Matplotlib ya trabajaste histogramas.
+
+    En Seaborn, `histplot` mantiene esa idea pero añade una sintaxis más integrada con dataframes y la posibilidad de combinar capas estadísticas con más facilidad.
+
+    Ejemplo básico:
+
+    ```python
+    sns.histplot(data=df, x="glucose_mg_dL")
+    ```
+
+    Y si quieres acompañarlo con una curva suavizada:
+
+    ```python
+    sns.histplot(data=df, x="glucose_mg_dL", kde=True)
+    ```
+
+    Esto no cambia la pregunta de fondo.
+
+    Sigue siendo:
+
+    > ¿cómo se distribuye una variable?
+
+    Pero la representación puede ser más compacta y expresiva.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # Crear figura y eje
+    fig_hist_kde, ax_hist_kde = plt.subplots(figsize=(7, 4.5))
+
+    # Histograma + densidad (KDE)
+    # - x: variable numérica
+    # - bins: número de intervalos del histograma
+    # - kde=True: añade curva de densidad suavizada
+    # - ax: eje donde se dibuja
+    sns.histplot(
+        data=df,
+        x="glucose_mg_dL",
+        kde=True,
+        bins=18,
+        ax=ax_hist_kde,
+    )
+
+    # Título y etiquetas
+    ax_hist_kde.set_title("Distribución de glucosa (histograma + densidad)")
+    ax_hist_kde.set_xlabel("Glucosa (mg/dL)")
+    ax_hist_kde.set_ylabel("Frecuencia")
+
+    # Ajuste de layout
+    fig_hist_kde.tight_layout()
+
+    # Mostrar figura
+    fig_hist_kde
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5) Comparar distribuciones entre grupos: `hue` en histogramas
+
+    Un paso natural después de mirar una distribución total es preguntarse:
+
+    > ¿se distribuye igual esta variable en todos los grupos?
+
+    Aquí `hue` vuelve a ser útil.
+
+    Ejemplo:
+
+    ```python
+    sns.histplot(
+        data=df,
+        x="glucose_mg_dL",
+        hue="sex"
+    )
+    ```
+
+    Esto puede superponer distribuciones o separarlas, según cómo se configure el gráfico.
+
+    Interpretación importante:
+
+    - un solo panel facilita comparación rápida,
+    - pero demasiada superposición puede dificultar la lectura.
+
+    Más adelante resolveremos esto con facets.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # Crear figura y eje
+    fig_hist_hue, ax_hist_hue = plt.subplots(figsize=(7.5, 4.5))
+
+    # Histograma con separación por grupo (hue)
+    # - x: variable numérica
+    # - hue: divide por categorías (sexo)
+    # - bins: número de intervalos
+    # - alpha: transparencia para comparar distribuciones
+    # - element="step": contornos en lugar de barras sólidas
+    # - stat="count": muestra frecuencias absolutas
+    # - common_norm=False: evita normalización conjunta entre grupos
+    sns.histplot(
+        data=df,
+        x="glucose_mg_dL",
+        hue="sex",
+        bins=15,
+        alpha=0.5,
+        element="step",
+        stat="count",
+        common_norm=False,
+        ax=ax_hist_hue,
+    )
+
+    # Título y etiquetas
+    ax_hist_hue.set_title("Distribución de glucosa según sexo")
+    ax_hist_hue.set_xlabel("Glucosa (mg/dL)")
+    ax_hist_hue.set_ylabel("Frecuencia")
+
+    # Ajuste de layout
+    fig_hist_hue.tight_layout()
+
+    # Mostrar figura
+    fig_hist_hue
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 6) Comparación entre grupos: `boxplot`
+
+    Cuando quieres comparar distribuciones entre categorías y no solo observar la forma general, el `boxplot` es muy útil.
+
+    Ejemplo:
+
+    ```python
+    sns.boxplot(data=df, x="sex", y="glucose_mg_dL")
+    ```
+
+    Esto permite resumir por grupo:
+
+    - mediana,
+    - dispersión central,
+    - rango intercuartílico,
+    - posibles valores atípicos.
+
+    La pregunta analítica aquí es distinta del histograma.
+
+    Ya no es solo:
+
+    > ¿cómo se distribuye?
+
+    sino también:
+
+    > ¿cómo cambia esa distribución entre grupos?
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # Crear figura y eje
+    fig_box, ax_box = plt.subplots(figsize=(7, 4.5))
+
+    # Boxplot por grupo
+    # - x: variable categórica (sexo)
+    # - y: variable numérica (glucosa)
+    # - resume: mediana, cuartiles y posibles outliers
     sns.boxplot(
-        data=boxplot_input,
-        x="hypertension",
-        y="sbp_mmHg",
-        order=hypertension_order,
+        data=df,
+        x="sex",
+        y="glucose_mg_dL",
         ax=ax_box,
     )
-    ax_box.set_title("Presión arterial sistólica según antecedente de hipertensión")
-    ax_box.set_xlabel("Hipertensión reportada")
-    ax_box.set_ylabel("PAS (mmHg)")
+
+    # Título y etiquetas
+    ax_box.set_title("Glucosa por sexo")
+    ax_box.set_xlabel("Sexo")
+    ax_box.set_ylabel("Glucosa (mg/dL)")
+
+    # Ajuste de layout
+    fig_box.tight_layout()
+
+    # Mostrar figura
     fig_box
-    return boxplot_input, fig_box, hypertension_order
-
-
-@app.cell
-def _(boxplot_input):
-    sbp_summary_by_hypertension = (
-        boxplot_input.groupby("hypertension", as_index=False)
-        .agg(
-            n_people=("sbp_mmHg", "count"),
-            mean_sbp=("sbp_mmHg", "mean"),
-            median_sbp=("sbp_mmHg", "median"),
-        )
-        .sort_values("hypertension")
-    )
-    sbp_summary_by_hypertension
-    return (sbp_summary_by_hypertension,)
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-### Interpretación conceptual
-
-Este gráfico no muestra solamente promedios. También deja ver:
-
-- si la distribución está desplazada hacia arriba o hacia abajo,
-- si un grupo presenta mayor variabilidad,
-- y si existen valores muy altos o muy bajos que merecen atención.
-
-En salud, esto es especialmente útil porque dos grupos pueden tener medias parecidas pero distribuciones muy distintas.
-""")
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## Mini-reto 1 — Resumen para un `boxplot` clínico
+    ## 7) Combinar resumen y observaciones: `boxplot` + `stripplot`
 
-Construye una tabla llamada `mini1_summary` que resuma `sbp_mmHg` por `sex`.
+    Un boxplot resume bien, pero también puede ocultar cuántos datos hay y cómo se concentran exactamente las observaciones.
 
-La tabla debe tener exactamente estas columnas:
+    Una estrategia útil es combinar:
 
-- `sex`
-- `n_people`
-- `mean_sbp`
-- `median_sbp`
+    - una capa de resumen (`boxplot`),
+    - y una capa de puntos individuales (`stripplot`).
 
-Además, ordénala alfabéticamente por `sex`.
+    Esto ayuda a no perder completamente la granularidad del dataset.
 
-La idea de este reto es reforzar que una buena visualización estadística casi siempre parte de entender primero la estructura tabular que la respalda.
-""")
+    Idea clave:
+
+    > **combinar capas puede mejorar mucho la interpretación cuando cada capa cumple una función distinta.**
+    """)
     return
 
 
 @app.cell
 def _(df):
-    # === TU TURNO (EDITA ESTA CELDA) ===
-    mini1_summary = None
-    return (mini1_summary,)
+    # Crear figura y eje
+    fig_box_strip, ax_box_strip = plt.subplots(figsize=(7, 4.5))
 
-
-@app.cell(hide_code=True)
-def _():
-    render_tips(
-        [
-            "La variable de agrupación es `sex` y la variable numérica a resumir es `sbp_mmHg`.",
-            "Usa `groupby(..., as_index=False)` junto con `agg(...)` para construir varias métricas en una sola tabla.",
-            "La función `count` sobre `sbp_mmHg` te permite obtener el número de personas con dato disponible en cada grupo.",
-            "Si quieres verificar tu lógica antes del test, compara tu tabla con la idea: una fila por sexo y tres métricas numéricas de resumen.",
-        ]
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mini1_summary):
-    mo.stop(
-        mini1_summary is None,
-        mo.callout(
-            mo.md("Aún no has definido `mini1_summary`. Completa la celda del ejercicio y vuelve a ejecutar."),
-            kind="warn",
-        ),
+    # Boxplot (resumen estadístico)
+    # - muestra mediana, cuartiles y outliers por grupo
+    sns.boxplot(
+        data=df,
+        x="sex",
+        y="glucose_mg_dL",
+        ax=ax_box_strip,
     )
 
-    assert isinstance(mini1_summary, pd.DataFrame), "`mini1_summary` debe ser un DataFrame."
-    assert list(mini1_summary.columns) == [
-        "sex",
-        "n_people",
-        "mean_sbp",
-        "median_sbp",
-    ], "Las columnas no coinciden con lo solicitado."
-    assert mini1_summary["sex"].isin(["Female", "Male"]).all(), "Los valores de `sex` no son los esperados."
-    assert mini1_summary["n_people"].sum() == df["sbp_mmHg"].notna().sum(), "El total de personas resumidas no coincide."
+    # Stripplot (datos individuales)
+    # - superpone cada observación
+    # - alpha: reduce saturación visual
+    # - color: uniforme para no competir con el boxplot
+    sns.stripplot(
+        data=df,
+        x="sex",
+        y="glucose_mg_dL",
+        alpha=0.35,
+        color="black",
+        ax=ax_box_strip,
+    )
 
-    mo.callout(mo.md("Tests de Mini-reto 1 superados correctamente."), kind="success")
+    # Título y etiquetas
+    ax_box_strip.set_title("Glucosa por sexo con puntos individuales")
+    ax_box_strip.set_xlabel("Sexo")
+    ax_box_strip.set_ylabel("Glucosa (mg/dL)")
+
+    # Ajuste de layout
+    fig_box_strip.tight_layout()
+
+    # Mostrar figura
+    fig_box_strip
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## 4) `regplot`: relación entre dos variables numéricas
+    ## 8) Estimación estadística visual: `barplot`
 
-Cuando la pregunta analítica involucra dos variables continuas, un gráfico de dispersión es una primera estrategia razonable.
+    En Matplotlib, un gráfico de barras suele construirse a partir de una tabla ya resumida.
 
-Seaborn ofrece `regplot`, que combina:
+    En Seaborn, `barplot` puede calcular internamente una agregación, normalmente la media, y mostrarla por grupo.
 
-- nube de puntos,
-- y una línea de tendencia lineal.
+    Ejemplo:
 
-Pregunta guía:
+    ```python
+    sns.barplot(data=df, x="sex", y="sbp_mmHg")
+    ```
 
-> ¿Tiende a aumentar la presión arterial sistólica con la edad?
+    Esto responde una pregunta como:
 
-Variables:
+    > ¿cuál es la PAS media por sexo?
 
-- `x = age`
-- `y = sbp_mmHg`
-""")
+    Importante:
+
+    - aquí la barra no representa conteos,
+    - representa una estimación resumen.
+
+    Por eso conviene usar este tipo de gráfico con conciencia de qué estadístico se está mostrando.
+    """)
     return
 
 
 @app.cell
 def _(df):
-    scatter_input = df[["age", "sbp_mmHg"]].dropna().copy()
+    # Crear figura y eje
+    fig_bar_mean, ax_bar_mean = plt.subplots(figsize=(7, 4.5))
 
-    fig_reg, ax_reg = plt.subplots(figsize=(8, 4.8))
+    # Barplot con estimador
+    # - x: variable categórica (sexo)
+    # - y: variable numérica (PAS)
+    # - estimator="mean": calcula la media por grupo
+    #   Otros estimadores comunes:
+    #   - "median": robusto a outliers
+    #   - "sum": total acumulado
+    #   - "min" / "max": valores extremos
+    #   - np.std: variabilidad (desviación estándar)
+    #   - np.var: varianza
+    #   - np.percentile (con wrapper): percentiles específicos (ej. p75)
+    # - errorbar="ci": intervalo de confianza (por defecto 95%)
+    sns.barplot(
+        data=df,
+        x="sex",
+        y="sbp_mmHg",
+        estimator="mean",
+        errorbar="ci",
+        ax=ax_bar_mean,
+    )
+
+    # Título y etiquetas
+    ax_bar_mean.set_title("PAS media por sexo")
+    ax_bar_mean.set_xlabel("Sexo")
+    ax_bar_mean.set_ylabel("PAS media estimada (mmHg)")
+
+    # Ajuste de layout
+    fig_bar_mean.tight_layout()
+
+    # Mostrar figura
+    fig_bar_mean
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 9) Relación con tendencia: `regplot`
+
+    Cuando quieres ver no solo los puntos, sino también una tendencia general, Seaborn ofrece `regplot`.
+
+    Ejemplo:
+
+    ```python
+    sns.regplot(data=df, x="age", y="sbp_mmHg")
+    ```
+
+    Esto agrega una línea de ajuste y una banda de incertidumbre.
+
+    Interpretación cuidadosa:
+
+    - el gráfico sugiere tendencia,
+    - no demuestra causalidad,
+    - y no reemplaza un análisis formal.
+
+    Pero como herramienta exploratoria, es muy útil para comunicar dirección general de asociación.
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # Crear figura y eje
+    fig_reg, ax_reg = plt.subplots(figsize=(7, 4.5))
+
+    # Regresión lineal + scatter
+    # - x / y: variables numéricas
+    # - scatter_kws: personaliza puntos (alpha reduce solapamiento)
+    # - line_kws: personaliza la línea de regresión
+    # - ajusta automáticamente un modelo lineal (OLS)
     sns.regplot(
-        data=scatter_input,
+        data=df,
         x="age",
         y="sbp_mmHg",
-        scatter_kws={"alpha": 0.35},
+        scatter_kws={"alpha": 0.45},
         line_kws={"linewidth": 2},
         ax=ax_reg,
     )
-    ax_reg.set_title("Edad y presión arterial sistólica")
+
+    # Título y etiquetas
+    ax_reg.set_title("Tendencia entre edad y PAS")
     ax_reg.set_xlabel("Edad (años)")
     ax_reg.set_ylabel("PAS (mmHg)")
+
+    # Ajuste de layout
+    fig_reg.tight_layout()
+
+    # Mostrar figura
     fig_reg
-    return fig_reg, scatter_input
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-### ¿Qué leer en un `regplot`?
-
-No debemos interpretar la línea como causalidad. Aquí la función principal es descriptiva:
-
-- identificar si la relación parece positiva o negativa,
-- observar si la nube es muy dispersa,
-- y detectar si existen patrones no lineales o puntos atípicos.
-
-En un análisis clínico real, este tipo de gráfico suele ser una inspección inicial antes de modelar o ajustar por covariables.
-""")
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## Mini-reto 2 — Matriz de correlación para `heatmap`
+    ## 10) Facets con Seaborn
 
-Antes de construir un `heatmap`, necesitamos una matriz que resuma relaciones entre variables numéricas.
+    En la lección 2 trabajaste paneles múltiples con `plt.subplots(...)`.
 
-Construye un objeto llamado `mini2_corr` usando exclusivamente estas columnas:
+    Seaborn permite automatizar esa lógica para ciertas tareas usando funciones de nivel figura, como `displot`, `catplot` o `relplot`.
 
-- `age`
-- `sbp_mmHg`
-- `glucose_mg_dL`
-- `ldl_mg_dL`
+    Ejemplo:
 
-El resultado debe ser una matriz de correlación cuadrada de 4 × 4.
-""")
+    ```python
+    sns.displot(data=df, x="glucose_mg_dL", col="sex")
+    ```
+
+    Esto crea un panel por grupo.
+
+    Ventajas:
+
+    - evita superposición excesiva,
+    - mantiene una estructura visual consistente,
+    - facilita comparación directa.
+
+    Idea clave:
+
+    > **cuando una sola figura empieza a mezclar demasiadas capas, separar en facets suele mejorar la lectura.**
+    """)
+    return
+
+
+@app.cell
+def _(df):
+    # FacetGrid con distribuciones
+    # - displot: figura de alto nivel (crea su propia figura)
+    # - x: variable numérica
+    # - col: crea una faceta por categoría (sexo)
+    # - bins: número de intervalos
+    # - height: altura de cada panel
+    # - aspect: relación ancho/alto
+    g_facet = sns.displot(
+        data=df,
+        x="glucose_mg_dL",
+        col="sex",
+        bins=15,
+        height=4,
+        aspect=1,
+    )
+
+    # Título general
+    # - fig.suptitle: título para toda la figura (no solo un eje)
+    # - y: ajusta posición vertical para evitar solapamiento
+    g_facet.fig.suptitle(
+        "Distribución de glucosa por sexo",
+        y=1.03
+    )
+
+    # Mostrar figura
+    g_facet
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 11) Cuándo conviene Seaborn y cuándo conviene Matplotlib
+
+    En este punto conviene explicitar la relación entre ambas librerías.
+
+    ### Seaborn conviene cuando:
+
+    - quieres mapear variables de un dataframe rápidamente,
+    - necesitas comparaciones estadísticas frecuentes,
+    - quieres consistencia visual por defecto,
+    - quieres trabajar con agrupaciones y facets sin construir cada elemento desde cero.
+
+    ### Matplotlib conviene cuando:
+
+    - necesitas control muy fino,
+    - quieres agregar artistas personalizados,
+    - quieres construir una figura con detalles muy específicos,
+    - necesitas mezclar múltiples componentes con control local exacto.
+
+    En la práctica, muchas veces se usan juntas:
+
+    - Seaborn para la geometría estadística principal,
+    - Matplotlib para ajustes finos del `Axes`.
+
+    Esa combinación es justamente la que iremos fortaleciendo.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Mini-reto 1 — Scatter con `hue`
+
+    Construye un gráfico de dispersión entre:
+
+    - `age`
+    - `sbp_mmHg`
+
+    y agrega una diferenciación por `sex` usando `hue`.
+
+    Además:
+
+    - agrega un título,
+    - nombra ambos ejes.
+
+    **Variables esperadas:**
+
+    - `fig_reto1`
+    - `ax_reto1`
+    """)
     return
 
 
 @app.cell
 def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    mini2_corr = None
-    return (mini2_corr,)
+    fig_reto1, ax_reto1 = None, None
+    return (fig_reto1,)
 
 
 @app.cell(hide_code=True)
 def _():
-    render_tips(
-        [
-            "Primero selecciona un subconjunto del DataFrame con las cuatro variables numéricas pedidas.",
-            "La función `.corr()` aplicada sobre un DataFrame numérico produce directamente la matriz de correlación.",
-            "Recuerda que una matriz de correlación válida debe ser simétrica y tener 1 en la diagonal principal.",
-            "No necesitas agrupar ni transformar el dataset: este reto es una relación global entre variables continuas.",
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+            <Relación base>
+            La función principal aquí es `sns.scatterplot(...)`.
+            """,
+            r"""
+            <Codificación adicional>
+            Usa `hue="sex"` para distinguir categorías.
+            """,
+            r"""
+            <Integración con Matplotlib>
+            Crea primero `fig_reto1, ax_reto1 = plt.subplots(...)` y luego pasa `ax=ax_reto1`.
+            """,
+            r"""
+            <solucion>
+            ```python
+            fig_reto1, ax_reto1 = plt.subplots(figsize=(7, 4.5))
+            sns.scatterplot(
+                data=df,
+                x="age",
+                y="sbp_mmHg",
+                hue="sex",
+                ax=ax_reto1,
+            )
+            ax_reto1.set_title("Relación entre edad y PAS según sexo")
+            ax_reto1.set_xlabel("Edad (años)")
+            ax_reto1.set_ylabel("PAS (mmHg)")
+            fig_reto1.tight_layout()
+            ```
+            """,
         ]
     )
+    _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(mini2_corr):
-    mo.stop(
-        mini2_corr is None,
-        mo.callout(
-            mo.md("Aún no has definido `mini2_corr`. Completa la celda del ejercicio y vuelve a ejecutar."),
-            kind="warn",
-        ),
+def _(fig_reto1):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+            <Existencia>
+            ```python
+            assert fig_reto1 is not None and ax_reto1 is not None
+            ```
+            """,
+            r"""
+            <Tipos>
+            ```python
+            assert isinstance(fig_reto1, Figure)
+            assert isinstance(ax_reto1, Axes)
+            ```
+            """,
+            r"""
+            <Etiquetas mínimas>
+            ```python
+            assert ax_reto1.get_title() != ""
+            assert ax_reto1.get_xlabel() != ""
+            assert ax_reto1.get_ylabel() != ""
+            ```
+            """,
+        ],
+        namespace=globals(),
     )
 
-    expected = ["age", "sbp_mmHg", "glucose_mg_dL", "ldl_mg_dL"]
-    assert isinstance(mini2_corr, pd.DataFrame), "`mini2_corr` debe ser un DataFrame."
-    assert list(mini2_corr.index) == expected, "El índice debe respetar el orden solicitado."
-    assert list(mini2_corr.columns) == expected, "Las columnas deben respetar el orden solicitado."
-    assert mini2_corr.shape == (4, 4), "La matriz debe ser de 4 × 4."
-    assert np.allclose(np.diag(mini2_corr), 1.0), "La diagonal de una matriz de correlación debe ser 1."
-
-    mo.callout(mo.md("Tests de Mini-reto 2 superados correctamente."), kind="success")
+    if fig_reto1 is not None:
+        fig_reto1
+    _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## 5) `heatmap`: resumir correlaciones en una matriz visual
+    ## Mini-reto 2 — Histograma con `kde`
 
-Un `heatmap` es útil cuando queremos mostrar varias relaciones al mismo tiempo y ya disponemos de una matriz numérica.
+    Construye una visualización de la distribución de `ldl_mg_dL` usando `sns.histplot(...)`.
 
-En este caso, cada celda resume la correlación entre dos variables clínicas.
+    Requisitos:
 
-Ventajas:
+    - incluir la curva de densidad (`kde=True`),
+    - agregar título,
+    - nombrar ejes.
 
-- sintetiza muchas relaciones en poco espacio,
-- facilita identificar asociaciones altas, bajas o cercanas a cero,
-- y sirve como exploración rápida antes de un análisis posterior.
-""")
-    return
+    **Variables esperadas:**
 
-
-@app.cell
-def _(df):
-    corr_vars = ["age", "sbp_mmHg", "glucose_mg_dL", "ldl_mg_dL"]
-    corr_matrix = df[corr_vars].corr()
-
-    fig_heat, ax_heat = plt.subplots(figsize=(6.5, 5.5))
-    sns.heatmap(
-        corr_matrix,
-        annot=True,
-        fmt=".2f",
-        cmap="coolwarm",
-        vmin=-1,
-        vmax=1,
-        ax=ax_heat,
-    )
-    ax_heat.set_title("Correlaciones entre variables clínicas numéricas")
-    fig_heat
-    return corr_matrix, corr_vars, fig_heat
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-### Lectura analítica de un `heatmap`
-
-La intensidad del color no reemplaza la lectura del número. Debemos usar ambos componentes:
-
-- el color ayuda a localizar patrones rápidamente,
-- el valor anotado permite interpretar la magnitud con precisión.
-
-Recuerda además que correlación no implica causalidad. Aquí el objetivo es explorar co-variación, no establecer mecanismos causales.
-""")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-## 6) `violinplot`: distribución + densidad
-
-El `violinplot` combina una lógica similar al `boxplot` con una representación de densidad.
-
-Es especialmente útil cuando queremos comparar la forma de la distribución entre grupos y no solo sus cuantiles.
-
-Pregunta guía:
-
-> ¿Cómo se distribuye la glucosa según la categoría de IMC?
-
-Variables:
-
-- `x = bmi_category`
-- `y = glucose_mg_dL`
-
-Para que la lectura sea clínicamente más clara, ordenaremos las categorías de IMC desde menor a mayor nivel de exceso de peso.
-""")
-    return
-
-
-@app.cell
-def _(df):
-    bmi_order = [
-        "Underweight (<18.5)",
-        "Normal (18.6-25)",
-        "Overweight (25-29.9)",
-        "Obese (30-39.9)",
-        "Severe Obesity (40+)",
-    ]
-
-    violin_input = df[["bmi_category", "glucose_mg_dL"]].dropna().copy()
-    violin_input = violin_input[violin_input["bmi_category"].isin(bmi_order)]
-
-    fig_violin, ax_violin = plt.subplots(figsize=(10, 5.2))
-    sns.violinplot(
-        data=violin_input,
-        x="bmi_category",
-        y="glucose_mg_dL",
-        order=bmi_order,
-        cut=0,
-        inner="quartile",
-        ax=ax_violin,
-    )
-    ax_violin.set_title("Distribución de glucosa según categoría de IMC")
-    ax_violin.set_xlabel("Categoría de IMC")
-    ax_violin.set_ylabel("Glucosa (mg/dL)")
-    ax_violin.tick_params(axis="x", rotation=20)
-    fig_violin
-    return bmi_order, fig_violin, violin_input
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-### Comparación entre `boxplot` y `violinplot`
-
-Ambos gráficos sirven para comparar distribuciones entre grupos.
-
-- `boxplot`: más compacto y muy útil para reportes rápidos.
-- `violinplot`: más expresivo cuando interesa la forma de la distribución.
-
-En términos docentes, conviene recordar esta regla:
-
-> si la pregunta central es sobre **mediana y dispersión**, un `boxplot` suele bastar;
-> si la pregunta central es también sobre **forma y concentración**, el `violinplot` aporta más información.
-""")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-## Mini-reto 3 — Resumen final para una visualización clínica por IMC
-
-Construye una tabla llamada `mini3_summary` que resuma el perfil cardiometabólico por `bmi_category`.
-
-Debe contener exactamente estas columnas:
-
-- `bmi_category`
-- `n_people`
-- `mean_glucose`
-- `mean_sbp`
-- `prop_diabetes`
-
-Reglas:
-
-- `prop_diabetes` debe calcularse como proporción de personas con `Diabetes == "Yes"`.
-- Ordena el resultado **de mayor a menor** según `mean_glucose`.
-
-Este mini-reto final integra los contenidos ya vistos en el curso:
-
-- selección de columnas,
-- creación de una variable booleana derivada,
-- `groupby` + `agg`,
-- y preparación de una tabla lista para visualización con seaborn.
-""")
+    - `fig_reto2`
+    - `ax_reto2`
+    """)
     return
 
 
 @app.cell
 def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    mini3_summary = None
-    return (mini3_summary,)
+    fig_reto2, ax_reto2 = None, None
+    return (fig_reto2,)
 
 
 @app.cell(hide_code=True)
 def _():
-    render_tips(
-        [
-            "Puedes crear una columna booleana derivada con `assign(diabetes_flag=...)` y luego agrupar.",
-            "El promedio de una columna booleana en pandas se interpreta como proporción cuando `True` representa el evento de interés.",
-            "Asegúrate de que el conteo use una columna que no tenga valores faltantes estructurales, por ejemplo `ID`.",
-            "El orden final debe priorizar las categorías con mayor `mean_glucose`, porque esa es la lógica analítica pedida.",
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+            <Función principal>
+            Usa `sns.histplot(...)`.
+            """,
+            r"""
+            <Distribución suavizada>
+            Agrega `kde=True`.
+            """,
+            r"""
+            <Integración>
+            Puedes construir la figura con `plt.subplots(...)` y pasar el eje con `ax=...`.
+            """,
+            r"""
+            <solucion>
+            ```python
+            fig_reto2, ax_reto2 = plt.subplots(figsize=(7, 4.5))
+            sns.histplot(
+                data=df,
+                x="ldl_mg_dL",
+                kde=True,
+                bins=18,
+                ax=ax_reto2,
+            )
+            ax_reto2.set_title("Distribución de LDL")
+            ax_reto2.set_xlabel("LDL (mg/dL)")
+            ax_reto2.set_ylabel("Frecuencia")
+            fig_reto2.tight_layout()
+            ```
+            """,
         ]
     )
+    _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(df, mini3_summary):
-    mo.stop(
-        mini3_summary is None,
-        mo.callout(
-            mo.md("Aún no has definido `mini3_summary`. Completa la celda del ejercicio y vuelve a ejecutar."),
-            kind="warn",
-        ),
+def _(fig_reto2):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+            <Existencia>
+            ```python
+            assert fig_reto2 is not None and ax_reto2 is not None
+            ```
+            """,
+            r"""
+            <Tipos>
+            ```python
+            assert isinstance(fig_reto2, Figure)
+            assert isinstance(ax_reto2, Axes)
+            ```
+            """,
+            r"""
+            <Etiquetas mínimas>
+            ```python
+            assert ax_reto2.get_title() != ""
+            assert ax_reto2.get_xlabel() != ""
+            assert ax_reto2.get_ylabel() != ""
+            ```
+            """,
+        ],
+        namespace=globals(),
     )
 
-    assert isinstance(mini3_summary, pd.DataFrame), "`mini3_summary` debe ser un DataFrame."
-    assert list(mini3_summary.columns) == [
-        "bmi_category",
-        "n_people",
-        "mean_glucose",
-        "mean_sbp",
-        "prop_diabetes",
-    ], "Las columnas no coinciden con lo solicitado."
-    assert mini3_summary["prop_diabetes"].between(0, 1).all(), "`prop_diabetes` debe estar entre 0 y 1."
-    assert mini3_summary["n_people"].sum() == df["bmi_category"].notna().sum(), "La suma de `n_people` no coincide con el total esperado."
-    assert mini3_summary["mean_glucose"].is_monotonic_decreasing, "La tabla debe quedar ordenada de mayor a menor `mean_glucose`."
-
-    mo.callout(mo.md("Tests de Mini-reto 3 superados correctamente."), kind="success")
+    if fig_reto2 is not None:
+        fig_reto2
+    _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## 7) Buenas prácticas mínimas al usar seaborn en análisis de salud
+    ## Mini-reto 3 — Boxplot para comparación entre grupos
 
-1. **Nombrar claramente ejes y título**
-   Evita dejar etiquetas genéricas o nombres crudos si dificultan la lectura.
+    Construye un `boxplot` que compare `glucose_mg_dL` entre categorías de `bmi_category`.
 
-2. **No sobredibujar variables innecesarias**
-   Un gráfico responde mejor cuando está alineado con una sola pregunta analítica.
+    Requisitos:
 
-3. **Ordenar categorías cuando el orden importa**
-   IMC, categorías clínicas o niveles educativos suelen requerir un orden deliberado.
+    - usar `sns.boxplot(...)`,
+    - rotar etiquetas del eje x para mejorar lectura,
+    - agregar título y nombres de ejes.
 
-4. **Separar descripción de inferencia**
-   Un gráfico descriptivo muestra patrones; no demuestra causalidad por sí mismo.
+    **Variables esperadas:**
 
-5. **Usar la tabla como respaldo de la figura**
-   Muchas veces conviene mirar primero el resumen tabular y luego visualizar.
-""")
+    - `fig_reto3`
+    - `ax_reto3`
+    """)
+    return
+
+
+@app.cell
+def _():
+    # === TU TURNO (EDITA ESTA CELDA) ===
+    fig_reto3, ax_reto3 = None, None
+    return (fig_reto3,)
+
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+            <Comparación>
+            La variable categórica va en `x` y la numérica en `y`.
+            """,
+            r"""
+            <Función>
+            Usa `sns.boxplot(data=df, x=..., y=...)`.
+            """,
+            r"""
+            <Legibilidad>
+            Puedes rotar etiquetas con `ax_reto3.tick_params(axis="x", rotation=30)`.
+            """,
+            r"""
+            <solucion>
+            ```python
+            fig_reto3, ax_reto3 = plt.subplots(figsize=(8, 4.5))
+            sns.boxplot(
+                data=df,
+                x="bmi_category",
+                y="glucose_mg_dL",
+                ax=ax_reto3,
+            )
+            ax_reto3.set_title("Glucosa por categoría de IMC")
+            ax_reto3.set_xlabel("Categoría de IMC")
+            ax_reto3.set_ylabel("Glucosa (mg/dL)")
+            ax_reto3.tick_params(axis="x", rotation=30)
+            fig_reto3.tight_layout()
+            ```
+            """,
+        ]
+    )
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(fig_reto3):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+            <Existencia>
+            ```python
+            assert fig_reto3 is not None and ax_reto3 is not None
+            ```
+            """,
+            r"""
+            <Tipos>
+            ```python
+            assert isinstance(fig_reto3, Figure)
+            assert isinstance(ax_reto3, Axes)
+            ```
+            """,
+            r"""
+            <Etiquetas mínimas>
+            ```python
+            assert ax_reto3.get_title() != ""
+            assert ax_reto3.get_xlabel() != ""
+            assert ax_reto3.get_ylabel() != ""
+            ```
+            """,
+        ],
+        namespace=globals(),
+    )
+
+    if fig_reto3 is not None:
+        fig_reto3
+    _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-## Cierre conceptual
+    ## Mini-reto final — Facets para comparación estructurada
 
-En esta lección, seaborn apareció como una extensión natural del trabajo tabular ya realizado con `pandas`.
+    Construye una visualización con facets que compare la distribución de `sbp_mmHg` según `sex`.
 
-La secuencia analítica que conviene conservar es:
+    Requisitos:
 
-**pregunta → tipo de variable → tabla base → gráfico → interpretación**
+    - usar `sns.displot(...)`,
+    - crear un panel por categoría de `sex`,
+    - añadir un título global a la figura.
 
-### Idea central de la sesión
+    **Variable esperada:**
 
-La visualización estadística no reemplaza el análisis tabular, sino que lo hace más legible.
+    - `g_reto_final`
 
-### Herramientas que ya dominas al terminar esta lección
+    En este caso la salida esperada no es una `Figure` estándar de Matplotlib sino un objeto de Seaborn del tipo `FacetGrid`.
+    """)
+    return
 
-- `sns.boxplot()` para comparar distribuciones por grupo,
-- `sns.regplot()` para explorar asociación entre variables numéricas,
-- `sns.heatmap()` para resumir matrices de correlación,
-- `sns.violinplot()` para inspeccionar forma y densidad de distribuciones.
 
-El siguiente paso natural en el curso será pensar cada vez más en la visualización no solo como exploración, sino también como comunicación deliberada de hallazgos.
-""")
+@app.cell
+def _():
+    # === TU TURNO (EDITA ESTA CELDA) ===
+    g_reto_final = None
+    return (g_reto_final,)
+
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+            <Función de nivel figura>
+            Usa `sns.displot(...)`, no `plt.subplots(...)`.
+            """,
+            r"""
+            <Facets>
+            La clave está en `col="sex"`.
+            """,
+            r"""
+            <Título global>
+            Después de crear el objeto, puedes usar `g_reto_final.fig.suptitle(...)`.
+            """,
+            r"""
+            <solucion>
+            ```python
+            g_reto_final = sns.displot(
+                data=df,
+                x="sbp_mmHg",
+                col="sex",
+                bins=15,
+                height=4,
+                aspect=1,
+            )
+            g_reto_final.fig.suptitle("Distribución de PAS por sexo", y=1.03)
+            ```
+            """,
+        ]
+    )
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(g_reto_final):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+            <Existencia>
+            ```python
+            assert g_reto_final is not None
+            ```
+            """,
+            r"""
+            <Atributo esperado>
+            ```python
+            assert hasattr(g_reto_final, "fig")
+            ```
+            """,
+            r"""
+            <Figura asociada>
+            ```python
+            assert isinstance(g_reto_final.fig, Figure)
+            ```
+            """,
+        ],
+        namespace=globals(),
+    )
+
+    if g_reto_final is not None:
+        g_reto_final
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 12) Cierre conceptual
+
+    En esta lección aprendiste a usar Seaborn como una capa declarativa sobre Matplotlib para representar relaciones estadísticas con mayor rapidez y consistencia.
+
+    Trabajaste:
+
+    - `scatterplot` para relaciones entre variables,
+    - `hue` para introducir una categoría adicional,
+    - `histplot` para distribuciones,
+    - `boxplot` para comparación entre grupos,
+    - `barplot` para estimaciones resumen,
+    - `regplot` para tendencia visual,
+    - y `displot` para facets.
+
+    La progresión respecto a la lección anterior es importante:
+
+    - en Matplotlib aprendiste **cómo construir**,
+    - en Seaborn empiezas a decidir **qué estructura relacional conviene declarar**.
+
+    Idea final:
+
+    > **Seaborn reduce fricción técnica, pero el criterio sobre qué mostrar, por qué mostrarlo y cómo interpretarlo sigue dependiendo del analista.**
+
+    > Si quieres tener más opciones o inspiración, explora la [galería de Seaborn](https://seaborn.pydata.org/examples/index.html) y prueba a replicar algunos de los gráficos usando tu propio dataset o el que hemos trabajado en esta sesión.
+    """)
     return
 
 
