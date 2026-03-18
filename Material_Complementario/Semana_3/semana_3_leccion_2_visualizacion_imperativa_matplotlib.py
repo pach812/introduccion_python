@@ -720,22 +720,22 @@ def _(fig_reto1):
             r"""
             <Existencia de objetos>
             ```python
-            assert fig_reto1 is not None and ax_reto1 is not None
+    assert fig_reto1 is not None and ax_reto1 is not None
             ```
             """,
             r"""
             <Tipos correctos>
             ```python
-            assert isinstance(fig_reto1, Figure)
-            assert isinstance(ax_reto1, Axes)
+    assert isinstance(fig_reto1, Figure)
+    assert isinstance(ax_reto1, Axes)
             ```
             """,
             r"""
             <Etiquetas básicas>
             ```python
-            assert ax_reto1.get_title() != ""
-            assert ax_reto1.get_xlabel() != ""
-            assert ax_reto1.get_ylabel() != ""
+    assert ax_reto1.get_title() != ""
+    assert ax_reto1.get_xlabel() != ""
+    assert ax_reto1.get_ylabel() != ""
             ```
             """,
         ],
@@ -974,21 +974,21 @@ def _(fig_reto2, hypertension_by_sex):
             r"""
             <Objeto resumen>
             ```python
-            assert hypertension_by_sex is not None
-            assert isinstance(hypertension_by_sex, pd.DataFrame)
+    assert hypertension_by_sex is not None
+    assert isinstance(hypertension_by_sex, pd.DataFrame)
             ```
             """,
             r"""
             <Columnas esperadas>
             ```python
-            assert list(hypertension_by_sex.columns) == ["sex", "n_hypertension"]
+    assert list(hypertension_by_sex.columns) == ["sex", "n_hypertension"]
             ```
             """,
             r"""
             <Objetos de gráfico>
             ```python
-            assert isinstance(fig_reto2, Figure)
-            assert isinstance(ax_reto2, Axes)
+    assert isinstance(fig_reto2, Figure)
+    assert isinstance(ax_reto2, Axes)
             ```
             """,
         ],
@@ -1060,7 +1060,7 @@ def _(df):
     # Iteración por facetas
     # - zip(): asigna cada eje a una categoría
     for ax, sex_value in zip(axes_facets, sex_values):
-    
+
         # Subconjunto de datos por categoría
         # - loc: filtra por sexo
         # - dropna(): elimina valores faltantes
@@ -1068,7 +1068,7 @@ def _(df):
             df["sex"] == sex_value,
             "glucose_mg_dL"
         ].dropna()
-    
+
         # Histograma por grupo
         # - mismos bins para comparabilidad
         ax.hist(
@@ -1076,7 +1076,7 @@ def _(df):
             bins=15,
             edgecolor="black"
         )
-    
+
         # Título y etiquetas
         ax.set_title(f"Glucosa en {sex_value}")
         ax.set_xlabel("Glucosa (mg/dL)")
@@ -1236,23 +1236,23 @@ def _(fig_reto3, sbp_by_age_group):
             r"""
             <Resumen tabular>
             ```python
-            assert sbp_by_age_group is not None
-            assert isinstance(sbp_by_age_group, pd.DataFrame)
+    assert sbp_by_age_group is not None
+    assert isinstance(sbp_by_age_group, pd.DataFrame)
             ```
             """,
             r"""
             <Columnas esperadas>
             ```python
-            assert list(sbp_by_age_group.columns) == ["age_group", "mean_sbp"]
+    assert list(sbp_by_age_group.columns) == ["age_group", "mean_sbp"]
             ```
             """,
             r"""
             <Gráfico creado>
             ```python
-            assert isinstance(fig_reto3, Figure)
-            assert isinstance(ax_reto3, Axes)
-            assert ax_reto3.get_xlabel() != ""
-            assert ax_reto3.get_ylabel() != ""
+    assert isinstance(fig_reto3, Figure)
+    assert isinstance(ax_reto3, Axes)
+    assert ax_reto3.get_xlabel() != ""
+    assert ax_reto3.get_ylabel() != ""
             ```
             """,
         ],
@@ -1334,21 +1334,21 @@ def _(fig_reto4):
             r"""
             <Existencia>
             ```python
-            assert fig_reto4 is not None and ax_reto4 is not None
+    assert fig_reto4 is not None and ax_reto4 is not None
             ```
             """,
             r"""
             <Tipos>
             ```python
-            assert isinstance(fig_reto4, Figure)
-            assert isinstance(ax_reto4, Axes)
+    assert isinstance(fig_reto4, Figure)
+    assert isinstance(ax_reto4, Axes)
             ```
             """,
             r"""
             <Elementos mínimos>
             ```python
-            assert len(ax_reto4.lines) >= 1
-            assert len(ax_reto4.texts) >= 1
+    assert len(ax_reto4.lines) >= 1
+    assert len(ax_reto4.texts) >= 1
             ```
             """,
         ],
@@ -1442,20 +1442,20 @@ def _(fig_reto5):
             r"""
             <Existencia>
             ```python
-            assert fig_reto5 is not None and axes_reto5 is not None
+    assert fig_reto5 is not None and axes_reto5 is not None
             ```
             """,
             r"""
             <Figura y cantidad de ejes>
             ```python
-            assert isinstance(fig_reto5, Figure)
-            assert len(axes_reto5) == 2
+    assert isinstance(fig_reto5, Figure)
+    assert len(axes_reto5) == 2
             ```
             """,
             r"""
             <Títulos>
             ```python
-            assert all(ax.get_title() != "" for ax in axes_reto5)
+    assert all(ax.get_title() != "" for ax in axes_reto5)
             ```
             """,
         ],

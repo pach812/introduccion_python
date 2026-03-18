@@ -841,22 +841,22 @@ def _(fig_reto1):
             r"""
             <Existencia>
             ```python
-            assert fig_reto1 is not None and ax_reto1 is not None
+    assert fig_reto1 is not None and ax_reto1 is not None
             ```
             """,
             r"""
             <Tipos>
             ```python
-            assert isinstance(fig_reto1, Figure)
-            assert isinstance(ax_reto1, Axes)
+    assert isinstance(fig_reto1, Figure)
+    assert isinstance(ax_reto1, Axes)
             ```
             """,
             r"""
             <Etiquetas mínimas>
             ```python
-            assert ax_reto1.get_title() != ""
-            assert ax_reto1.get_xlabel() != ""
-            assert ax_reto1.get_ylabel() != ""
+    assert ax_reto1.get_title() != ""
+    assert ax_reto1.get_xlabel() != ""
+    assert ax_reto1.get_ylabel() != ""
             ```
             """,
         ],
@@ -943,22 +943,22 @@ def _(fig_reto2):
             r"""
             <Existencia>
             ```python
-            assert fig_reto2 is not None and ax_reto2 is not None
+    assert fig_reto2 is not None and ax_reto2 is not None
             ```
             """,
             r"""
             <Tipos>
             ```python
-            assert isinstance(fig_reto2, Figure)
-            assert isinstance(ax_reto2, Axes)
+    assert isinstance(fig_reto2, Figure)
+    assert isinstance(ax_reto2, Axes)
             ```
             """,
             r"""
             <Etiquetas mínimas>
             ```python
-            assert ax_reto2.get_title() != ""
-            assert ax_reto2.get_xlabel() != ""
-            assert ax_reto2.get_ylabel() != ""
+    assert ax_reto2.get_title() != ""
+    assert ax_reto2.get_xlabel() != ""
+    assert ax_reto2.get_ylabel() != ""
             ```
             """,
         ],
@@ -1045,22 +1045,22 @@ def _(fig_reto3):
             r"""
             <Existencia>
             ```python
-            assert fig_reto3 is not None and ax_reto3 is not None
+    assert fig_reto3 is not None and ax_reto3 is not None
             ```
             """,
             r"""
             <Tipos>
             ```python
-            assert isinstance(fig_reto3, Figure)
-            assert isinstance(ax_reto3, Axes)
+    assert isinstance(fig_reto3, Figure)
+    assert isinstance(ax_reto3, Axes)
             ```
             """,
             r"""
             <Etiquetas mínimas>
             ```python
-            assert ax_reto3.get_title() != ""
-            assert ax_reto3.get_xlabel() != ""
-            assert ax_reto3.get_ylabel() != ""
+    assert ax_reto3.get_title() != ""
+    assert ax_reto3.get_xlabel() != ""
+    assert ax_reto3.get_ylabel() != ""
             ```
             """,
         ],
@@ -1145,19 +1145,19 @@ def _(g_reto_final):
             r"""
             <Existencia>
             ```python
-            assert g_reto_final is not None
+    assert g_reto_final is not None
             ```
             """,
             r"""
             <Atributo esperado>
             ```python
-            assert hasattr(g_reto_final, "fig")
+    assert hasattr(g_reto_final, "fig")
             ```
             """,
             r"""
             <Figura asociada>
             ```python
-            assert isinstance(g_reto_final.fig, Figure)
+    assert isinstance(g_reto_final.fig, Figure)
             ```
             """,
         ],

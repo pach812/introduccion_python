@@ -216,16 +216,16 @@ def _(df):
         df.assign(
             hypertension_flag=lambda d: d["hypertension"].eq("Yes")
         )
-    
+
         # Agrupación por sexo
         # - as_index=False: mantiene formato tabular
         .groupby("sex", as_index=False)
-    
+
         # Agregaciones
         .agg(
             # Conteo total de personas
             n_people=("ID", "count"),
-        
+
             # Proporción de hipertensión
             # - mean sobre booleanos → proporción (True=1, False=0)
             prop_hypertension=("hypertension_flag", "mean"),
@@ -252,13 +252,13 @@ def _(hypertension_by_sex):
     chart_hypertension_by_sex = (
         alt.Chart(hypertension_by_sex)
         .mark_bar()
-    
+
         # Codificación de variables
         .encode(
             # Eje X (categórico)
             # - :N indica variable nominal
             x=alt.X("sex:N", title="Sexo"),
-        
+
             # Eje Y (cuantitativo)
             # - :Q indica variable numérica
             # - scale: fija dominio 0–100 para interpretación como porcentaje
@@ -267,11 +267,11 @@ def _(hypertension_by_sex):
                 title="Hipertensión (%)",
                 scale=alt.Scale(domain=[0, 70]),
             ),
-        
+
             # Color por grupo
             # - refuerza diferenciación visual
             color=alt.Color("sex:N", title="Sexo"),
-        
+
             # Tooltips interactivos
             # - muestran detalles al pasar el cursor
             tooltip=[
@@ -284,7 +284,7 @@ def _(hypertension_by_sex):
                 ),
             ],
         )
-    
+
         # Propiedades del gráfico
         # - title: título general
         # - width / height: dimensiones
@@ -430,14 +430,14 @@ def _(chart_diabetes_by_sex, diabetes_by_sex):
             r"""
             <Existencia>
             ```python
-            assert diabetes_by_sex is not None
-            assert chart_diabetes_by_sex is not None
+    assert diabetes_by_sex is not None
+    assert chart_diabetes_by_sex is not None
             ```
             """,
             r"""
             <Columnas esperadas>
             ```python
-            assert list(diabetes_by_sex.columns) == [
+    assert list(diabetes_by_sex.columns) == [
                 "sex",
                 "n_people",
                 "prop_diabetes",
@@ -448,11 +448,11 @@ def _(chart_diabetes_by_sex, diabetes_by_sex):
             r"""
             <Objeto Altair>
             ```python
-            assert hasattr(chart_diabetes_by_sex, "to_dict")
+    assert hasattr(chart_diabetes_by_sex, "to_dict")
             spec = chart_diabetes_by_sex.to_dict()
-            assert spec["mark"]["type"] == "bar"
-            assert spec["encoding"]["x"]["field"] == "sex"
-            assert spec["encoding"]["y"]["field"] == "prop_diabetes_pct"
+    assert spec["mark"]["type"] == "bar"
+    assert spec["encoding"]["x"]["field"] == "sex"
+    assert spec["encoding"]["y"]["field"] == "prop_diabetes_pct"
             ```
             """,
         ],
@@ -529,7 +529,7 @@ def _(sbp_by_age_group):
     chart_line_sbp = (
         alt.Chart(sbp_by_age_group)
         .mark_line(point=True)
-    
+
         # Codificación de variables
         .encode(
             # Eje X (categórico ordenado)
@@ -539,14 +539,14 @@ def _(sbp_by_age_group):
                 title="Grupo de edad",
                 sort=["40-49", "50-59", "60-69", "70-79", "80+"],
             ),
-        
+
             # Eje Y (cuantitativo)
             # - valores promedio de PAS
             y=alt.Y(
                 "mean_sbp:Q",
                 title="PAS media (mmHg)"
             ),
-        
+
             # Tooltips interactivos
             # - muestran valores exactos al pasar el cursor
             tooltip=[
@@ -558,7 +558,7 @@ def _(sbp_by_age_group):
                 ),
             ],
         )
-    
+
         # Propiedades del gráfico
         .properties(
             title="PAS media por grupo de edad",
@@ -608,11 +608,11 @@ def _(df):
     # - as_index=False: mantiene formato tabular
     heatmap_table = (
         df.groupby(["bmi_category", "Diabetes"], as_index=False)
-    
+
             # Agregación
             # - mean: calcula la PAS promedio en cada combinación de grupos
             .agg(mean_sbp=("sbp_mmHg", "mean"))
-        
+
             # Redondeo
             # - mejora legibilidad para visualización
             .round({"mean_sbp": 1})
@@ -630,24 +630,24 @@ def _(heatmap_table):
     chart_heatmap_sbp = (
         alt.Chart(heatmap_table)
         .mark_rect()
-    
+
         # Codificación de variables
         .encode(
             # Eje X (categórico)
             # - estado de diabetes
             x=alt.X("Diabetes:N", title="Diabetes"),
-        
+
             # Eje Y (categórico)
             # - categorías de IMC
             y=alt.Y("bmi_category:N", title="Categoría de IMC"),
-        
+
             # Color (variable cuantitativa)
             # - intensidad representa la PAS media
             color=alt.Color(
                 "mean_sbp:Q",
                 title="PAS media (mmHg)"
             ),
-        
+
             # Tooltips interactivos
             # - muestran detalle por celda
             tooltip=[
@@ -660,7 +660,7 @@ def _(heatmap_table):
                 ),
             ],
         )
-    
+
         # Propiedades del gráfico
         .properties(
             title="PAS media por IMC y diabetes",
@@ -844,14 +844,14 @@ def _(chart_heatmap_ldl, heatmap_ldl_table):
             r"""
             <Existencia>
             ```python
-            assert heatmap_ldl_table is not None
-            assert chart_heatmap_ldl is not None
+    assert heatmap_ldl_table is not None
+    assert chart_heatmap_ldl is not None
             ```
             """,
             r"""
             <Columnas esperadas>
             ```python
-            assert list(heatmap_ldl_table.columns) == [
+    assert list(heatmap_ldl_table.columns) == [
                 "education_grouped",
                 "high_cholesterol",
                 "mean_ldl",
@@ -862,10 +862,10 @@ def _(chart_heatmap_ldl, heatmap_ldl_table):
             <Especificación>
             ```python
             spec = chart_heatmap_ldl.to_dict()
-            assert spec["mark"]["type"] == "rect"
-            assert spec["encoding"]["x"]["field"] == "high_cholesterol"
-            assert spec["encoding"]["y"]["field"] == "education_grouped"
-            assert spec["encoding"]["color"]["field"] == "mean_ldl"
+    assert spec["mark"]["type"] == "rect"
+    assert spec["encoding"]["x"]["field"] == "high_cholesterol"
+    assert spec["encoding"]["y"]["field"] == "education_grouped"
+    assert spec["encoding"]["color"]["field"] == "mean_ldl"
             ```
             """,
         ],
@@ -904,19 +904,19 @@ def _(df):
             size=70,     # tamaño de los puntos
             opacity=0.6  # transparencia para manejar solapamiento
         )
-    
+
         # Codificación de variables
         .encode(
             # Eje X (cuantitativo)
             x=alt.X("sbp_mmHg:Q", title="PAS (mmHg)"),
-        
+
             # Eje Y (cuantitativo)
             y=alt.Y("glucose_mg_dL:Q", title="Glucosa (mg/dL)"),
-        
+
             # Color por grupo
             # - permite identificar patrones según diabetes
             color=alt.Color("Diabetes:N", title="Diabetes"),
-        
+
             # Tooltips interactivos
             # - muestran información individual por punto
             tooltip=[
@@ -927,7 +927,7 @@ def _(df):
                 alt.Tooltip("Diabetes:N", title="Diabetes"),
             ],
         )
-    
+
         # Propiedades del gráfico
         .properties(
             title="Relación entre PAS y glucosa según diabetes",
@@ -968,7 +968,7 @@ def _(df):
     chart_facet_glucose = (
         alt.Chart(df)
         .mark_bar()
-    
+
         # Codificación de variables
         .encode(
             # Eje X (cuantitativo con binning)
@@ -979,21 +979,21 @@ def _(df):
                 bin=alt.Bin(maxbins=15),
                 title="Glucosa (mg/dL)"
             ),
-        
+
             # Eje Y (conteo)
             # - count(): número de observaciones por bin
             y=alt.Y(
                 "count():Q",
                 title="Frecuencia"
             ),
-        
+
             # Tooltip
             # - muestra frecuencia por barra
             tooltip=[
                 alt.Tooltip("count():Q", title="Frecuencia")
             ],
         )
-    
+
         # Propiedades base
         # - tamaño por faceta
         .properties(
@@ -1001,7 +1001,7 @@ def _(df):
             height=220,
             title="Distribución de glucosa por sexo",
         )
-    
+
         # Facetado
         # - column: crea una columna por categoría (sexo)
         .facet(
@@ -1271,21 +1271,21 @@ def _(chart_facet_sbp):
             r"""
             <Existencia>
             ```python
-            assert chart_facet_sbp is not None
+    assert chart_facet_sbp is not None
             ```
             """,
             r"""
             <Objeto declarativo>
             ```python
-            assert hasattr(chart_facet_sbp, "to_dict")
+    assert hasattr(chart_facet_sbp, "to_dict")
             ```
             """,
             r"""
             <Facet esperado>
             ```python
             spec = chart_facet_sbp.to_dict()
-            assert "facet" in spec
-            assert spec["facet"]["column"]["field"] == "hypertension"
+    assert "facet" in spec
+    assert spec["facet"]["column"]["field"] == "hypertension"
             ```
             """,
         ],
