@@ -449,7 +449,7 @@ def _(chart_diabetes_by_sex, diabetes_by_sex):
             <Objeto Altair>
             ```python
     assert hasattr(chart_diabetes_by_sex, "to_dict")
-            spec = chart_diabetes_by_sex.to_dict()
+    spec = chart_diabetes_by_sex.to_dict()
     assert spec["mark"]["type"] == "bar"
     assert spec["encoding"]["x"]["field"] == "sex"
     assert spec["encoding"]["y"]["field"] == "prop_diabetes_pct"
@@ -861,7 +861,7 @@ def _(chart_heatmap_ldl, heatmap_ldl_table):
             r"""
             <Especificación>
             ```python
-            spec = chart_heatmap_ldl.to_dict()
+    spec = chart_heatmap_ldl.to_dict()
     assert spec["mark"]["type"] == "rect"
     assert spec["encoding"]["x"]["field"] == "high_cholesterol"
     assert spec["encoding"]["y"]["field"] == "education_grouped"
@@ -1268,25 +1268,25 @@ def _():
 def _(chart_facet_sbp):
     _test_content = TestContent(
         items_raw=[
-            r"""
-            <Existencia>
-            ```python
+    r"""
+    <Existencia>
+    ```python
     assert chart_facet_sbp is not None
-            ```
-            """,
-            r"""
-            <Objeto declarativo>
-            ```python
+    ```
+    """,
+    r"""
+    <Objeto declarativo>
+    ```python
     assert hasattr(chart_facet_sbp, "to_dict")
-            ```
-            """,
-            r"""
-            <Facet esperado>
-            ```python
-            spec = chart_facet_sbp.to_dict()
+    ```
+    """,
+    r"""
+    <Facet esperado>
+    ```python
+    spec = chart_facet_sbp.to_dict()
     assert "facet" in spec
     assert spec["facet"]["column"]["field"] == "hypertension"
-            ```
+    ```
             """,
         ],
         namespace=globals(),
