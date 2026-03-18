@@ -1,12 +1,11 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "marimo",
-#     "matplotlib",
-#     "numpy",
-#     "pandas",
-#     "requests",
-#     "pytest",
+#     "matplotlib==3.10.8",
+#     "numpy==2.4.2",
+#     "pandas==3.0.1",
+#     "pytest==9.0.2",
+#     "requests==2.32.5",
 # ]
 # ///
 
@@ -43,7 +42,7 @@ with app.setup(hide_code=True):
         raise FileNotFoundError(f"No se encontró el archivo: {filename}")
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     # Semana 3 · Lección 1
@@ -70,7 +69,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 1) Dataset de trabajo
@@ -110,7 +109,7 @@ def _():
     return data_path, df
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(data_path):
     mo.md(rf"""
     Siempre es importante verificar desde donde se están cargando los datos, especialmente en entornos de notebooks donde la ubicación de los archivos puede variar. En este caso, el dataset se encuentra en 
@@ -122,7 +121,7 @@ def _(data_path):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     Siempre es adecuado hacer un acercamiento a nuestros datos antes de graficarlos, para entender su estructura, tipos de variables y posibles valores faltantes. Esto nos prepara para elegir el gráfico adecuado y evitar errores comunes al visualizar datos clínicos.
@@ -138,7 +137,7 @@ def _(df):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     Otra forma es crear nuestro propio resumen, usando las herramientas que aprendimos la semana pasada.
@@ -164,7 +163,7 @@ def _(df):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 2) Antes de graficar: formular la pregunta visual
@@ -186,7 +185,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 3) Histograma: visualizar distribuciones
@@ -236,7 +235,7 @@ def _(df):
     return (age_mean,)
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(age_mean):
     mo.md(rf"""
     ### Lectura inicial del gráfico
@@ -254,7 +253,7 @@ def _(age_mean):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## Ejercicio guiado 1
@@ -275,7 +274,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## Mini-reto 1 — Histograma de LDL
@@ -310,7 +309,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     _tip_content = TipContent(
         items_raw=[
@@ -351,7 +350,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     _test_content = TestContent(
         items_raw=[
@@ -400,7 +399,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 4) Boxplot: comparar distribuciones entre grupos
@@ -460,7 +459,7 @@ def _(df):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ### Lectura inicial del boxplot
@@ -476,7 +475,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 5) Scatter plot: relación entre dos variables numéricas
@@ -511,7 +510,7 @@ def _(df):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ### Observación importante
@@ -529,7 +528,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## Mini-reto final — Scatter plot de edad y glucosa
@@ -566,7 +565,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     _tip_content = TipContent(
         items_raw=[
@@ -610,7 +609,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     _test_content = TestContent(
         items_raw=[
@@ -666,7 +665,7 @@ def _():
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _():
     mo.md(r"""
     ## 6) Cierre de la sesión
