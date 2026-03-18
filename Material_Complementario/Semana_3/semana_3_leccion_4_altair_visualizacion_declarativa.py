@@ -1,10 +1,11 @@
 # /// script
-# requires-python = ">=3.11"
+# requires-python = ">=3.14"
 # dependencies = [
-#     "marimo",
-#     "pandas",
-#     "altair",
-#     "pytest",
+#     "matplotlib==3.10.8",
+#     "numpy==2.4.2",
+#     "pandas==3.0.1",
+#     "pytest==9.0.2",
+#     "requests==2.32.5",
 # ]
 # ///
 

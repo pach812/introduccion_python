@@ -430,9 +430,10 @@ def _(df):
     fig_box_sbp, ax_box_sbp = plt.subplots()
 
     # Graficamos el boxplot con las dos series de datos y etiquetas
-    ax_box_sbp.boxplot([sbp_female, sbp_male], tick_labels=["Mujeres", "Hombres"])
+    ax_box_sbp.boxplot([sbp_female, sbp_male])
 
     # Configuramos títulos y etiquetas
+    ax_box_sbp.set_xticklabels(["Mujeres", "Hombres"])
     ax_box_sbp.set_title("Presión arterial sistólica por sexo")
     ax_box_sbp.set_xlabel("Sexo")
     ax_box_sbp.set_ylabel("PAS (mmHg)")
