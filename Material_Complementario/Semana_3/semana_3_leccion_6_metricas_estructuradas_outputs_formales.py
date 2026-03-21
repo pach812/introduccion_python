@@ -6,23 +6,29 @@
 #     "pandas==3.0.1",
 #     "pytest==9.0.2",
 #     "requests==2.32.5",
+#     "seaborn==0.13.2",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup(hide_code=True):
-    import os
-
     import marimo as mo
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import seaborn as sns
+    import pickle
+    import os
+    from matplotlib.axes import Axes
     from matplotlib.figure import Figure
+
+    from setup import TipContent, TestContent, find_data_file
+
+    sns.set_theme(style="whitegrid")
 
 
 @app.cell(hide_code=True)
@@ -31,107 +37,137 @@ def _():
     # Semana 3 · Lección 6
     ## Métricas estructuradas y outputs formales
 
-    **Propósito de la sesión:** aprender a organizar resultados analíticos de forma reproducible usando:
+    **Propósito de la sesión:** aprender a organizar resultados analíticos de manera formal y reutilizable usando:
 
-    - **diccionarios estructurados** para métricas y metadatos,
-    - **tablas resumen** construidas con `pandas`,
-    - **listas de objetos gráficos** para conservar visualizaciones de forma ordenada.
+    - diccionarios estructurados para métricas,
+    - tablas resumen con `pandas`,
+    - salidas gráficas organizadas de forma explícita.
 
-    En análisis de datos clínicos no basta con calcular números o producir gráficos aislados.
+    Hasta ahora en la semana 3 trabajaste principalmente dos cosas:
 
-    También es necesario responder una pregunta práctica:
+    - cómo construir visualizaciones,
+    - y cómo organizar procesos analíticos con mejor diseño.
 
-    > **¿Cómo guardo mis resultados de manera clara para poder revisarlos, comunicarlos y reutilizarlos?**
+    En esta lección daremos un paso complementario:
 
-    La idea central de esta lección es pasar de resultados dispersos a **salidas formales y organizadas**.
-    """)
-    return
+    > pasar de resultados sueltos a **outputs formales**.
 
+    En análisis de datos no basta con calcular una media o producir un gráfico aislado.
 
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-    ## 1) Dataset de trabajo
+    También hay que responder preguntas como:
 
-    Usaremos un dataset tabular con variables demográficas, clínicas y sociales en población adulta mayor.
+    - ¿dónde queda guardado el resumen principal?
+    - ¿cómo sé qué métricas forman parte del output final?
+    - ¿qué tabla sirve como producto reutilizable?
+    - ¿cómo organizo las visualizaciones que vale la pena conservar?
 
-    Algunas columnas relevantes para la sesión son:
+    Idea central:
 
-    - `age`: edad
-    - `sex`: sexo
-    - `hypertension`: hipertensión reportada
-    - `Diabetes`: diabetes reportada
-    - `sbp_mmHg`: presión arterial sistólica
-    - `glucose_mg_dL`: glucosa
-    - `ldl_mg_dL`: colesterol LDL
-    - `residence_area`: área de residencia
-    - `education_grouped`: nivel educativo agrupado
-
-    Nuestro objetivo será construir salidas que respondan preguntas descriptivas simples en salud pública, por ejemplo:
-
-    - ¿cuántos pacientes hay en la base?,
-    - ¿cuál es el perfil etario y clínico general?,
-    - ¿qué tablas resumen conviene conservar?,
-    - ¿qué visualizaciones deben quedar organizadas como parte del resultado analítico?
+    > **un análisis gana calidad cuando sus resultados quedan estructurados con nombres claros, formatos consistentes y objetos fáciles de reutilizar.**
     """)
     return
 
 
 @app.cell
 def _():
-    candidate_paths = [
-        "dataset_clase_semana2_small.csv",
-        "./dataset_clase_semana2_small.csv",
-        "/mnt/data/dataset_clase_semana2_small.csv",
-    ]
-
-    data_path = None
-    for path in candidate_paths:
-        if os.path.exists(path):
-            data_path = path
-            break
-
-    assert data_path is not None, "No se encontró el archivo dataset_clase_semana2_small.csv."
-
+    data_path = find_data_file("public/dataset_clase_semana2_small.csv")
     df = pd.read_csv(data_path)
 
-    expected_columns = {
-        "age",
-        "sex",
-        "hypertension",
-        "Diabetes",
-        "sbp_mmHg",
-        "glucose_mg_dL",
-        "ldl_mg_dL",
-        "residence_area",
-        "education_grouped",
-    }
-    assert expected_columns.issubset(df.columns)
+    numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+    categorical_cols = df.select_dtypes(include="object").columns.tolist()
 
-    df.head(10)
-    return data_path, df
+    assert data_path.exists()
+    assert df.shape[0] > 0
+    assert set(["age", "sex", "hypertension", "Diabetes"]).issubset(df.columns)
+
+    df.head()
+    return categorical_cols, df, numeric_cols
+
+
+@app.cell(hide_code=True)
+def _(df):
+    mo.md(f"""
+    ## Dataset de trabajo
+
+    Seguiremos trabajando con el mismo dataset clínico de las lecciones anteriores.
+
+    El dataset contiene:
+
+    - **{df.shape[0]} registros**
+    - **{df.shape[1]} variables**
+
+    Cada fila representa un individuo con variables demográficas, factores de riesgo y mediciones clínicas.
+
+    En esta sesión nos concentraremos en variables útiles para construir métricas y resúmenes formales:
+
+    - `ID`
+    - `age`
+    - `sex`
+    - `hypertension`
+    - `Diabetes`
+    - `sbp_mmHg`
+    - `glucose_mg_dL`
+    - `ldl_mg_dL`
+    - `residence_area`
+    - `education_grouped`
+
+    La pregunta pedagógica ya no es solo cómo visualizar.
+
+    Ahora es:
+
+    > **cómo organizar resultados para que puedan revisarse, reutilizarse y comunicarse con claridad.**
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(categorical_cols, df, numeric_cols):
+    summary_numeric = df[numeric_cols].describe().round(2)
+    summary_categorical = pd.DataFrame(
+        {
+            "variable": categorical_cols,
+            "n_unique": [df[col].nunique(dropna=False) for col in categorical_cols],
+            "missing": [int(df[col].isna().sum()) for col in categorical_cols],
+        }
+    )
+
+    mo.vstack(
+        [
+            mo.md("### Resumen numérico"),
+            summary_numeric,
+            mo.md("### Resumen categórico"),
+            summary_categorical,
+        ]
+    )
+    return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## 2) Primer principio: una métrica aislada no es todavía un output formal
+    ## 1) Primer principio: una métrica aislada todavía no es un output formal
 
-    En una exploración inicial es normal hacer cálculos sueltos como:
+    En una exploración inicial es muy común calcular valores sueltos como:
 
     - media de edad,
-    - número de personas con hipertensión,
-    - mediana de LDL,
-    - proporción de diabetes.
+    - proporción de hipertensión,
+    - mediana de glucosa,
+    - número total de pacientes.
 
-    El problema es que, si estos resultados quedan dispersos en distintas celdas, luego son difíciles de:
+    El problema es que, si esos resultados quedan repartidos en distintas celdas o variables sin estructura, luego son difíciles de:
 
     - revisar,
-    - reutilizar,
     - comparar,
-    - o integrar en un informe analítico.
+    - exportar,
+    - o integrar a un informe.
 
-    Una solución simple y poderosa es usar un **diccionario** para agrupar métricas relacionadas bajo nombres explícitos.
+    Una solución simple es agrupar métricas relacionadas dentro de un **diccionario**.
+
+    Eso permite que cada resultado tenga:
+
+    - un nombre explícito,
+    - un valor asociado,
+    - y una posición clara dentro del output.
     """)
     return
 
@@ -143,8 +179,8 @@ def _(df):
         "n_variables": int(df.shape[1]),
         "mean_age": round(float(df["age"].mean()), 2),
         "mean_sbp": round(float(df["sbp_mmHg"].mean()), 2),
-        "prop_hypertension": round(float((df["hypertension"] == "Yes").mean()), 4),
-        "prop_diabetes": round(float((df["Diabetes"] == "Yes").mean()), 4),
+        "prop_hypertension": round(float(df["hypertension"].eq("Yes").mean()), 4),
+        "prop_diabetes": round(float(df["Diabetes"].eq("Yes").mean()), 4),
     }
 
     pd.Series(overview_metrics, name="value")
@@ -158,9 +194,11 @@ def _():
 
     - cada métrica tiene una **clave** clara,
     - los valores pueden recuperarse fácilmente,
-    - y todo el resumen queda concentrado en un único objeto.
+    - y el resumen queda concentrado en un único objeto.
 
-    Esta forma de trabajo mejora la trazabilidad del análisis.
+    Idea clave:
+
+    > **nombrar bien las métricas es parte del análisis, no un detalle cosmético.**
     """)
     return
 
@@ -168,28 +206,22 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## Mini-reto 1 — Construir un diccionario demográfico mínimo
+    ## Mini-reto 1 — Diccionario clínico básico
 
-    **Dominio:** resumen poblacional inicial
-
-    Construye un diccionario llamado `metrics_demography` con exactamente estas claves:
+    Construye un diccionario llamado `metrics_clinical` con exactamente estas claves:
 
     - `total_patients`
-    - `mean_age`
-    - `female_count`
-    - `male_count`
+    - `mean_glucose`
+    - `mean_ldl`
+    - `hypertension_count`
 
     Reglas:
 
-    - Usa el dataset `df`.
-    - Conserva `mean_age` como número decimal redondeado a 2 cifras.
-    - Los conteos deben ser enteros.
+    - usa el dataset `df`,
+    - redondea las medias a 2 cifras decimales,
+    - el conteo debe ser entero.
 
-    Antes de programar, piensa:
-
-    - qué columna contiene el sexo,
-    - qué operación produce un conteo,
-    - y cómo asegurar nombres claros para cada métrica.
+    Piensa en este objeto como un **output mínimo de perfil clínico general**.
     """)
     return
 
@@ -197,107 +229,140 @@ def _():
 @app.cell
 def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    metrics_demography = None
-    return (metrics_demography,)
+    metrics_clinical = None
+    return (metrics_clinical,)
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(r"""
-    ### Tips — Mini-reto 1
-
-    **Tip 1.** Un diccionario se construye con pares `clave: valor`.
-
-    **Tip 2.** Para contar categorías de sexo puedes comparar la columna `sex` contra cada valor esperado.
-
-    **Tip 3.** Si quieres un promedio más legible, usa `round(..., 2)`.
-
-    **Solución posible:**
-
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Idea>
+    Un diccionario agrupa resultados bajo nombres explícitos.
+    """,
+            r"""
+    <Cálculos>
+    Las medias salen de columnas numéricas y el conteo puede construirse con una comparación booleana.
+    """,
+            r"""
+    <Formato>
+    Usa `round(..., 2)` para medias y `int(...)` para conteos.
+    """,
+            r"""
+    <solucion>
     ```python
-    metrics_demography = {
-        "total_patients": int(df.shape[0]),
-        "mean_age": round(float(df["age"].mean()), 2),
-        "female_count": int((df["sex"] == "Female").sum()),
-        "male_count": int((df["sex"] == "Male").sum()),
+    metrics_clinical = {
+    "total_patients": int(df.shape[0]),
+    "mean_glucose": round(float(df["glucose_mg_dL"].mean()), 2),
+    "mean_ldl": round(float(df["ldl_mg_dL"].mean()), 2),
+    "hypertension_count": int(df["hypertension"].eq("Yes").sum()),
     }
     ```
-    """)
+    """,
+        ]
+    )
+    _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(df, metrics_demography):
-    assert metrics_demography is not None, "Debes asignar un diccionario a `metrics_demography`."
-    assert isinstance(metrics_demography, dict), "`metrics_demography` debe ser un diccionario."
-    assert list(metrics_demography.keys()) == [
-        "total_patients",
-        "mean_age",
-        "female_count",
-        "male_count",
-    ], "Las claves no coinciden con las solicitadas."
-    assert metrics_demography["total_patients"] == int(df.shape[0])
-    assert metrics_demography["female_count"] + metrics_demography["male_count"] == int(df.shape[0])
+def _(metrics_clinical):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia>
+    ```python
+    assert metrics_clinical is not None
+    assert isinstance(metrics_clinical, dict)
+    print("El output existe y es un diccionario.")
+    ```
+    """,
+            r"""
+    <Claves esperadas>
+    ```python
+    assert list(metrics_clinical.keys()) == [
+    "total_patients",
+    "mean_glucose",
+    "mean_ldl",
+    "hypertension_count",
+    ]
+    print("Las claves son correctas.")
+    ```
+    """,
+            r"""
+    <Valores básicos>
+    ```python
+    assert metrics_clinical["total_patients"] == int(df.shape[0])
+    assert metrics_clinical["hypertension_count"] == int(df["hypertension"].eq("Yes").sum())
+    print("Los valores básicos son consistentes.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
 
-    print("Mini-reto 1: tests superados.")
-    pd.Series(metrics_demography, name="value")
+    if metrics_clinical is not None:
+        pd.Series(metrics_clinical, name="value")
+    _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## 3) Segundo principio: una tabla resumen también es un output formal
+    ## 2) Segundo principio: una tabla resumen también es un output formal
 
-    En salud pública, muchas preguntas descriptivas no se responden con un único número sino con una **tabla resumen reproducible**.
+    Muchas preguntas no se responden con un solo número, sino con una tabla reutilizable.
 
-    Por ejemplo, puede ser útil guardar una tabla por subgrupos que contenga:
+    Por ejemplo, puede ser útil conservar una tabla por subgrupos que incluya:
 
     - tamaño del grupo,
     - edad promedio,
-    - presión arterial promedio,
+    - PAS promedio,
     - proporción de diabetes.
 
-    Este tipo de salida puede construirse con `groupby` + `agg` y quedar lista para inspección o comunicación.
+    Una tabla resumen bien nombrada puede funcionar como:
+
+    - base para un gráfico,
+    - insumo para un reporte,
+    - evidencia analítica intermedia,
+    - o salida final en sí misma.
     """)
     return
 
 
 @app.cell
 def _(df):
-    summary_by_sex_area = (
-        df.groupby(["sex", "residence_area"], as_index=False)
+    summary_by_sex = (
+        df.assign(diabetes_flag=lambda d: d["Diabetes"].eq("Yes"))
+        .groupby("sex", as_index=False)
         .agg(
-            n_patients=("ID", "count"),
+            n_people=("ID", "count"),
             mean_age=("age", "mean"),
             mean_sbp=("sbp_mmHg", "mean"),
-            prop_diabetes=("Diabetes", lambda s: (s == "Yes").mean()),
+            prop_diabetes=("diabetes_flag", "mean"),
         )
-        .sort_values(["sex", "residence_area"])
+        .round(2)
+        .sort_values("sex")
     )
 
-    summary_by_sex_area = summary_by_sex_area.assign(
-        mean_age=lambda d: d["mean_age"].round(2),
-        mean_sbp=lambda d: d["mean_sbp"].round(2),
-        prop_diabetes=lambda d: d["prop_diabetes"].round(4),
-    )
-
-    summary_by_sex_area
-    return (summary_by_sex_area,)
+    summary_by_sex
+    return (summary_by_sex,)
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    Aquí la idea importante es que **no todo output formal debe ser un diccionario**.
+    Esta tabla ya es un output formal porque:
 
-    Según la pregunta analítica, puede convenir conservar:
+    - tiene una unidad de agregación clara,
+    - cada columna representa una métrica interpretable,
+    - y puede reutilizarse directamente en otra etapa del análisis.
 
-    - diccionarios para métricas globales,
-    - DataFrames para resúmenes tabulares,
-    - listas para secuencias ordenadas de resultados.
+    Idea clave:
 
-    El formato correcto depende del tipo de salida que se quiere preservar.
+    > **una buena tabla resumen no es un borrador; puede ser un producto analítico legítimo.**
     """)
     return
 
@@ -305,55 +370,170 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## 4) Tercer principio: una visualización también puede almacenarse como objeto
+    ## Mini-reto 2 — Tabla resumen por residencia
 
-    En las lecciones anteriores construiste gráficos con `matplotlib` y `seaborn`.
+    Construye una tabla llamada `summary_by_residence` que agrupe por `residence_area` y calcule:
 
-    Ahora daremos un paso adicional: en lugar de pensar el gráfico solo como algo que “se muestra”, lo trataremos como un **objeto** que puede guardarse dentro de una variable.
+    - `n_people`
+    - `mean_age`
+    - `mean_glucose`
+    - `prop_high_cholesterol`
 
-    Esto permite:
+    Reglas:
 
-    - conservar varias figuras en orden,
-    - devolverlas como parte del resultado analítico,
-    - y separarlas conceptualmente del cálculo de métricas.
+    - crea primero una bandera booleana de colesterol alto,
+    - ordena la tabla por `residence_area`,
+    - redondea a 2 cifras decimales.
+
+    Esta tabla debe quedar lista para ser reutilizada en un gráfico posterior.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # === TU TURNO (EDITA ESTA CELDA) ===
+    summary_by_residence = None
+    return (summary_by_residence,)
+
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Preparación>
+    Antes del `groupby`, crea una bandera booleana que identifique colesterol alto.
+    """,
+            r"""
+    <Resumen>
+    La proporción de una bandera booleana se obtiene con la media.
+    """,
+            r"""
+    <Orden>
+    Usa `.sort_values(...)` al final para dejar la salida estable.
+    """,
+            r"""
+    <solucion>
+    ```python
+    summary_by_residence = (
+    df.assign(high_cholesterol_flag=lambda d: d["high_cholesterol"].eq("Yes"))
+    .groupby("residence_area", as_index=False)
+    .agg(
+        n_people=("ID", "count"),
+        mean_age=("age", "mean"),
+        mean_glucose=("glucose_mg_dL", "mean"),
+        prop_high_cholesterol=("high_cholesterol_flag", "mean"),
+    )
+    .round(2)
+    .sort_values("residence_area")
+    )
+    ```
+    """,
+        ]
+    )
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(summary_by_residence):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia>
+    ```python
+    assert summary_by_residence is not None
+    assert isinstance(summary_by_residence, pd.DataFrame)
+    print("La tabla resumen existe.")
+    ```
+    """,
+            r"""
+    <Columnas esperadas>
+    ```python
+    assert list(summary_by_residence.columns) == [
+    "residence_area",
+    "n_people",
+    "mean_age",
+    "mean_glucose",
+    "prop_high_cholesterol",
+    ]
+    print("Las columnas son correctas.")
+    ```
+    """,
+            r"""
+    <Rango válido>
+    ```python
+    assert summary_by_residence["prop_high_cholesterol"].between(0, 1).all()
+    print("Las proporciones están en rango válido.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    if summary_by_residence is not None:
+        summary_by_residence
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 3) Tercer principio: un gráfico útil también puede formar parte del output formal
+
+    En sesiones previas el foco estaba en construir buenas visualizaciones.
+
+    Aquí la pregunta cambia un poco:
+
+    > ¿qué visualizaciones vale la pena conservar como parte explícita del resultado?
+
+    Una forma simple de hacerlo es guardar objetos gráficos dentro de una estructura organizada.
+
+    Por ejemplo, una lista de figuras o ejes puede servir para:
+
+    - revisar outputs al final,
+    - devolver varios gráficos desde una función,
+    - o mantener una colección visual asociada a un análisis.
     """)
     return
 
 
 @app.cell
 def _(df):
-    sns.set_theme(style="whitegrid")
+    figures_overview = []
 
-    fig_age, ax_age = plt.subplots(figsize=(6, 4))
+    fig_age, ax_age = plt.subplots(figsize=(6.5, 4))
     sns.histplot(data=df, x="age", bins=15, ax=ax_age)
     ax_age.set_title("Distribución de edad")
     ax_age.set_xlabel("Edad")
     ax_age.set_ylabel("Frecuencia")
+    fig_age.tight_layout()
+    figures_overview.append(fig_age)
 
-    fig_sbp, ax_sbp = plt.subplots(figsize=(6, 4))
+    fig_sbp, ax_sbp = plt.subplots(figsize=(6.5, 4))
     sns.boxplot(data=df, x="sex", y="sbp_mmHg", ax=ax_sbp)
     ax_sbp.set_title("PAS por sexo")
     ax_sbp.set_xlabel("Sexo")
     ax_sbp.set_ylabel("PAS (mmHg)")
+    fig_sbp.tight_layout()
+    figures_overview.append(fig_sbp)
 
-    example_figures = [fig_age, fig_sbp]
-
-    fig_age
-    return example_figures, fig_age, fig_sbp
+    figures_overview[0], figures_overview[1]
+    return (figures_overview,)
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    En este ejemplo, la lista `example_figures` mantiene una secuencia ordenada de figuras.
+    La estructura anterior no guarda solo imágenes “porque sí”.
 
-    Eso significa que ya podemos concebir una salida formal del análisis como algo del tipo:
+    Guarda objetos que representan outputs visuales con sentido analítico.
 
-    - métricas globales,
-    - tablas resumen,
-    - y una lista de figuras clínicas.
+    Idea clave:
 
-    La estructura deja de depender de celdas sueltas y se vuelve más explícita.
+    > **un output formal puede ser numérico, tabular o gráfico; lo importante es que quede organizado y recuperable.**
     """)
     return
 
@@ -361,26 +541,552 @@ def _():
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## Mini-reto 2 — Construir una lista de figuras clínicas
+    ## Mini-reto 3 — Lista formal de gráficos
 
-    **Dominio:** visualización descriptiva en salud
+    Construye una lista llamada `figures_clinical` que contenga exactamente dos figuras, en este orden:
 
-    Crea una lista llamada `clinical_figures` que contenga exactamente **2 figuras** en este orden:
+    1. un histograma de `glucose_mg_dL`,
+    2. un boxplot de `ldl_mg_dL` por `sex`.
 
-    1. una figura con un histograma de `glucose_mg_dL`,
-    2. una figura con un boxplot de `ldl_mg_dL` por `hypertension`.
+    Requisitos:
+
+    - cada gráfico debe tener título,
+    - ambos deben quedar guardados como objetos `Figure`,
+    - la lista final debe contener solo esas dos figuras.
+
+    Piensa este ejercicio como una versión mínima de un output visual organizado.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # === TU TURNO (EDITA ESTA CELDA) ===
+    figures_clinical = None
+    return (figures_clinical,)
+
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Estructura>
+    Empieza creando una lista vacía y luego agrega cada figura con `.append(...)`.
+    """,
+            r"""
+    <Primera figura>
+    Necesitas un histograma de glucosa.
+    """,
+            r"""
+    <Segunda figura>
+    Necesitas un boxplot de LDL por sexo.
+    """,
+            r"""
+    <solucion>
+    ```python
+    figures_clinical = []
+
+    fig_glucose, ax_glucose = plt.subplots(figsize=(6.5, 4))
+    sns.histplot(data=df, x="glucose_mg_dL", bins=15, ax=ax_glucose)
+    ax_glucose.set_title("Distribución de glucosa")
+    ax_glucose.set_xlabel("Glucosa (mg/dL)")
+    ax_glucose.set_ylabel("Frecuencia")
+    fig_glucose.tight_layout()
+    figures_clinical.append(fig_glucose)
+
+    fig_ldl, ax_ldl = plt.subplots(figsize=(6.5, 4))
+    sns.boxplot(data=df, x="sex", y="ldl_mg_dL", ax=ax_ldl)
+    ax_ldl.set_title("LDL por sexo")
+    ax_ldl.set_xlabel("Sexo")
+    ax_ldl.set_ylabel("LDL (mg/dL)")
+    fig_ldl.tight_layout()
+    figures_clinical.append(fig_ldl)
+    ```
+    """,
+        ]
+    )
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(figures_clinical):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia>
+    ```python
+    assert figures_clinical is not None
+    assert isinstance(figures_clinical, list)
+    print("La colección visual existe.")
+    ```
+    """,
+            r"""
+    <Longitud>
+    ```python
+    assert len(figures_clinical) == 2
+    print("La lista contiene exactamente dos figuras.")
+    ```
+    """,
+            r"""
+    <Tipos correctos>
+    ```python
+    assert all(isinstance(fig, Figure) for fig in figures_clinical)
+    print("Todos los elementos son figuras.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    if figures_clinical is not None and len(figures_clinical) == 2:
+        figures_clinical[0], figures_clinical[1]
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 4) Unificar outputs: una estructura compuesta
+
+    Cuando un análisis empieza a consolidarse, conviene agrupar sus salidas principales dentro de una sola estructura.
+
+    Una posibilidad simple es un diccionario maestro con entradas como:
+
+    - `metrics`
+    - `tables`
+    - `figures`
+
+    Eso permite dejar explícito:
+
+    - qué resultados forman parte del análisis,
+    - dónde está cada tipo de output,
+    - y cómo recuperarlo después.
+    """)
+    return
+
+
+@app.cell
+def _(figures_overview, overview_metrics, summary_by_sex):
+    analysis_outputs = {
+        "metrics": overview_metrics,
+        "tables": {
+            "summary_by_sex": summary_by_sex,
+        },
+        "figures": figures_overview,
+    }
+
+    analysis_outputs["metrics"], analysis_outputs["tables"]["summary_by_sex"]
+    return (analysis_outputs,)
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Mini-reto final — Construir un output maestro
+
+    Construye un diccionario llamado `final_outputs` con esta estructura:
+
+    - clave `"metrics"` → debe contener `metrics_clinical`
+    - clave `"tables"` → debe contener otro diccionario con una clave `"residence"` que apunte a `summary_by_residence`
+    - clave `"figures"` → debe apuntar a `figures_clinical`
+
+    Este ejercicio resume toda la lógica de la lección:
+
+    - producir métricas,
+    - producir tablas,
+    - producir gráficos,
+    - y organizarlos dentro de una sola salida formal.
+    """)
+    return
+
+
+@app.cell
+def _():
+    # === TU TURNO (EDITA ESTA CELDA) ===
+    final_outputs = None
+    return (final_outputs,)
+
+
+@app.cell(hide_code=True)
+def _():
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Estructura general>
+    Aquí necesitas un diccionario principal que contenga tres claves de primer nivel.
+    """,
+            r"""
+    <Tabla anidada>
+    Dentro de `"tables"` necesitas otro diccionario.
+    """,
+            r"""
+    <Referencia>
+    No recalcules objetos; reutiliza los outputs ya construidos.
+    """,
+            r"""
+    <solucion>
+    ```python
+    final_outputs = {
+    "metrics": metrics_clinical,
+    "tables": {
+        "residence": summary_by_residence,
+    },
+    "figures": figures_clinical,
+    }
+    ```
+    """,
+        ]
+    )
+    _tip_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _(final_outputs):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia>
+    ```python
+    assert final_outputs is not None
+    assert isinstance(final_outputs, dict)
+    print("El output maestro existe.")
+    ```
+    """,
+            r"""
+    <Claves principales>
+    ```python
+    assert set(final_outputs.keys()) == {"metrics", "tables", "figures"}
+    print("Las claves principales son correctas.")
+    ```
+    """,
+            r"""
+    <Estructura interna>
+    ```python
+    assert isinstance(final_outputs["metrics"], dict)
+    assert isinstance(final_outputs["tables"], dict)
+    assert "residence" in final_outputs["tables"]
+    assert isinstance(final_outputs["figures"], list)
+    print("La estructura interna es válida.")
+    ```
+    """,
+        ],
+        namespace=globals(),
+    )
+
+    if final_outputs is not None:
+        final_outputs
+    _test_content.render()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5) De output formal a output persistente
+
+    Hasta aquí organizaste el análisis dentro de una estructura clara:
+
+    - métricas en diccionarios,
+    - tablas en `DataFrame`,
+    - figuras como objetos de Matplotlib,
+    - y un output maestro que reúne todo.
+
+    El siguiente paso es decidir **cómo conservar cada resultado** según su uso posterior.
+
+    Antes de guardar, conviene distinguir tres preguntas:
+
+    1. ¿qué resultado quiero volver a cargar dentro de Python?
+    2. ¿qué resultado quiero compartir como tabla?
+    3. ¿qué resultado quiero exportar como figura para un informe o presentación?
+
+    No todos los outputs se guardan del mismo modo, porque no todos cumplen la misma función.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.1) Elegir el formato según el propósito
+
+    Un mismo análisis puede producir varios tipos de salida, pero cada una responde a una necesidad distinta.
+
+    ### Cuando quieres conservar el objeto completo del análisis
+
+    Conviene usar un formato que preserve la estructura de Python.
+
+    Esto permite recuperar después:
+
+    - diccionarios,
+    - tablas,
+    - listas,
+    - y otros objetos compuestos.
+
+    ### Cuando quieres compartir una tabla
+
+    Conviene usar formatos tabulares intercambiables, por ejemplo:
+
+    - CSV,
+    - Excel,
+    - Stata,
+    - Parquet.
+
+    Aquí el objetivo no es preservar toda la estructura del análisis, sino dejar una tabla legible y reutilizable.
+
+    ### Cuando quieres comunicar una visualización
+
+    Conviene exportar la figura como archivo gráfico, por ejemplo:
+
+    - PNG para uso general,
+    - PDF cuando interesa una salida de alta calidad para documento o informe.
+
+    La elección del formato debe ser coherente con el uso esperado del output.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.2) Guardar el output maestro como objeto de Python
+
+    Si quieres recuperar más adelante la estructura completa del análisis, una opción simple es usar `pickle`.
+
+    Esto resulta útil cuando el interés principal es:
+
+    - reabrir el análisis en Python,
+    - inspeccionar nuevamente el diccionario maestro,
+    - o continuar una etapa posterior sin reconstruir todos los objetos.
+
+    En este caso, el objeto que conviene guardar es el **output maestro**, porque allí ya quedó organizada la salida principal del análisis.
+    """)
+    return
+
+
+@app.cell
+def _(analysis_outputs):
+    os.makedirs("./outputs", exist_ok=True)
+
+    pickle_path = "./outputs/final_outputs.pkl"
+
+    # Crear una versión serializable del output
+    final_outputs_pickle = {
+        "metrics": analysis_outputs["metrics"],
+        "tables": analysis_outputs["tables"],
+    }
+
+    # Guardar el diccionario sin figuras
+    with open(pickle_path, "wb") as f:
+        pickle.dump(final_outputs_pickle, f)
+
+    assert os.path.exists(pickle_path)
+
+    pickle_path
+    return (pickle_path,)
+
+
+@app.cell(hide_code=True)
+def _(pickle_path):
+    mo.md(rf"""
+    El output maestro quedó guardado en:
+
+    ```text
+    {pickle_path}
+    ```
+
+    Este archivo permite recuperar posteriormente la estructura completa del análisis dentro de Python.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.3) Recuperar el objeto guardado
+
+    Guardar un objeto tiene valor real solo si después puede recuperarse de forma consistente.
+
+    Por eso conviene comprobar inmediatamente que el archivo creado puede volver a cargarse.
+
+    Esta verificación funciona como una validación mínima de persistencia.
+    """)
+    return
+
+
+@app.cell
+def _(pickle_path):
+    # Cargar archivo pickle correctamente
+    with open(pickle_path, "rb") as _f:
+        reloaded_outputs = pickle.load(_f)
+
+    # Validaciones
+    assert isinstance(reloaded_outputs, dict)
+    assert set(reloaded_outputs.keys()) == {"metrics", "tables"}
+
+    # Acceso a métricas
+    reloaded_outputs["metrics"]
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.4) Guardar tablas como outputs compartibles
+
+    Cuando el interés no está en reabrir toda la estructura en Python, sino en **compartir una tabla**, conviene exportar el `DataFrame` en formatos tabulares.
+
+    Aquí ya no estamos pensando en persistencia interna del análisis, sino en circulación del resultado.
+
+    Una misma tabla puede necesitar distintos formatos según el contexto:
+
+    - **CSV** si buscas interoperabilidad simple,
+    - **Excel** si la tabla será revisada o comentada manualmente,
+    - **Stata** si el output irá a un flujo estadístico clásico,
+    - **Parquet** si interesa almacenamiento más eficiente y reutilización computacional.
+
+    El tipo de archivo también forma parte del diseño del output.
+    """)
+    return
+
+
+@app.cell
+def _(summary_by_residence):
+    table_export_paths = {}
+    try: 
+        table_export_paths["csv"] = "outputs/summary_by_residence.csv"
+        summary_by_residence.to_csv(table_export_paths["csv"], index=False)
+    
+        table_export_paths["excel"] = "outputs/summary_by_residence.xlsx"
+        summary_by_residence.to_excel(table_export_paths["excel"], index=False)
+    
+        table_export_paths["stata"] = "outputs/summary_by_residence.dta"
+        summary_by_residence.to_stata(table_export_paths["stata"], write_index=False)
+    
+        table_export_paths["parquet"] = "outputs/summary_by_residence.parquet"
+        summary_by_residence.to_parquet(table_export_paths["parquet"], index=False)
+    
+        assert all(os.path.exists(path) for path in table_export_paths.values())
+    
+        pd.Series(table_export_paths, name="path")
+    except Exception as e:
+        print(f"Error al exportar tablas: {e}")
+    return (table_export_paths,)
+
+
+@app.cell(hide_code=True)
+def _(table_export_paths):
+    mo.md(rf"""
+    La misma tabla puede quedar disponible en varios formatos.
+
+    Esto permite adaptar la salida a distintos contextos de uso sin modificar su contenido analítico.
+
+    {table_export_paths["csv"]}
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.5) Guardar figuras como productos comunicables
+
+    Las figuras cumplen una función distinta a la de las tablas.
+
+    No suelen guardarse para volver a manipularlas como tablas, sino para:
+
+    - incluirlas en un informe,
+    - insertarlas en una presentación,
+    - compartirlas como producto visual,
+    - o documentar una salida analítica seleccionada.
+
+    En este caso, la pregunta central es:
+
+    **¿cómo dejar esta visualización disponible para comunicación posterior?**
+    """)
+    return
+
+
+@app.cell
+def _(figures_clinical):
+    figure_export_paths = {}
+    try: 
+        first_figure = figures_clinical[0]
+    
+        figure_export_paths["png"] = "outputs/glucose_distribution.png"
+        first_figure.savefig(figure_export_paths["png"], dpi=300, bbox_inches="tight")
+    
+        figure_export_paths["pdf"] = "outputs/glucose_distribution.pdf"
+        first_figure.savefig(figure_export_paths["pdf"], bbox_inches="tight")
+    
+        assert all(os.path.exists(path) for path in figure_export_paths.values())
+    
+        pd.Series(figure_export_paths, name="path")
+    except Exception as e:
+        print(f"Error al exportar figuras: {e}")
+    return (figure_export_paths,)
+
+
+@app.cell(hide_code=True)
+def _(figure_export_paths):
+    mo.md(r"""
+    Aquí se exportó una figura en dos formatos porque los contextos de uso pueden ser distintos.
+
+    - **PNG** suele ser práctico para presentaciones o documentos breves.
+    - **PDF** suele ser útil cuando se desea una salida estable para informe o impresión.
+    """)
+    mo.md(
+        f"""
+    ```python
+    {figure_export_paths}
+    ```
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 5.6) Resumen de persistencia del análisis
+
+    A esta altura ya no tienes solo resultados calculados.
+
+    Tienes además una estrategia mínima de persistencia organizada en tres niveles:
+
+    - el **objeto maestro** para reabrir el análisis como estructura de Python,
+    - la **tabla resumen** para compartir un output tabular,
+    - la **figura exportada** para comunicación visual.
+
+    Esta secuencia resume un recorrido completo:
+
+    **producir → organizar → guardar**
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Mini-reto de cierre — Diseñar un plan de exportación
+
+    Construye un diccionario llamado `export_plan` con exactamente estas claves:
+
+    - `python_object`
+    - `table_share_format`
+    - `figure_report_format`
 
     Reglas:
 
-    - Usa `matplotlib` y `seaborn`.
-    - Guarda cada figura en una variable antes de construir la lista.
-    - La lista final debe conservar el orden indicado.
+    - cada valor debe ser un texto breve,
+    - `python_object` debe indicar qué objeto conviene guardar para continuar el análisis en Python,
+    - `table_share_format` debe indicar un formato adecuado para compartir la tabla resumen,
+    - `figure_report_format` debe indicar un formato adecuado para incluir una figura en un informe.
 
-    Antes de programar, piensa:
-
-    - qué objeto devuelve `plt.subplots()`,
-    - sobre qué eje debe dibujar `seaborn`,
-    - y cómo reunir al final ambas figuras dentro de una sola lista.
+    Este ejercicio evalúa si lograste distinguir correctamente **qué tipo de output conviene preservar y en qué formato**.
     """)
     return
 
@@ -388,257 +1094,100 @@ def _():
 @app.cell
 def _():
     # === TU TURNO (EDITA ESTA CELDA) ===
-    clinical_figures = None
-    return (clinical_figures,)
+    export_plan = None
+    return (export_plan,)
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(r"""
-    ### Tips — Mini-reto 2
-
-    **Tip 1.** Cada gráfico debe empezar con `fig, ax = plt.subplots(...)`.
-
-    **Tip 2.** Para el histograma puedes usar `sns.histplot(...)`.
-
-    **Tip 3.** Para el boxplot necesitas una variable categórica en `x` y una numérica en `y`.
-
-    **Solución posible:**
-
+    _tip_content = TipContent(
+        items_raw=[
+            r"""
+    <Propósito>
+    No todas las salidas cumplen la misma función.
+    Primero decide qué quieres reabrir en Python, qué quieres compartir como tabla y qué quieres usar como figura final.
+    """,
+            r"""
+    <Objeto de Python>
+    Para continuar el análisis más adelante, conviene guardar la estructura que reúne los outputs principales.
+    """,
+            r"""
+    <Formatos>
+    Piensa en un formato tabular para compartir datos y en un formato gráfico apropiado para un informe.
+    """,
+            r"""
+    <solucion>
     ```python
-    fig_glucose, ax_glucose = plt.subplots(figsize=(6, 4))
-    sns.histplot(data=df, x="glucose_mg_dL", bins=15, ax=ax_glucose)
-    ax_glucose.set_title("Distribución de glucosa")
-
-    fig_ldl, ax_ldl = plt.subplots(figsize=(6, 4))
-    sns.boxplot(data=df, x="hypertension", y="ldl_mg_dL", ax=ax_ldl)
-    ax_ldl.set_title("LDL por hipertensión")
-
-    clinical_figures = [fig_glucose, fig_ldl]
-    ```
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(clinical_figures):
-    assert clinical_figures is not None, "Debes asignar una lista a `clinical_figures`."
-    assert isinstance(clinical_figures, list), "`clinical_figures` debe ser una lista."
-    assert len(clinical_figures) == 2, "La lista debe contener exactamente 2 figuras."
-    assert all(isinstance(fig, Figure) for fig in clinical_figures), (
-        "Cada elemento de `clinical_figures` debe ser un objeto Figure."
-    )
-
-    print("Mini-reto 2: tests superados.")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-    ## 5) Integración: construir un paquete de resultados
-
-    Cuando un análisis ya tiene varias salidas, conviene reunirlas en una estructura principal.
-
-    Un patrón simple consiste en usar un diccionario superior con secciones como:
-
-    - `metadata`
-    - `metrics`
-    - `tables`
-    - `figures`
-
-    Esto no introduce una librería nueva ni una arquitectura compleja.
-
-    Solo aplica de manera explícita estructuras ya conocidas: **diccionarios, listas y DataFrames**.
-    """)
-    return
-
-
-@app.cell
-def _(data_path, example_figures, overview_metrics, summary_by_sex_area):
-    teacher_bundle = {
-        "metadata": {
-            "dataset_name": os.path.basename(data_path),
-            "analysis_unit": "persona",
-        },
-        "metrics": overview_metrics,
-        "tables": {
-            "summary_by_sex_area": summary_by_sex_area,
-        },
-        "figures": example_figures,
-    }
-
-    teacher_bundle.keys()
-    return (teacher_bundle,)
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-    Observa que este patrón produce una salida mucho más formal que una secuencia de prints o gráficos aislados.
-
-    Ahora todo el análisis puede consultarse por componentes:
-
-    - `teacher_bundle["metrics"]`
-    - `teacher_bundle["tables"]`
-    - `teacher_bundle["figures"]`
-
-    La ventaja conceptual es que el análisis queda organizado como un conjunto coherente de resultados.
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-    ## Mini-reto 3 — Reto final: construir un output analítico completo
-
-    **Dominio:** resumen clínico estructurado
-
-    Construye un diccionario llamado `analysis_output` con exactamente estas claves principales:
-
-    - `metadata`
-    - `metrics`
-    - `tables`
-    - `figures`
-
-    Reglas del reto:
-
-    1. `metadata` debe ser un diccionario con:
-       - `dataset_name`
-       - `n_rows`
-
-    2. `metrics` debe ser exactamente el diccionario `metrics_demography`.
-
-    3. `tables` debe ser un diccionario con una sola entrada:
-       - clave: `summary_by_hypertension`
-       - valor: un DataFrame resumen por `hypertension` con las columnas:
-         - `hypertension`
-         - `n_patients`
-         - `mean_age`
-         - `mean_sbp`
-         - `prop_diabetes`
-
-    4. `figures` debe ser exactamente la lista `clinical_figures`.
-
-    Antes de programar, piensa:
-
-    - qué partes del resultado ya existen y pueden reutilizarse,
-    - qué parte nueva debes construir con `groupby` y `agg`,
-    - y cómo ensamblar todo en un único diccionario final.
-    """)
-    return
-
-
-@app.cell
-def _():
-    # === TU TURNO (EDITA ESTA CELDA) ===
-    analysis_output = None
-    return (analysis_output,)
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md(r"""
-    ### Tips — Mini-reto 3
-
-    **Tip 1.** La tabla nueva debe construirse primero y luego incorporarse al diccionario final.
-
-    **Tip 2.** Para `prop_diabetes`, recuerda que el promedio de una condición booleana funciona como proporción.
-
-    **Tip 3.** `analysis_output` no debe mezclar nombres arbitrarios: debe respetar exactamente la estructura pedida.
-
-    **Solución posible:**
-
-    ```python
-    summary_by_hypertension = (
-        df.groupby("hypertension", as_index=False)
-        .agg(
-            n_patients=("ID", "count"),
-            mean_age=("age", "mean"),
-            mean_sbp=("sbp_mmHg", "mean"),
-            prop_diabetes=("Diabetes", lambda s: (s == "Yes").mean()),
-        )
-        .assign(
-            mean_age=lambda d: d["mean_age"].round(2),
-            mean_sbp=lambda d: d["mean_sbp"].round(2),
-            prop_diabetes=lambda d: d["prop_diabetes"].round(4),
-        )
-    )
-
-    analysis_output = {
-        "metadata": {
-            "dataset_name": os.path.basename(data_path),
-            "n_rows": int(df.shape[0]),
-        },
-        "metrics": metrics_demography,
-        "tables": {
-            "summary_by_hypertension": summary_by_hypertension,
-        },
-        "figures": clinical_figures,
+    export_plan = {
+    "python_object": "final_outputs",
+    "table_share_format": "csv",
+    "figure_report_format": "pdf",
     }
     ```
-    """)
+    """,
+        ]
+    )
+    _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(analysis_output, clinical_figures, data_path, df, metrics_demography):
-    assert analysis_output is not None, "Debes asignar un diccionario a `analysis_output`."
-    assert isinstance(analysis_output, dict), "`analysis_output` debe ser un diccionario."
-    assert list(analysis_output.keys()) == ["metadata", "metrics", "tables", "figures"], (
-        "Las claves principales deben ser: metadata, metrics, tables, figures."
+def _(export_plan):
+    _test_content = TestContent(
+        items_raw=[
+            r"""
+    <Existencia>
+    ```python
+    assert export_plan is not None
+    assert isinstance(export_plan, dict)
+    print("El plan de exportación existe.")
+    ```
+    """,
+            r"""
+    <Claves esperadas>
+    ```python
+    assert list(export_plan.keys()) == [
+    "python_object",
+    "table_share_format",
+    "figure_report_format",
+    ]
+    print("Las claves del plan son correctas.")
+    ```
+    """,
+            r"""
+    <Tipos de salida>
+    ```python
+    assert all(isinstance(value, str) for value in export_plan.values())
+    print("Todos los valores están expresados como texto.")
+    ```
+    """,
+        ],
+        namespace=globals(),
     )
 
-    assert analysis_output["metadata"]["dataset_name"] == os.path.basename(data_path)
-    assert analysis_output["metadata"]["n_rows"] == int(df.shape[0])
-    assert analysis_output["metrics"] == metrics_demography
-    assert analysis_output["figures"] == clinical_figures
-
-    assert "summary_by_hypertension" in analysis_output["tables"], (
-        "Dentro de `tables` debe existir la clave `summary_by_hypertension`."
-    )
-
-    summary_table = analysis_output["tables"]["summary_by_hypertension"]
-    assert isinstance(summary_table, pd.DataFrame), (
-        "`summary_by_hypertension` debe ser un DataFrame."
-    )
-    assert list(summary_table.columns) == [
-        "hypertension",
-        "n_patients",
-        "mean_age",
-        "mean_sbp",
-        "prop_diabetes",
-    ], "Las columnas de la tabla resumen no coinciden con las solicitadas."
-    assert summary_table["n_patients"].sum() == df.shape[0]
-    assert summary_table["prop_diabetes"].between(0, 1).all()
-
-    print("Mini-reto 3: tests superados.")
-    analysis_output["tables"]["summary_by_hypertension"]
+    if export_plan is not None:
+        pd.Series(export_plan, name="decision")
+    _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    ## Cierre conceptual
+    ## 6) Cierre conceptual
 
-    La idea más importante de esta sesión es que un análisis reproducible no solo calcula métricas: también **organiza sus salidas**.
+    El recorrido de esta sesión puede resumirse así:
 
-    En esta lección viste tres formatos centrales:
+    1. producir métricas, tablas y figuras,
+    2. organizarlas dentro de un output maestro,
+    3. distinguir qué tipo de resultado necesita cada forma de guardado,
+    4. y dejar persistencia explícita de las salidas principales.
 
-    - **diccionarios** para métricas y metadatos,
-    - **DataFrames** para tablas resumen,
-    - **listas** para conservar figuras en orden.
+    Esto permite pasar de una lógica de análisis disperso a una lógica de outputs formales.
 
-    Cuando estos componentes se integran en una estructura explícita, el resultado analítico se vuelve más fácil de:
+    La idea central que conviene retener es la siguiente:
 
-    - interpretar,
-    - comunicar,
-    - revisar,
-    - y reutilizar.
-
-    En términos prácticos, pasar de resultados dispersos a outputs formales significa pasar de un análisis improvisado a un análisis mejor organizado.
+    > **un buen output no solo se calcula bien; también queda nombrado, organizado y guardado de forma coherente con su uso posterior.**
     """)
     return
 

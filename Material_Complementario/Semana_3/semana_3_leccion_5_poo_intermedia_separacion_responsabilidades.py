@@ -6,6 +6,7 @@
 #     "pandas==3.0.1",
 #     "pytest==9.0.2",
 #     "requests==2.32.5",
+#     "seaborn==0.13.2",
 # ]
 # ///
 
@@ -14,148 +15,95 @@ import marimo
 __generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
-
 with app.setup(hide_code=True):
-    import re
-    from pathlib import Path
-
     import marimo as mo
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
     import seaborn as sns
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+
+    from setup import TipContent, TestContent, find_data_file
 
     sns.set_theme(style="whitegrid")
-
-    class _PanelContent:
-        def __init__(self, items_raw, header):
-            self.items_raw = items_raw
-            self.header = header
-
-        def _parse_item(self, raw_text):
-            text = raw_text.strip()
-            match = re.match(r"<([^>]+)>\s*(.*)", text, flags=re.DOTALL)
-            if match:
-                title = match.group(1).strip()
-                body = match.group(2).strip()
-            else:
-                title = "Sección"
-                body = text
-            return title, body
-
-        def render(self):
-            blocks = []
-            for item in self.items_raw:
-                title, body = self._parse_item(item)
-                blocks.append(
-                    f"""
-<details>
-<summary><strong>{title}</strong></summary>
-
-{body}
-
-</details>
-"""
-                )
-
-            return mo.md(
-                f"### {self.header}\n\n" + "\n".join(blocks)
-            )
-
-
-    class TipContent(_PanelContent):
-        def __init__(self, items_raw):
-            super().__init__(items_raw=items_raw, header="Tips")
-
-
-    class TestContent(_PanelContent):
-        def __init__(self, items_raw):
-            super().__init__(items_raw=items_raw, header="Test")
 
 
 @app.cell(hide_code=True)
 def _():
-    mo.md(
-        r"""
-# Semana 3 · Lección 5 · POO intermedia y separación de responsabilidades
+    mo.md(r"""
+    # Semana 3 · Lección 5
+    ## POO intermedia y separación de responsabilidades
 
-## Propósito de la sesión
+    **Propósito de la sesión:** aprender a organizar un análisis en una clase simple separando con claridad tres responsabilidades:
 
-Diseñar una clase analítica simple para datos de salud separando responsabilidades en tres métodos:
+    - preparar datos,
+    - calcular un resumen,
+    - visualizar el resultado.
 
-- `clean_data()`
-- `compute_profile()`
-- `visualize_profile()`
+    Esta lección cambia de foco respecto a las anteriores.
 
-## Pregunta guía
+    En las lecciones 2, 3 y 4 trabajaste principalmente la **representación de información**.
+    Aquí el problema central no es elegir un gráfico, sino diseñar mejor el código que produce ese gráfico.
 
-Queremos responder una pregunta sencilla pero realista:
+    La pregunta guía será:
 
-> **¿Cómo cambia el perfil cardiometabólico entre subgrupos definidos por sexo y diabetes?**
+    > **¿Cómo organizar un análisis para que limpiar, resumir y visualizar no queden mezclados en el mismo bloque?**
 
-Trabajaremos con un dataset tabular de salud ya conocido, pero ahora el foco no estará solo en pandas o en gráficos por separado, sino en **cómo organizar el análisis dentro de una clase** para que el flujo sea más claro, reusable y mantenible.
+    La idea más importante de la sesión es esta:
 
-## Idea central de la lección
+    > una clase analítica intermedia no debe mezclar todo en un solo método.
 
-Una clase analítica intermedia no debe mezclar todo en un solo método.
+    En vez de eso, construiremos una arquitectura mínima y legible basada en tres etapas:
 
-La meta es dividir el trabajo así:
-
-1. **clean**  
-   preparar y estandarizar la tabla;
-
-2. **compute**  
-   calcular resúmenes o métricas;
-
-3. **visualize**  
-   construir una visualización a partir de un resultado ya resumido.
-"""
-    )
+    **clean → compute → visualize**
+    """)
     return
 
 
 @app.cell
-def _(Path, pd):
-    base_path = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
-    csv_path = base_path / "dataset_clase_semana2_small.csv"
+def _():
+    data_path = find_data_file("public/dataset_clase_semana2_small.csv")
+    cohort_raw = pd.read_csv(data_path)
 
-    cohort_raw = pd.read_csv(csv_path)
-
-    cohort_raw.head(8)
-    return cohort_raw, csv_path
+    cohort_raw.head()
+    return (cohort_raw,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 1) Dataset y variables de trabajo
+def _(cohort_raw):
+    mo.md(f"""
+    ## Dataset de trabajo
 
-Usaremos una cohorte sintética con variables sociodemográficas, clínicas y funcionales.
+    Seguiremos trabajando con el mismo dataset clínico de las lecciones anteriores.
 
-Para esta sesión nos concentraremos en un subconjunto pequeño de variables:
+    El dataset contiene:
 
-- `ID`
-- `age`
-- `sex`
-- `Diabetes`
-- `hypertension`
-- `high_cholesterol`
-- `sbp_mmHg`
-- `glucose_mg_dL`
-- `ldl_mg_dL`
+    - **{cohort_raw.shape[0]} registros**
+    - **{cohort_raw.shape[1]} variables**
 
-### Decisión didáctica
+    Cada fila representa un individuo con variables demográficas, factores de riesgo y mediciones clínicas.
 
-Reducir columnas no es “perder información”.
+    En esta sesión nos concentraremos solo en las variables necesarias para las preguntas de clase y de práctica:
 
-En diseño analítico, elegir menos variables al inicio ayuda a:
+    - `ID`
+    - `age`
+    - `sex`
+    - `Diabetes`
+    - `hypertension`
+    - `high_cholesterol`
+    - `sbp_mmHg`
+    - `glucose_mg_dL`
+    - `ldl_mg_dL`
 
-- clarificar la unidad de análisis,
-- reducir ruido innecesario,
-- y hacer más explícita la responsabilidad de cada método.
-"""
-    )
+    Esta reducción es deliberada.
+
+    En diseño de clases, elegir solo las columnas que una pregunta necesita ayuda a:
+
+    - hacer explícita la unidad de análisis,
+    - reducir ruido,
+    - y clarificar la responsabilidad de cada método.
+    """)
     return
 
 
@@ -173,48 +121,50 @@ def _(cohort_raw):
         "ldl_mg_dL",
     ]
 
-    cohort_raw[selected_columns].head(10)
-    return (selected_columns,)
+    cohort_raw[selected_columns].head(8)
+    return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 2) El problema de mezclar todo en un solo bloque
+def _():
+    mo.md(r"""
+    ## 1) Problema de diseño: mezclar todo en un mismo bloque
 
-Cuando un análisis:
+    Un análisis suele involucrar varias fases:
 
-- selecciona columnas,
-- recodifica variables,
-- agrupa,
-- calcula métricas,
-- y además grafica,
+    - seleccionar variables,
+    - renombrar columnas,
+    - estandarizar etiquetas,
+    - derivar indicadores,
+    - resumir por grupos,
+    - construir un gráfico.
 
-todo dentro de una sola función o método, el resultado suele ser difícil de leer y difícil de modificar.
+    El problema aparece cuando todas esas tareas se mezclan en una sola función o en un solo método.
 
-### Síntoma clásico
+    Eso genera código que:
 
-Si necesitas cambiar una etiqueta, una métrica o un gráfico, debes volver a entrar a un bloque enorme de código donde todo está mezclado.
+    - cuesta leer,
+    - cuesta depurar,
+    - cuesta modificar,
+    - y cuesta reutilizar.
 
-### Alternativa
+    Síntoma clásico:
 
-Separar responsabilidades:
-
-- **`clean_data()`** no debe graficar;
-- **`compute_profile()`** no debe limpiar de nuevo;
-- **`visualize_profile()`** no debe rehacer el resumen desde cero.
-
-Esta separación mejora la cohesión del código.
-"""
-    )
+    > si quieres cambiar una sola parte del análisis, tienes que volver a entrar a un bloque enorme donde todo está acoplado.
+    """)
     return
 
 
 @app.cell
-def _(cohort_raw, pd):
+def _(cohort_raw):
+    # Definición de función que realiza todo le trabajo sin separar responsabilidades
+    # - recibe un DataFrame crudo
+    # - devuelve una tabla resumen
     def analyze_everything(raw_df: pd.DataFrame) -> pd.DataFrame:
-        # This example is intentionally overloaded for teaching purposes.
+
+        # Selección de variables
+        # - conserva solo columnas relevantes para el análisis
+        # - copy(): evita modificar el DataFrame original
         df = raw_df[
             [
                 "ID",
@@ -228,10 +178,20 @@ def _(cohort_raw, pd):
             ]
         ].copy()
 
+        # Estandarización de texto
+        # - convierte valores de Diabetes a minúsculas
+        # - útil cuando hay etiquetas como "Yes" y "yes"
         df["Diabetes"] = df["Diabetes"].str.lower()
+
+        # Creación de indicadores booleanos
+        # - eq("Yes"): True si la condición se cumple
+        # - estos indicadores facilitan el cálculo de proporciones
         df["has_hypertension"] = df["hypertension"].eq("Yes")
         df["has_high_cholesterol"] = df["high_cholesterol"].eq("Yes")
 
+        # Construcción de tabla resumen
+        # - groupby: agrupa por sexo y diabetes
+        # - agg: calcula conteos, medias y proporciones
         summary = (
             df.groupby(["sex", "Diabetes"], as_index=False)
             .agg(
@@ -242,288 +202,354 @@ def _(cohort_raw, pd):
                 prop_hypertension=("has_hypertension", "mean"),
                 prop_high_cholesterol=("has_high_cholesterol", "mean"),
             )
+
+            # Orden y formato final
             .sort_values(["sex", "Diabetes"])
+            .round(2)
         )
 
-        return summary.round(2)
+        # Salida de la función
+        return summary
 
+    # Ejecutar función sobre el dataset de cohorte
     overloaded_summary = analyze_everything(cohort_raw)
+
+    # Mostrar resultado
     overloaded_summary
-    return overloaded_summary,
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-El resultado anterior puede funcionar, pero la arquitectura sigue siendo pobre:
-
-- si quieres inspeccionar solo la tabla limpia, no tienes un método específico;
-- si quieres reutilizar el resumen en otro gráfico, el flujo no está claramente separado;
-- si quieres depurar errores, no es fácil saber en qué fase del proceso ocurrió el problema.
-
-Por eso ahora construiremos una clase con tres responsabilidades explícitas.
-"""
-    )
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 3) Estructura objetivo de la clase
+def _():
+    mo.md(r"""
+    El resultado anterior puede ser correcto, pero la arquitectura sigue siendo débil:
 
-[Diagrama conceptual del flujo de una clase analítica con tres pasos: datos crudos → clean_data() → cleaned_df → compute_profile() → summary_df → visualize_profile() → gráfico]
+    - no existe una fase explícita para inspeccionar la tabla limpia,
+    - no existe una fase explícita para reutilizar el resumen,
+    - y no queda claro dónde modificar el flujo si la pregunta analítica cambia.
 
-La clase trabajará con tres atributos importantes:
+    Por eso ahora construiremos una clase con responsabilidades separadas.
+    """)
+    return
 
-- `raw_df`: tabla original;
-- `cleaned_df`: tabla preparada;
-- `summary_df`: tabla resumida.
 
-Y con tres métodos principales:
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 2) Arquitectura objetivo de la clase
 
-- `clean_data()`
-- `compute_profile()`
-- `visualize_profile()`
-"""
-    )
+    La clase tendrá tres atributos principales:
+
+    - `raw_df`: tabla original,
+    - `cleaned_df`: tabla preparada,
+    - `summary_df`: tabla resumida.
+
+    Y tres métodos principales:
+
+    - `clean_data()`
+    - `compute_profile()`
+    - `visualize_profile()`
+
+    La lógica del flujo será:
+
+    **raw_df → clean_data() → cleaned_df → compute_profile() → summary_df → visualize_profile() → gráfico**
+
+    Idea clave:
+
+    > cada método debe tener una responsabilidad principal y reconocible.
+    """)
+    return
+
+
+@app.class_definition
+# Definición de la clase
+# - organiza el análisis en pasos: limpiar, resumir y visualizar
+# - permite guardar resultados intermedios como atributos del objeto
+class CohortProfileAnalyzer:
+
+    # Método inicial
+    # - recibe el DataFrame original
+    # - crea espacios para guardar datos limpios y resumen
+    def __init__(self, raw_df: pd.DataFrame):
+        self.raw_df = raw_df.copy()
+        self.cleaned_df = None
+        self.summary_df = None
+
+    # Limpieza y preparación de datos
+    def clean_data(self) -> pd.DataFrame:
+        # Selección de variables
+        # - conserva solo columnas útiles para esta pregunta analítica
+        df = self.raw_df[
+            [
+                "ID",
+                "age",
+                "sex",
+                "Diabetes",
+                "hypertension",
+                "high_cholesterol",
+                "sbp_mmHg",
+                "glucose_mg_dL",
+                "ldl_mg_dL",
+            ]
+        ].copy()
+
+        # Renombrar columnas
+        # - usa nombres más cortos y consistentes para el análisis
+        df = df.rename(
+            columns={
+                "ID": "person_id",
+                "Diabetes": "diabetes",
+                "sbp_mmHg": "sbp",
+                "glucose_mg_dL": "glucose",
+                "ldl_mg_dL": "ldl",
+            }
+        )
+
+        # Estandarización y creación de indicadores
+        # - strip(): elimina espacios extra
+        # - title() / lower(): uniforma etiquetas
+        # - eq("Yes"): crea variables booleanas
+        df["sex"] = df["sex"].str.strip().str.title()
+        df["diabetes"] = df["diabetes"].str.strip().str.lower()
+        df["has_hypertension"] = df["hypertension"].eq("Yes")
+        df["has_high_cholesterol"] = df["high_cholesterol"].eq("Yes")
+
+        # Guardar datos limpios en el objeto
+        self.cleaned_df = df
+        return self.cleaned_df
+
+    # Cálculo del perfil resumido
+    def compute_profile(self) -> pd.DataFrame:
+        # Si no hay datos limpios, los prepara primero
+        if self.cleaned_df is None:
+            self.clean_data()
+
+        # Tabla resumen
+        # - groupby: agrupa por sexo y diabetes
+        # - agg: calcula conteos, medias y proporciones
+        summary = (
+            self.cleaned_df.groupby(["sex", "diabetes"], as_index=False)
+            .agg(
+                n_people=("person_id", "count"),
+                mean_age=("age", "mean"),
+                mean_sbp=("sbp", "mean"),
+                mean_glucose=("glucose", "mean"),
+                mean_ldl=("ldl", "mean"),
+                prop_hypertension=("has_hypertension", "mean"),
+                prop_high_cholesterol=("has_high_cholesterol", "mean"),
+            )
+            .sort_values(["sex", "diabetes"])
+            .round(2)
+        )
+
+        # Guardar resumen en el objeto
+        self.summary_df = summary
+        return self.summary_df
+
+    # Visualización del perfil
+    def visualize_profile(self):
+        # Si no existe el resumen, lo calcula antes de graficar
+        if self.summary_df is None:
+            self.compute_profile()
+
+        # Copia del resumen para visualización
+        plot_df = self.summary_df.copy()
+
+        # Crear figura y eje
+        fig, ax = plt.subplots(figsize=(7, 4.5))
+
+        # Gráfico de barras
+        # - x: estado de diabetes
+        # - y: proporción de hipertensión
+        # - hue: separación por sexo
+        sns.barplot(
+            data=plot_df,
+            x="diabetes",
+            y="prop_hypertension",
+            hue="sex",
+            ax=ax,
+        )
+
+        # Título y etiquetas
+        ax.set_title("Proporción de hipertensión por sexo y diabetes")
+        ax.set_xlabel("Diabetes")
+        ax.set_ylabel("Proporción")
+
+        # Escala y leyenda
+        # - ylim(0, 1): adecuado para proporciones
+        ax.set_ylim(0, 1)
+        ax.legend(title="Sexo")
+
+        # Ajuste de layout
+        fig.tight_layout()
+
+        # Devuelve el eje para seguir personalizando si se necesita
+        return ax
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 3) Lectura de la separación de responsabilidades
+
+    ### `clean_data()`
+
+    Se encarga de:
+
+    - seleccionar variables,
+    - renombrar columnas,
+    - estandarizar etiquetas,
+    - crear indicadores derivados simples.
+
+    ### `compute_profile()`
+
+    Se encarga de:
+
+    - agrupar,
+    - calcular conteos,
+    - calcular medias,
+    - calcular proporciones.
+
+    ### `visualize_profile()`
+
+    Se encarga de:
+
+    - tomar una tabla resumen ya lista,
+    - elegir una visualización adecuada,
+    - definir ejes, etiquetas y rango.
+
+    La regla operativa es muy simple:
+
+    > **limpiar no es resumir, resumir no es graficar, y graficar no es volver a limpiar.**
+    """)
     return
 
 
 @app.cell
-def _(pd, plt, sns):
-    class CohortProfileAnalyzer:
-        def __init__(self, raw_df: pd.DataFrame):
-            self.raw_df = raw_df.copy()
-            self.cleaned_df = None
-            self.summary_df = None
-
-        def clean_data(self) -> pd.DataFrame:
-            # Select only the variables needed for this analytical question.
-            df = self.raw_df[
-                [
-                    "ID",
-                    "age",
-                    "sex",
-                    "Diabetes",
-                    "hypertension",
-                    "high_cholesterol",
-                    "sbp_mmHg",
-                    "glucose_mg_dL",
-                    "ldl_mg_dL",
-                ]
-            ].copy()
-
-            # Standardize labels and derive boolean indicators.
-            df = df.rename(
-                columns={
-                    "ID": "person_id",
-                    "Diabetes": "diabetes",
-                    "sbp_mmHg": "sbp",
-                    "glucose_mg_dL": "glucose",
-                    "ldl_mg_dL": "ldl",
-                }
-            )
-
-            df["sex"] = df["sex"].str.strip().str.title()
-            df["diabetes"] = df["diabetes"].str.strip().str.lower()
-            df["has_hypertension"] = df["hypertension"].eq("Yes")
-            df["has_high_cholesterol"] = df["high_cholesterol"].eq("Yes")
-
-            self.cleaned_df = df
-            return self.cleaned_df
-
-        def compute_profile(self) -> pd.DataFrame:
-            if self.cleaned_df is None:
-                self.clean_data()
-
-            summary = (
-                self.cleaned_df.groupby(["sex", "diabetes"], as_index=False)
-                .agg(
-                    n_people=("person_id", "count"),
-                    mean_age=("age", "mean"),
-                    mean_sbp=("sbp", "mean"),
-                    mean_glucose=("glucose", "mean"),
-                    mean_ldl=("ldl", "mean"),
-                    prop_hypertension=("has_hypertension", "mean"),
-                    prop_high_cholesterol=("has_high_cholesterol", "mean"),
-                )
-                .sort_values(["sex", "diabetes"])
-                .round(2)
-            )
-
-            self.summary_df = summary
-            return self.summary_df
-
-        def visualize_profile(self):
-            if self.summary_df is None:
-                self.compute_profile()
-
-            plot_df = self.summary_df.copy()
-
-            fig, ax = plt.subplots(figsize=(7, 4.5))
-            sns.barplot(
-                data=plot_df,
-                x="diabetes",
-                y="prop_hypertension",
-                hue="sex",
-                ax=ax,
-            )
-
-            ax.set_title("Proporción de hipertensión por sexo y diabetes")
-            ax.set_xlabel("Diabetes")
-            ax.set_ylabel("Proporción")
-            ax.set_ylim(0, 1)
-            ax.legend(title="Sexo")
-            fig.tight_layout()
-            return ax
-    return (CohortProfileAnalyzer,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 4) Observa la separación de responsabilidades
-
-### `clean_data()`
-Su tarea es preparar la tabla:
-
-- seleccionar columnas,
-- renombrar variables,
-- estandarizar etiquetas,
-- derivar indicadores simples.
-
-### `compute_profile()`
-Su tarea es resumir:
-
-- agrupar,
-- calcular conteos,
-- calcular medias,
-- calcular proporciones.
-
-### `visualize_profile()`
-Su tarea es mostrar el resultado:
-
-- usa la tabla resumen,
-- decide ejes y etiquetas,
-- construye el gráfico.
-
-La idea más importante es esta:
-
-> cada método debe tener una responsabilidad principal y reconocible.
-"""
-    )
-    return
-
-
-@app.cell
-def _(CohortProfileAnalyzer, cohort_raw):
+def _(cohort_raw):
     analyzer_demo = CohortProfileAnalyzer(cohort_raw)
     clean_demo = analyzer_demo.clean_data()
     summary_demo = analyzer_demo.compute_profile()
 
-    clean_demo.head(8), summary_demo
-    return analyzer_demo, clean_demo, summary_demo
+    clean_demo.head(6), summary_demo
+    return (analyzer_demo,)
 
 
 @app.cell
 def _(analyzer_demo):
     ax_demo = analyzer_demo.visualize_profile()
     ax_demo
-    return (ax_demo,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## Mini-reto 1 — Implementar `clean_data()`
-
-**Objetivo:** construir el primer método de la clase.
-
-Debes editar la clase del estudiante para que `clean_data()`:
-
-1. seleccione solo las columnas necesarias,
-2. renombre `ID`, `Diabetes`, `sbp_mmHg`, `glucose_mg_dL` y `ldl_mg_dL`,
-3. estandarice `sex` y `diabetes`,
-4. cree `has_hypertension` y `has_high_cholesterol`,
-5. y guarde el resultado en `self.cleaned_df`.
-
-La meta no es resumir ni graficar todavía.
-
-Aquí solo se prepara la tabla.
-"""
-    )
     return
 
 
-@app.cell
-def _(pd):
-    class StudentCohortAnalyzer:
-        def __init__(self, raw_df: pd.DataFrame):
-            self.raw_df = raw_df.copy()
-            self.cleaned_df = None
-            self.summary_df = None
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## 4) ¿Por qué esta separación mejora el código?
 
-        def clean_data(self) -> pd.DataFrame:
-            # === TU TURNO (EDITA ESTE MÉTODO) ===
-            # Keep only the variables required for the analysis.
-            # Rename columns to simpler analysis-friendly names.
-            # Standardize the labels in sex and diabetes.
-            # Create the boolean indicators requested in the prompt.
-            self.cleaned_df = None
-            return self.cleaned_df
+    Esta arquitectura mejora el análisis porque:
 
-        def compute_profile(self) -> pd.DataFrame:
-            # === TU TURNO (EDITA ESTE MÉTODO EN EL MINI-RETO 2) ===
-            self.summary_df = None
-            return self.summary_df
+    - permite inspeccionar cada fase por separado,
+    - facilita pruebas más estables,
+    - hace más fácil cambiar una parte sin romper las demás,
+    - permite reutilizar la tabla resumen en otro gráfico,
+    - y reduce duplicación de trabajo.
 
-        def visualize_profile(self):
-            # === TU TURNO (EDITA ESTE MÉTODO EN EL MINI-RETO 3) ===
-            return None
-    return (StudentCohortAnalyzer,)
+    En otras palabras:
+
+    > la separación de responsabilidades mejora la cohesión y reduce acoplamiento innecesario.
+    """)
+    return
 
 
 @app.cell(hide_code=True)
-def _(TipContent):
+def _():
+    mo.md(r"""
+    ## 5) Mini-reto 1 — Fase de limpieza
+
+    > ¿Cómo cambia el perfil metabólico por grupo de edad y sexo?
+
+    Tu tarea es preparar los datos para poder responder esa pregunta.
+
+    Debes editar `clean_data()` en `StudentRiskStratifier` para que la tabla resultante:
+
+    - contenga solo las variables necesarias,
+    - tenga nombres consistentes,
+    - tenga categorías limpias,
+    - incluya una variable de edad agrupada,
+    - incluya indicadores binarios clínicamente útiles.
+
+    Requisitos mínimos:
+
+    1. Seleccionar columnas relevantes.
+    2. Renombrar `ID`, `Diabetes`, `glucose_mg_dL`, `ldl_mg_dL`.
+    3. Estandarizar `sex` y `diabetes`.
+    4. Crear `age_group` con:
+       - `60-69`
+       - `70-79`
+       - `80+`
+    5. Crear:
+       - `has_diabetes`
+       - `has_high_cholesterol`
+    6. Guardar en `self.cleaned_df`.
+    7. Retornar el resultado.
+
+    Restricción:
+
+    No agregues, no resumas, no visualices.
+    """)
+    return
+
+
+@app.class_definition
+class StudentRiskStratifier:
+    def __init__(self, raw_df: pd.DataFrame):
+        self.raw_df = raw_df.copy()
+        self.cleaned_df = None
+        self.summary_df = None
+
+    def clean_data(self) -> pd.DataFrame:
+        # === TU TURNO (EDITA ESTE MÉTODO) ===
+        self.cleaned_df = None
+        return self.cleaned_df
+
+    def compute_profile(self) -> pd.DataFrame:
+        # === TU TURNO (EDITA ESTE MÉTODO EN EL MINI-RETO 2) ===
+        self.summary_df = None
+        return self.summary_df
+
+    def visualize_profile(self):
+        # === TU TURNO (EDITA ESTE MÉTODO EN EL MINI-RETO 3) ===
+        return None
+
+
+@app.cell(hide_code=True)
+def _():
     _tip_content = TipContent(
         items_raw=[
             r"""
-<Seleccionar antes de transformar>
-Comienza creando una copia con solo las columnas necesarias.
-
-Eso hace que el método sea más claro y evita cargar variables que no usarás.
-""",
+    <Idea principal>
+    La limpieza debe dejar lista la tabla para una agrupación posterior por `age_group` y `sex`.
+    """,
             r"""
-<Renombrar para facilitar el análisis>
-Busca nombres que hagan más legible la siguiente fase del flujo.
-
-En vez de conservar `sbp_mmHg`, `glucose_mg_dL` o `ldl_mg_dL`, usa nombres cortos pero claros.
-""",
+    <Variable derivada nueva>
+    Aquí necesitas convertir una edad continua en bandas etarias. `pd.cut(...)` puede ayudarte.
+    """,
             r"""
-<Estandarización mínima>
-Las etiquetas categóricas deben quedar consistentes antes de agrupar.
-
-Piensa en operaciones como `str.strip()`, `str.lower()` o `str.title()`.
-""",
+    <Indicadores>
+    Si más adelante quieres calcular proporciones, conviene dejar listas columnas booleanas como `has_diabetes` y `has_high_cholesterol`.
+    """,
             r"""
-<solucion>
-
-```python
-def clean_data(self) -> pd.DataFrame:
+    <solucion>
+    ```python
+    def clean_data(self) -> pd.DataFrame:
     df = self.raw_df[
         [
             "ID",
             "age",
             "sex",
             "Diabetes",
-            "hypertension",
             "high_cholesterol",
-            "sbp_mmHg",
             "glucose_mg_dL",
             "ldl_mg_dL",
         ]
@@ -533,7 +559,6 @@ def clean_data(self) -> pd.DataFrame:
         columns={
             "ID": "person_id",
             "Diabetes": "diabetes",
-            "sbp_mmHg": "sbp",
             "glucose_mg_dL": "glucose",
             "ldl_mg_dL": "ldl",
         }
@@ -541,498 +566,561 @@ def clean_data(self) -> pd.DataFrame:
 
     df["sex"] = df["sex"].str.strip().str.title()
     df["diabetes"] = df["diabetes"].str.strip().str.lower()
-    df["has_hypertension"] = df["hypertension"].eq("Yes")
+
+    df["age_group"] = pd.cut(
+        df["age"],
+        bins=[40, 55, 70, np.inf],
+        right=False,
+        labels=["40-54", "55-69", "70+"],
+    ).astype(str)
+
+    df["has_diabetes"] = df["diabetes"].eq("yes")
     df["has_high_cholesterol"] = df["high_cholesterol"].eq("Yes")
 
     self.cleaned_df = df
     return self.cleaned_df
-```
-""",
+    ```
+    """,
         ]
     )
-
     _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(TestContent):
+def _():
     _test_content = TestContent(
         items_raw=[
             r"""
-<Salida esperada>
-El método debe devolver un DataFrame y además guardarlo en `self.cleaned_df`.
+    <Salida esperada>
+    ```python
+    student = StudentRiskStratifier(cohort_raw)
+    cleaned = student.clean_data()
 
-```python
-student = StudentCohortAnalyzer(cohort_raw)
-cleaned = student.clean_data()
-
-assert cleaned is not None
-assert hasattr(cleaned, "columns")
-print("La salida tiene estructura tabular.")
-```
-""",
+    assert cleaned is not None
+    assert isinstance(cleaned, pd.DataFrame)
+    print("La salida tiene estructura tabular.")
+    ```
+    """,
             r"""
-<Columnas mínimas>
-Verifica que existan las columnas derivadas y renombradas.
-
-```python
-expected_columns = {
+    <Columnas mínimas>
+    ```python
+    expected_columns = {
     "person_id",
     "age",
     "sex",
     "diabetes",
-    "hypertension",
     "high_cholesterol",
-    "sbp",
     "glucose",
     "ldl",
-    "has_hypertension",
+    "age_group",
+    "has_diabetes",
     "has_high_cholesterol",
-}
-assert expected_columns.issubset(set(cleaned.columns))
-print("Columnas correctas.")
-```
-""",
+    }
+    assert expected_columns.issubset(set(cleaned.columns))
+    print("Columnas correctas.")
+    ```
+    """,
             r"""
-<Estandarización básica>
-La columna `diabetes` debe quedar con etiquetas comparables.
-
-```python
-assert set(cleaned["diabetes"].unique()).issubset({"yes", "no"})
-print("Etiquetas de diabetes estandarizadas.")
-```
-""",
-        ]
+    <Bandas etarias esperadas>
+    ```python
+    assert set(cleaned["age_group"].unique()).issubset({"60-69", "70-79", "80+"})
+    print("Grupos de edad válidos.")
+    ```
+    """,
+        ],
+        namespace=globals(),
     )
-
     _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 5) Fase `compute`: resumir sin volver a limpiar
+def _():
+    mo.md(r"""
+    ## 6) Segunda fase — Construcción del perfil
 
-Una vez que la tabla ya está preparada, la segunda responsabilidad es resumirla.
+    Ahora ya no trabajas con individuos, sino con grupos.
 
-En esta sesión construiremos un perfil por:
+    El perfil debe construirse por:
 
-- `sex`
-- `diabetes`
+    - `age_group`
+    - `sex`
 
-y calcularemos:
+    Y debe describir cada subgrupo mediante métricas resumen.
 
-- tamaño del subgrupo,
-- edad media,
-- PAS media,
-- glucosa media,
-- LDL medio,
-- proporción con hipertensión,
-- proporción con colesterol alto.
+    Piensa:
 
-Observa que aquí ya no deberíamos volver a recodificar etiquetas ni renombrar columnas.
+    - ¿qué significa “perfil metabólico” en términos agregados?
+    - ¿qué métricas lo capturan mejor?
 
-Eso pertenece a la fase `clean`.
-"""
-    )
-    return
+    Regla:
 
-
-@app.cell
-def _(summary_demo):
-    summary_demo
+    No redefinas variables que ya debieron existir desde la limpieza.
+    """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## Mini-reto 2 — Implementar `compute_profile()`
+def _():
+    mo.md(r"""
+    ## Mini-reto 2 — compute_profile()
 
-**Objetivo:** resumir la tabla limpia sin rehacer la limpieza.
+    Debes editar `compute_profile()` en `StudentRiskStratifier`.
 
-Debes editar `compute_profile()` para que:
+    Tu función debe producir una tabla donde cada fila represente un subgrupo.
 
-1. use `self.cleaned_df`,
-2. agrupe por `sex` y `diabetes`,
-3. calcule las métricas pedidas,
-4. ordene el resultado,
-5. redondee a dos decimales,
-6. y guarde la tabla en `self.summary_df`.
+    Requisitos:
 
-### Pista conceptual
+    1. Usar `self.cleaned_df`.
+    2. Si no existe, llamar a `self.clean_data()`.
+    3. Agrupar por:
+       - `age_group`
+       - `sex`
+    4. Calcular:
+       - `n_people`
+       - `mean_glucose`
+       - `mean_ldl`
+       - `prop_diabetes`
+       - `prop_high_cholesterol`
+    5. Ordenar por `age_group` y `sex`.
+    6. Redondear a dos decimales.
+    7. Guardar en `self.summary_df`.
+    8. Retornar el resultado.
 
-Si `compute_profile()` empieza seleccionando columnas del dataset crudo, entonces está invadiendo la responsabilidad de `clean_data()`.
-"""
-    )
+    Antes de agregar algo al código, pregunta:
+    > Esto ¿pertenece a la limpieza o al resumen?
+    > si pertenece a la limpieza, debe colocarse en el método `clean_data()`
+    > Si pertenece al resumen, ¿qué método es el adecuado para esa tarea?
+    """)
     return
 
 
 @app.cell(hide_code=True)
-def _(TipContent):
+def _():
     _tip_content = TipContent(
         items_raw=[
             r"""
-<Dependencia entre métodos>
-Este método debe depender de una tabla ya limpia.
-
-Si `self.cleaned_df` aún no existe, puedes llamar internamente a `self.clean_data()`.
-""",
+    <Dependencia correcta>
+    Este método debe partir de `self.cleaned_df`, no del dataset crudo.
+    """,
             r"""
-<Agrupación>
-El resumen no es por paciente individual sino por subgrupos definidos por dos variables categóricas.
-
-Revisa con cuidado cuáles son esas dos columnas.
-""",
+    <Resumen>
+    La tabla final debe ser una fila por combinación entre grupo de edad y sexo.
+    """,
             r"""
-<Proporciones>
-Recuerda que el promedio de una columna booleana puede interpretarse como proporción.
-
-Eso te permite calcular prevalencias simples sin construir fórmulas más largas.
-""",
+    <Proporciones>
+    El promedio de una variable booleana vuelve a ser útil para representar proporciones.
+    """,
             r"""
-<solucion>
-
-```python
-def compute_profile(self) -> pd.DataFrame:
+    <solucion>
+    ```python
+    def compute_profile(self) -> pd.DataFrame:
     if self.cleaned_df is None:
         self.clean_data()
 
     summary = (
-        self.cleaned_df.groupby(["sex", "diabetes"], as_index=False)
+        self.cleaned_df.groupby(["age_group", "sex"], as_index=False)
         .agg(
             n_people=("person_id", "count"),
-            mean_age=("age", "mean"),
-            mean_sbp=("sbp", "mean"),
             mean_glucose=("glucose", "mean"),
             mean_ldl=("ldl", "mean"),
-            prop_hypertension=("has_hypertension", "mean"),
+            prop_diabetes=("has_diabetes", "mean"),
             prop_high_cholesterol=("has_high_cholesterol", "mean"),
         )
-        .sort_values(["sex", "diabetes"])
+        .sort_values(["age_group", "sex"])
         .round(2)
     )
 
     self.summary_df = summary
     return self.summary_df
-```
-""",
+    ```
+    """,
         ]
     )
-
     _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(TestContent):
+def _():
     _test_content = TestContent(
         items_raw=[
             r"""
-<Existencia del resumen>
-El método debe devolver un DataFrame resumen.
+    <Existencia del resumen>
+    ```python
+    student = StudentRiskStratifier(cohort_raw)
+    student.clean_data()
+    summary = student.compute_profile()
 
-```python
-student = StudentCohortAnalyzer(cohort_raw)
-student.clean_data()
-summary = student.compute_profile()
-
-assert summary is not None
-assert hasattr(summary, "shape")
-print("Resumen generado.")
-```
-""",
+    assert summary is not None
+    assert isinstance(summary, pd.DataFrame)
+    print("Resumen generado.")
+    ```
+    """,
             r"""
-<Columnas esperadas>
-Revisa que el resultado tenga las métricas pedidas.
-
-```python
-assert list(summary.columns) == [
+    <Columnas esperadas>
+    ```python
+    assert list(summary.columns) == [
+    "age_group",
     "sex",
-    "diabetes",
     "n_people",
-    "mean_age",
-    "mean_sbp",
     "mean_glucose",
     "mean_ldl",
-    "prop_hypertension",
+    "prop_diabetes",
     "prop_high_cholesterol",
-]
-print("Columnas correctas.")
-```
-""",
+    ]
+    print("Columnas correctas.")
+    ```
+    """,
             r"""
-<Rango de proporciones>
-Las proporciones deben quedar entre 0 y 1.
-
-```python
-assert summary["prop_hypertension"].between(0, 1).all()
-assert summary["prop_high_cholesterol"].between(0, 1).all()
-print("Proporciones válidas.")
-```
-""",
-        ]
+    <Rango de proporciones>
+    ```python
+    assert summary["prop_diabetes"].between(0, 1).all()
+    assert summary["prop_high_cholesterol"].between(0, 1).all()
+    print("Proporciones válidas.")
+    ```
+    """,
+        ],
+        namespace=globals(),
     )
-
     _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 6) Fase `visualize`: usar el resumen, no rehacerlo
+def _():
+    mo.md(r"""
+    ## 7) Tercera fase — Visualización
 
-Ahora entramos a la tercera responsabilidad.
+    Aquí no transformas datos. Tomas decisiones.
 
-La visualización debe partir de `self.summary_df`.
+    Debes trabajar únicamente con `self.summary_df`.
 
-Eso significa que el método gráfico debería concentrarse en:
+    Tu objetivo:
 
-- elegir el tipo de gráfico,
-- definir ejes,
-- etiquetar bien,
-- controlar el rango,
-- y mejorar la legibilidad.
+    Convertir una tabla en una comparación visual clara.
 
-No debería volver a agrupar ni recalcular métricas desde la tabla original.
+    Piensa:
 
-### Relación con lecciones previas
+    - ¿qué variable quieres destacar?
+    - ¿qué comparación debe ser evidente?
+    - ¿qué decisión visual facilita esa lectura?
 
-Aquí se integran contenidos vistos en visualización:
+    Evita:
 
-- selección de un gráfico adecuado,
-- reducción de clutter,
-- etiquetas claras,
-- y atención al mensaje principal.
-"""
-    )
-    return
-
-
-@app.cell
-def _(ax_demo):
-    ax_demo
+    - recalcular métricas,
+    - reagrupar datos,
+    - modificar columnas.
+    """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## Mini-reto 3 — Implementar `visualize_profile()`
+def _():
+    mo.md(r"""
+    ## Mini-reto 3 — visualize_profile()
 
-**Objetivo:** construir el gráfico final del flujo de la clase.
+    Debes editar `visualize_profile()` en `StudentRiskStratifier`.
 
-Debes editar `visualize_profile()` para que:
+    Requisitos:
 
-1. use `self.summary_df`,
-2. construya un gráfico de barras con `diabetes` en el eje x,
-3. use `prop_hypertension` en el eje y,
-4. diferencie `sex` mediante color,
-5. defina título, etiquetas y rango vertical entre 0 y 1,
-6. y devuelva el objeto `ax`.
+    1. Usar `self.summary_df`.
+    2. Si no existe, llamar a `self.compute_profile()`.
+    3. Construir un gráfico de barras:
+       - eje x: `age_group`
+       - eje y: `prop_high_cholesterol`
+    4. Diferenciar `sex` con color (`hue`).
+    5. Agregar título y etiquetas.
+    6. Usar rango en y entre 0 y 1.
+    7. Retornar `ax`.
 
-Este es el mini-reto final de la sesión y reúne:
+    Pregunta final:
 
-- diseño de clase,
-- resumen tabular,
-- y visualización analítica.
-"""
-    )
+    > ¿Tu gráfico permite comparar rápidamente entre edades y entre sexos sin explicación adicional?
+    """)
     return
 
 
 @app.cell(hide_code=True)
-def _(TipContent):
+def _():
     _tip_content = TipContent(
         items_raw=[
             r"""
-<Entrada del gráfico>
-No necesitas volver a calcular la proporción de hipertensión.
-
-Ese valor ya existe en la tabla resumen.
-""",
+    <Entrada del gráfico>
+    La tabla resumen ya contiene la proporción que necesitas graficar.
+    """,
             r"""
-<Elección del gráfico>
-Aquí quieres comparar una proporción entre categorías y subgrupos.
-
-Un gráfico de barras agrupadas es suficiente y más claro que alternativas más complejas.
-""",
+    <Tipo de gráfico>
+    Aquí basta con una comparación de proporciones entre subgrupos; un gráfico de barras agrupadas sigue siendo adecuado.
+    """,
             r"""
-<Legibilidad>
-No olvides definir título, etiquetas de ejes y límite vertical.
-
-Eso hace que la figura sea más interpretables y comparable entre ejecuciones.
-""",
+    <Convención de salida>
+    En esta lección usaremos como convención devolver `ax`.
+    """,
             r"""
-<solucion>
-
-```python
-def visualize_profile(self):
+    <solucion>
+    ```python
+    def visualize_profile(self):
     if self.summary_df is None:
         self.compute_profile()
 
     plot_df = self.summary_df.copy()
 
-    fig, ax = plt.subplots(figsize=(7, 4.5))
+    fig, ax = plt.subplots(figsize=(7.5, 4.5))
     sns.barplot(
         data=plot_df,
-        x="diabetes",
-        y="prop_hypertension",
+        x="age_group",
+        y="prop_high_cholesterol",
         hue="sex",
         ax=ax,
     )
 
-    ax.set_title("Proporción de hipertensión por sexo y diabetes")
-    ax.set_xlabel("Diabetes")
+    ax.set_title("Proporción de colesterol alto por edad y sexo")
+    ax.set_xlabel("Grupo de edad")
     ax.set_ylabel("Proporción")
     ax.set_ylim(0, 1)
     ax.legend(title="Sexo")
     fig.tight_layout()
     return ax
-```
-""",
+    ```
+    """,
         ]
     )
-
     _tip_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(TestContent):
+def _():
     _test_content = TestContent(
         items_raw=[
             r"""
-<Tipo de salida>
-La convención usada en esta sesión es devolver `ax`.
+    <Tipo de salida>
+    ```python
+    student = StudentRiskStratifier(cohort_raw)
+    student.clean_data()
+    student.compute_profile()
+    ax = student.visualize_profile()
 
-```python
-student = StudentCohortAnalyzer(cohort_raw)
-student.clean_data()
-student.compute_profile()
-ax = student.visualize_profile()
-
-assert ax is not None
-print("El método devuelve un objeto gráfico.")
-```
-""",
+    assert ax is not None
+    assert isinstance(ax, Axes)
+    print("El método devuelve un objeto gráfico.")
+    ```
+    """,
             r"""
-<Etiquetas mínimas>
-El gráfico debe tener información textual básica.
-
-```python
-assert ax.get_title() != ""
-assert ax.get_xlabel() != ""
-assert ax.get_ylabel() != ""
-print("Etiquetas definidas.")
-```
-""",
+    <Etiquetas mínimas>
+    ```python
+    assert ax.get_title() != ""
+    assert ax.get_xlabel() != ""
+    assert ax.get_ylabel() != ""
+    print("Etiquetas definidas.")
+    ```
+    """,
             r"""
-<Rango esperado>
-La proporción debe representarse en escala 0 a 1.
-
-```python
-ymin, ymax = ax.get_ylim()
-assert ymin <= 0
-assert ymax >= 1
-print("Rango vertical adecuado.")
-```
-""",
-        ]
+    <Rango esperado>
+    ```python
+    ymin, ymax = ax.get_ylim()
+    assert ymin <= 0
+    assert ymax >= 1
+    print("Rango vertical adecuado.")
+    ```
+    """,
+        ],
+        namespace=globals(),
     )
-
     _test_content.render()
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 7) Ejecución integrada del flujo completo
+def _():
+    mo.md(r"""
+    ## 8) Flujo completo integrado
 
-A continuación se muestra el flujo completo usando la clase de referencia.
+    A continuación se muestra el flujo completo usando la clase de referencia.
 
-La secuencia esperada es:
+    La secuencia esperada es:
 
-`raw_df → clean_data() → compute_profile() → visualize_profile()`
+    `raw_df → clean_data() → compute_profile() → visualize_profile()`
 
-Observa que cada método se apoya en el resultado anterior, pero no reemplaza su responsabilidad.
-"""
-    )
+    Observa que cada método se apoya en el resultado anterior, pero no reemplaza su responsabilidad.
+
+    Haz lo mismo con tu clase `StudentRiskStratifier` para asegurarte de que el flujo completo funciona sin errores y se parece al de referencia.
+    """)
     return
 
 
 @app.cell
-def _(CohortProfileAnalyzer, cohort_raw):
+def _(cohort_raw):
     final_analyzer = CohortProfileAnalyzer(cohort_raw)
     final_cleaned = final_analyzer.clean_data()
     final_summary = final_analyzer.compute_profile()
     final_ax = final_analyzer.visualize_profile()
 
     final_cleaned.head(6), final_summary, final_ax
-    return final_analyzer, final_ax, final_cleaned, final_summary
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## 8) Lectura analítica del ejemplo
-
-Con esta arquitectura ya podemos responder preguntas concretas sin mezclar fases.
-
-Por ejemplo:
-
-- ¿qué subgrupo tiene mayor proporción de hipertensión?
-- ¿la diabetes se asocia con una carga cardiometabólica mayor en ambos sexos?
-- ¿qué parte del flujo habría que modificar si ahora quisiéramos otro gráfico?
-
-La respuesta a la última pregunta es justamente la enseñanza estructural de la sesión:
-
-- si cambia la preparación, modificas `clean_data()`;
-- si cambia el resumen, modificas `compute_profile()`;
-- si cambia la comunicación visual, modificas `visualize_profile()`.
-
-Eso es separación de responsabilidades.
-"""
-    )
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-## Cierre conceptual
+def _():
+    mo.md(r"""
+    ## 9) Lectura final del diseño
 
-En una clase analítica intermedia, separar responsabilidades no es un detalle estético.
+    Con esta arquitectura ya podemos responder preguntas concretas sin mezclar fases.
 
-Es una decisión de diseño que ayuda a:
+    Por ejemplo:
 
-- leer mejor el código,
-- detectar errores más rápido,
-- reutilizar resultados,
-- y modificar una parte del flujo sin romper las demás.
+    - ¿qué subgrupo tiene mayor proporción de hipertensión?
+    - ¿qué método habría que modificar si cambia la forma de limpiar etiquetas?
+    - ¿qué método habría que modificar si cambia la visualización final?
 
-### Idea final
+    La respuesta estructural resume la lección:
 
-Una buena clase analítica no hace “todo al tiempo”.
+    - si cambia la preparación, modificas `clean_data()`;
+    - si cambia el resumen, modificas `compute_profile()`;
+    - si cambia la comunicación visual, modificas `visualize_profile()`.
 
-Hace el análisis por etapas claras:
+    Eso es separación de responsabilidades.
+    """)
+    return
 
-**limpiar → calcular → visualizar**
 
-Esa secuencia será la base para las siguientes arquitecturas analíticas del curso.
-"""
-    )
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Extensión — Cuando el problema crece
+
+    Ahora imagina que el problema deja de ser simple.
+
+    Empiezan a aparecer nuevas necesidades:
+
+    - múltiples definiciones clínicas (ej. distintos puntos de corte),
+    - variables longitudinales,
+    - múltiples cohortes,
+    - diferentes poblaciones de referencia,
+    - pruebas estadisticas automatizadas,
+    - análisis reproducibles en distintos datasets.
+
+    Pregunta:
+
+    ¿Tu diseño sigue funcionando o se rompe? De esto va a depender que tan robusto es el esquema inicial y que tanto puede adaptarse a nuevas necesidades sin mezclar responsabilidades o agregar más codigo.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Extensión — Adaptaciones en limpieza
+
+    La fase de limpieza puede volverse más potente sin cambiar su rol.
+
+    Ejemplos:
+
+    - mapear códigos clínicos a categorías (ICD, SNOMED),
+    - aplicar múltiples definiciones (ej. diabetes por laboratorio vs diagnóstico),
+    - manejar missingness de forma explícita,
+    - crear variables derivadas complejas (scores, índices).
+
+    La regla no cambia:
+
+    Todo lo que define *qué significa cada variable* vive aquí.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Extensión — Adaptaciones en el perfil
+
+    El resumen puede escalar en complejidad.
+
+    Ejemplos:
+
+    - estratificar por más dimensiones (edad × sexo × cohorte),
+    - incorporar pesos muestrales,
+    - calcular intervalos de confianza,
+    - comparar grupos (diferencias, ratios),
+    - integrar modelos (ej. regresión en lugar de medias simples).
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Extensión — Adaptaciones en visualización
+
+    La visualización también puede evolucionar.
+
+    Ejemplos:
+
+    - múltiples métricas en paneles (faceting),
+    - incertidumbre (barras de error),
+    - comparaciones longitudinales,
+    - dashboards interactivos,
+    - diferentes audiencias (clínica vs técnica).
+
+    La función no cambia:
+
+    No produce datos, solo los comunica.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Lectura final
+
+    El diseño no está hecho para este ejercicio.
+
+    Está hecho para escalar.
+
+    Si mañana cambias:
+
+    - la definición de exposición,
+    - la estructura del dataset,
+    - el tipo de análisis,
+    - o la forma de comunicar resultados,
+
+    no reescribes todo.
+
+    Solo modificas una parte.
+
+    Esa es la diferencia entre código que funciona
+    y código que se puede usar repetidamente en diferentes investigaciones.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    ## Cierre conceptual
+
+    En una clase analítica intermedia, separar responsabilidades no es un detalle de estilo.
+
+    Es una decisión de diseño que ayuda a:
+
+    - leer mejor el código,
+    - detectar errores más rápido,
+    - reutilizar resultados,
+    - probar cada fase por separado,
+    - y modificar una parte del flujo sin romper las demás.
+
+    Idea final:
+
+    una buena clase analítica no intenta hacer todo al mismo tiempo.
+
+    Hace el análisis por etapas claras:
+
+    **limpiar → calcular → visualizar**
+
+    Esa secuencia será la base para arquitecturas más robustas en las siguientes lecciones.
+    """)
     return
 
 
