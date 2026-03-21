@@ -1,0 +1,46 @@
+variable,tipo,categoria,descripcion,unidad_o_valores
+id_paciente,entero,Identificación,Identificador único de cada individuo en la población sintética.,"1, 2, 3, ..."
+edad,entero,Demografía,Edad del individuo al momento de observación o en cada ciclo del modelo longitudinal.,años
+sexo,categórica,Demografía,Sexo biológico simulado del individuo.,"Masculino, Femenino"
+etnia,categórica,Demografía,Grupo étnico asignado al individuo según distribución poblacional simulada.,"Mestizo, Blanco, Afrodescendiente, Indigena, Mulato, Otro"
+region,categórica,Demografía,Región geográfica colombiana de residencia simulada.,"Andina, Caribe, Pacifica, Amazonia, Orinoquia"
+zona,categórica,Demografía,Tipo de residencia del individuo.,"Urbano, Rural"
+quintil_ingreso,categórica,Demografía,Quintil de ingreso socioeconómico asignado al individuo.,"Q1, Q2, Q3, Q4, Q5"
+educacion,categórica,Demografía,"Nivel educativo simulado, condicionado parcialmente por quintil de ingreso.","Primaria, Secundaria, Tecnica, Universitaria"
+tabaquismo,categórica,Estilo de vida,Estado de tabaquismo del individuo.,"Nunca, Exfumador, Actual"
+actividad_fisica,categórica,Estilo de vida,Nivel de actividad física habitual del individuo.,"Baja, Moderada, Alta"
+dieta,categórica,Estilo de vida,Calidad general de la dieta simulada.,"Mala, Media, Alta"
+alcohol,categórica,Estilo de vida,Nivel de consumo de alcohol simulado.,"Ninguno, Moderado, Alto"
+imc,numérica continua,Antropometría,Índice de masa corporal del individuo.,kg/m²
+categoria_imc,categórica,Antropometría,Clasificación categórica del índice de masa corporal.,"Normal, Sobrepeso, Obesidad I, Obesidad II"
+sbp,numérica continua,Clínica,Presión arterial sistólica simulada.,mmHg
+dbp,numérica continua,Clínica,Presión arterial diastólica simulada.,mmHg
+glucosa,numérica continua,Clínica,Glucosa plasmática simulada.,mg/dL
+ldl,numérica continua,Clínica,Colesterol LDL simulado.,mg/dL
+hipertension,binaria,Comorbilidades,Indicador de hipertensión arterial.,"0 = No, 1 = Sí"
+diabetes,binaria,Comorbilidades,Indicador de diabetes.,"0 = No, 1 = Sí"
+epoc,binaria,Comorbilidades,Indicador de enfermedad pulmonar obstructiva crónica.,"0 = No, 1 = Sí"
+erc,binaria,Comorbilidades,Indicador de enfermedad renal crónica.,"0 = No, 1 = Sí"
+depresion,binaria,Comorbilidades,Indicador de depresión.,"0 = No, 1 = Sí"
+eje_cardiometabolico,numérica continua,Ejes latentes,"Marcador latente de carga cardiometabólica derivado de edad, IMC, diabetes e hipertensión.",Escala relativa sin unidad
+eje_inflamatorio,numérica continua,Ejes latentes,"Marcador latente de inflamación sistémica derivado de edad, tabaquismo, obesidad y EPOC.",Escala relativa sin unidad
+eje_renal,numérica continua,Ejes latentes,"Marcador latente de carga renal derivado de edad, diabetes, hipertensión y ERC.",Escala relativa sin unidad
+eje_hepatico,numérica continua,Ejes latentes,"Marcador latente de carga hepático-metabólica derivado de IMC, alcohol y obesidad.",Escala relativa sin unidad
+hdl,numérica continua,Biomarcadores,Colesterol HDL simulado.,mg/dL
+trigliceridos,numérica continua,Biomarcadores,Triglicéridos séricos simulados.,mg/dL
+insulina,numérica continua,Biomarcadores,Insulina sérica simulada.,µU/mL
+hba1c,numérica continua,Biomarcadores,Hemoglobina glicosilada simulada.,%
+homa_ir,numérica continua,Biomarcadores,Índice HOMA-IR calculado como aproximación de resistencia a la insulina.,Índice
+pcr,numérica continua,Biomarcadores,Proteína C reactiva simulada como biomarcador inflamatorio.,mg/L
+leucocitos,numérica continua,Biomarcadores,Conteo de leucocitos simulado.,células/µL
+creatinina,numérica continua,Biomarcadores,Creatinina sérica simulada.,mg/dL
+egfr,numérica continua,Biomarcadores,Tasa de filtración glomerular estimada simulada.,mL/min/1.73 m²
+albuminuria,numérica continua,Biomarcadores,Excreción urinaria de albúmina simulada.,mg/g o escala relativa
+alt,numérica continua,Biomarcadores,Alanina aminotransferasa simulada.,U/L
+ast,numérica continua,Biomarcadores,Aspartato aminotransferasa simulada.,U/L
+ggt,numérica continua,Biomarcadores,Gamma-glutamil transferasa simulada.,U/L
+hemoglobina,numérica continua,Biomarcadores,Concentración de hemoglobina simulada.,g/dL
+plaquetas,numérica continua,Biomarcadores,Conteo plaquetario simulado.,plaquetas/µL
+frecuencia_cardiaca,numérica continua,Biomarcadores,Frecuencia cardíaca en reposo simulada.,latidos por minuto
+presion_pulso,numérica continua,Biomarcadores,Diferencia entre presión sistólica y diastólica.,mmHg
+riesgo_global,numérica continua,Riesgo,Puntaje sintético agregado de riesgo cardiometabólico global.,Escala relativa sin unidad
