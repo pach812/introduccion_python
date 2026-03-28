@@ -15,12 +15,14 @@ __generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup(hide_code=True):
-    import altair as alt
     import marimo as mo
-    import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
+
+    # Graficas
+    import matplotlib.pyplot as plt
     import seaborn as sns
+    import altair as alt
 
     sns.set_theme(style="whitegrid")
     plt.rcParams["figure.figsize"] = (10, 6)
@@ -48,7 +50,7 @@ def _():
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     rng = np.random.default_rng(2026)
     n = 20_000
@@ -284,24 +286,27 @@ def _():
 
 @app.cell
 def _(dataset):
-    fig_poor, ax_poor = plt.subplots(figsize=(9, 5))
+    # iniciar la fig y los ejes:
 
-    ax_poor.scatter(
+    figura_pobre, eje_pobre = plt.subplots(figsize=(9, 5))
+
+    eje_pobre.scatter(
         dataset["age"],
         dataset["glucose_mg_dL"],
         color="red",
-        s=70,
-        edgecolor="black",
-        alpha=0.9,
-        label="Patients",
+        s=30,
+        alpha=0.25,
+        # edgecolor="black",
+        label="Pacientes",
     )
-    ax_poor.grid(True, linewidth=1.2)
-    ax_poor.set_title("Age and glucose")
-    ax_poor.set_xlabel("x")
-    ax_poor.set_ylabel("y")
-    ax_poor.legend()
 
-    fig_poor
+    eje_pobre.grid(True, linewidth=0.2)
+    eje_pobre.legend()
+
+    eje_pobre.set_xlabel("edad")
+    eje_pobre.set_ylabel("Glucosa Serica (mg/dL)")
+
+    eje_pobre.set_title("Disbucion de glucosa con edad")
     return
 
 
@@ -327,41 +332,45 @@ def _():
 
 @app.cell
 def _(dataset):
-    data_high_glucose = dataset.query("glucose_mg_dL >= 126")
-    data_context = dataset.query("glucose_mg_dL < 126")
+    # iniciar la fig y los ejes:
 
-    fig_story, ax_story = plt.subplots(figsize=(9, 5))
+    figura_buena, eje_bueno = plt.subplots(figsize=(9, 5))
 
-    ax_story.scatter(
-        data_context["age"],
-        data_context["glucose_mg_dL"],
-        color="0.80",
-        alpha=0.7,
-        s=35,
-    )
-    ax_story.scatter(
-        data_high_glucose["age"],
-        data_high_glucose["glucose_mg_dL"],
-        color="tab:red",
-        alpha=0.9,
-        s=40,
+    dataset_alta_glucosa = dataset.query("glucose_mg_dL >= 120")
+    dataset_normal_glucosa = dataset.query("glucose_mg_dL < 120")
+
+
+    eje_bueno.scatter(
+        dataset_alta_glucosa["age"],
+        dataset_alta_glucosa["glucose_mg_dL"],
+        color="red",
+        s=30,
+        alpha=0.25,
+        # edgecolor="black",
+        label="Pacientes con glucosa alterada",
     )
 
-    ax_story.axhline(126, color="tab:red", linestyle="--", linewidth=1.5)
-    ax_story.set_title("Higher glucose values concentrate more often in older patients")
-    ax_story.set_xlabel("Age (years)")
-    ax_story.set_ylabel("Glucose (mg/dL)")
-    ax_story.grid(alpha=0.20)
-
-    ax_story.annotate(
-        "Clinical threshold: 126 mg/dL",
-        xy=(72, 126),
-        xytext=(52, 168),
-        arrowprops={"arrowstyle": "->", "lw": 1.4},
-        fontsize=10,
+    eje_bueno.scatter(
+        dataset_normal_glucosa["age"],
+        dataset_normal_glucosa["glucose_mg_dL"],
+        color="grey",
+        s=30,
+        alpha=0.25,
+        # edgecolor="black",
+        label="Pacientes con glucosa normal",
     )
 
-    fig_story
+    eje_bueno.axhline(120, color="blue", linestyle="--")
+
+    eje_bueno.grid(True, linewidth=0.2)
+    eje_bueno.legend()
+
+    eje_bueno.set_xlabel("Edad (Años)")
+    eje_bueno.set_ylabel("Glucosa Sérica (mg/dL)")
+
+    eje_bueno.set_title(
+        "Valores altos de glucosa se distribuyen \ncon mayor frecuencia en adultos mayores"
+    )
     return
 
 
@@ -385,47 +394,70 @@ def _():
 
 @app.cell
 def _(dataset):
-    hypertension_by_age = (
-        dataset.assign(has_hypertension=dataset["hypertension"].eq("Si"))
+    # Cálculo de proporción de hipertensión por grupo de edad
+    # - assign: crea indicador booleano de hipertensión
+    # - eq("Si"): True si el paciente tiene hipertensión
+    hipertension_por_edad = (
+        dataset.assign(tiene_hipertension=dataset["hypertension"].eq("Si"))
+        # Agrupación por grupo de edad
+        # - mean sobre booleanos → proporción
         .groupby("age_group", as_index=False)
-        .agg(prop_hypertension=("has_hypertension", "mean"))
+        .agg(prop_hipertension=("tiene_hipertension", "mean"))
     )
-    hypertension_by_age["prop_hypertension_pct"] = (
-        hypertension_by_age["prop_hypertension"] * 100
+
+    # Conversión a porcentaje
+    # - facilita interpretación clínica
+    hipertension_por_edad["prop_hipertension_pct"] = (
+        hipertension_por_edad["prop_hipertension"] * 100
     ).round(1)
 
-    hypertension_by_age
-    return (hypertension_by_age,)
+    # Resultado final
+    hipertension_por_edad
+    return (hipertension_por_edad,)
 
 
 @app.cell
-def _(hypertension_by_age):
-    fig_bar_story, ax_bar_story = plt.subplots(figsize=(8, 5))
+def _(hipertension_por_edad):
+    # Crear figura y eje
+    figura_barras_historia, eje_barras_historia = plt.subplots(figsize=(8, 5))
 
-    bars = ax_bar_story.bar(
-        hypertension_by_age["age_group"],
-        hypertension_by_age["prop_hypertension_pct"],
+    # Gráfico de barras
+    # - X: grupos de edad
+    # - Y: porcentaje de hipertensión
+    # - color: gradiente para sugerir progresión
+    barras = eje_barras_historia.bar(
+        hipertension_por_edad["age_group"],
+        hipertension_por_edad["prop_hipertension_pct"],
         color=["#cbd5e1", "#94a3b8", "#64748b", "#0f172a"],
     )
 
-    ax_bar_story.set_title("Hypertension becomes more frequent as age group increases")
-    ax_bar_story.set_xlabel("Age group")
-    ax_bar_story.set_ylabel("Hypertension (%)")
-    ax_bar_story.set_ylim(0, 100)
-    ax_bar_story.grid(axis="y", alpha=0.20)
+    # Título y etiquetas
+    # - ahora comunican un mensaje interpretativo
+    eje_barras_historia.set_title("La hipertensión aumenta con la edad")
+    eje_barras_historia.set_xlabel("Grupo de edad")
+    eje_barras_historia.set_ylabel("Hipertensión (%)")
 
-    for bar in bars:
-        height = bar.get_height()
-        ax_bar_story.text(
-            bar.get_x() + bar.get_width() / 2,
-            height + 2,
-            f"{height:.1f}%",
+    # Escala y grid
+    # - ylim(0, 100): coherente con porcentaje
+    # - grid en eje Y: facilita comparación vertical
+    eje_barras_historia.set_ylim(0, 100)
+    eje_barras_historia.grid(axis="y", alpha=0.20)
+
+    # Etiquetas sobre cada barra
+    # - muestra valor exacto para reforzar lectura
+    for barra in barras:
+        altura = barra.get_height()
+        eje_barras_historia.text(
+            barra.get_x() + barra.get_width() / 2,
+            altura + 2,
+            f"{altura:.1f}%",
             ha="center",
             va="bottom",
             fontsize=10,
         )
 
-    fig_bar_story
+    # Mostrar figura
+    figura_barras_historia
     return
 
 
@@ -506,8 +538,8 @@ def _():
 
 
 @app.cell
-def _(fig_line):
-    fig_line
+def _(figura_linea):
+    figura_linea
     return
 
 
@@ -590,36 +622,55 @@ def _():
 
 @app.cell
 def _(dataset):
-    mean_sbp_by_age = (
+    # Cálculo de PAS media por edad
+    # - groupby("age"): agrupa por cada edad individual
+    # - mean: calcula el promedio de presión sistólica
+    # - sort_values: asegura orden correcto para análisis/visualización
+    pas_media_por_edad = (
         dataset.groupby("age", as_index=False)
-        .agg(mean_sbp_mmHg=("sbp_mmHg", "mean"))
+        .agg(pas_media_mmHg=("sbp_mmHg", "mean"))
         .sort_values("age")
     )
 
-    mean_sbp_by_age
-    return (mean_sbp_by_age,)
+    # Resultado final
+    pas_media_por_edad
+    return (pas_media_por_edad,)
 
 
 @app.cell
-def _(mean_sbp_by_age):
-    fig_line, ax_line = plt.subplots(figsize=(10, 5))
+def _(pas_media_por_edad):
+    # Crear figura y eje
+    figura_linea, eje_linea = plt.subplots(figsize=(10, 5))
 
-    ax_line.plot(
-        mean_sbp_by_age["age"],
-        mean_sbp_by_age["mean_sbp_mmHg"],
+    # Gráfico de línea
+    # - X: edad
+    # - Y: presión sistólica media
+    # - marker: muestra cada punto observado
+    # - markersize: tamaño discreto para no saturar
+    # - linewidth: grosor de la línea
+    # - color: tono sobrio para buena legibilidad
+    eje_linea.plot(
+        pas_media_por_edad["age"],
+        pas_media_por_edad["pas_media_mmHg"],
         marker="o",
         markersize=3.5,
         linewidth=1.8,
         color="tab:blue",
     )
 
-    ax_line.set_title("Mean systolic blood pressure increases with age")
-    ax_line.set_xlabel("Age (years)")
-    ax_line.set_ylabel("Mean SBP (mmHg)")
-    ax_line.grid(alpha=0.20)
+    # Título y etiquetas
+    # - comunican tendencia clara
+    eje_linea.set_title("La presión sistólica media aumenta con la edad")
+    eje_linea.set_xlabel("Edad (años)")
+    eje_linea.set_ylabel("PAS media (mmHg)")
 
-    fig_line
-    return (fig_line,)
+    # Grid suave
+    # - facilita lectura sin dominar la gráfica
+    eje_linea.grid(alpha=0.20)
+
+    # Mostrar figura
+    figura_linea
+    return (figura_linea,)
 
 
 @app.cell(hide_code=True)
@@ -640,35 +691,37 @@ def _():
 
 @app.cell
 def _(dataset):
-    fig_hist, ax_hist = plt.subplots(figsize=(9, 5))
+    figura_histograma, eje_histograma = plt.subplots(figsize=(9, 5))
 
-    ax_hist.hist(
-        dataset["glucose_mg_dL"].dropna(),
-        bins=18,
-        color="steelblue",
-        edgecolor="white",
-        alpha=0.9,
+    eje_histograma.hist(dataset["glucose_mg_dL"], bins=20, alpha=0.7)
+
+    eje_histograma.axvline(120, color="green", linestyle=":", linewidth=3.5)
+
+    eje_histograma.set_title(
+        "Distribución de glucosa con línea de referencia clínica"
     )
-    ax_hist.axvline(126, color="tab:red", linestyle="--", linewidth=2)
-    ax_hist.set_title("Glucose distribution with diagnostic reference line")
-    ax_hist.set_xlabel("Glucose (mg/dL)")
-    ax_hist.set_ylabel("Frequency")
-    ax_hist.grid(alpha=0.15)
+    eje_histograma.set_xlabel("Glucosa (mg/dL)")
+    eje_histograma.set_ylabel("Frecuencia")
 
-    hist_counts, hist_bins = np.histogram(dataset["glucose_mg_dL"].dropna(), bins=18)
-    peak_idx = hist_counts.argmax()
-    x_peak = (hist_bins[peak_idx] + hist_bins[peak_idx + 1]) / 2
-    y_peak = hist_counts[peak_idx]
+    eje_histograma.grid(alpha=0.15)
 
-    ax_hist.annotate(
-        "Highest concentration",
-        xy=(x_peak, y_peak),
-        xytext=(x_peak + 15, y_peak + 12),
+    conteos_hist, bins_hist = np.histogram(
+        dataset["glucose_mg_dL"].dropna(), bins=18
+    )
+    indice_pico = conteos_hist.argmax()
+
+    x_pico = (bins_hist[indice_pico] + bins_hist[indice_pico + 1]) / 2
+    y_pico = conteos_hist[indice_pico]
+
+    eje_histograma.annotate(
+        "Mayor concentración",
+        xy=(x_pico, y_pico),
+        xytext=(x_pico + 15, y_pico - 12),
         arrowprops={"arrowstyle": "->", "lw": 1.3},
         fontsize=10,
     )
 
-    fig_hist
+    figura_histograma
     return
 
 
@@ -688,38 +741,57 @@ def _():
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(dataset):
-    diabetes_colors = {"No": "#94a3b8", "Si": "#dc2626"}
+    # Definir colores por grupo
+    # - mapea categorías de diabetes a colores consistentes
+    colores_diabetes = {"No": "#94a3b8", "Si": "#dc2626"}
 
-    fig_scatter, ax_scatter = plt.subplots(figsize=(9, 5))
+    # Crear figura y eje
+    figura_dispersion, eje_dispersion = plt.subplots(figsize=(9, 5))
 
-    for diabetes_status, subset in dataset.groupby("Diabetes"):
-        ax_scatter.scatter(
-            subset["age"],
-            subset["sbp_mmHg"],
-            label=diabetes_status,
-            color=diabetes_colors[diabetes_status],
+    # Scatter por grupo
+    # - groupby: separa por estado de diabetes
+    # - color: refuerza diferenciación visual
+    # - alpha: ayuda a manejar solapamiento
+    for estado_diabetes, subconjunto in dataset.groupby("Diabetes"):
+        eje_dispersion.scatter(
+            subconjunto["age"],  # X: edad
+            subconjunto["sbp_mmHg"],  # Y: presión sistólica
+            label=estado_diabetes,
+            color=colores_diabetes[estado_diabetes],
             alpha=0.75,
             s=36,
         )
 
-    ax_scatter.set_title("Patients with diabetes tend to accumulate at higher SBP values")
-    ax_scatter.set_xlabel("Age (years)")
-    ax_scatter.set_ylabel("SBP (mmHg)")
-    ax_scatter.legend(title="Diabetes")
-    ax_scatter.grid(alpha=0.18)
+    # Título y etiquetas
+    # - comunican una hipótesis/lectura del gráfico
+    eje_dispersion.set_title(
+        "Pacientes con diabetes tienden a concentrarse en valores altos de PAS"
+    )
+    eje_dispersion.set_xlabel("Edad (años)")
+    eje_dispersion.set_ylabel("PAS (mmHg)")
 
-    top_sbp = dataset.nlargest(1, "sbp_mmHg").iloc[0]
-    ax_scatter.annotate(
-        "Highest SBP in the cohort",
-        xy=(top_sbp["age"], top_sbp["sbp_mmHg"]),
-        xytext=(top_sbp["age"] - 22, top_sbp["sbp_mmHg"] + 10),
+    # Leyenda y grid
+    eje_dispersion.legend(title="Diabetes")
+    eje_dispersion.grid(alpha=0.18)
+
+    # Identificar valor máximo de PAS
+    # - nlargest(1): fila con mayor presión sistólica
+    punto_max_pas = dataset.nlargest(1, "sbp_mmHg").iloc[0]
+
+    # Anotación del punto extremo
+    # - resalta observación relevante en el dataset
+    eje_dispersion.annotate(
+        "Mayor PAS en la cohorte",
+        xy=(punto_max_pas["age"], punto_max_pas["sbp_mmHg"]),
+        xytext=(punto_max_pas["age"] - 22, punto_max_pas["sbp_mmHg"] + 10),
         arrowprops={"arrowstyle": "->", "lw": 1.3},
         fontsize=10,
     )
 
-    fig_scatter
+    # Mostrar figura
+    figura_dispersion
     return
 
 
@@ -741,46 +813,84 @@ def _():
 
 
 @app.cell
-def _(dataset):
-    fig_subplots, axes_subplots = plt.subplots(1, 2, figsize=(12, 4.5), sharey=False)
+def _(ejes_subplots):
+    ejes_subplots
+    return
 
-    axes_subplots[0].hist(
+
+@app.cell
+def _(dataset):
+    # Crear figura con dos subplots
+    # - 1 fila, 2 columnas
+    # - sharey=False: cada gráfico usa su propia escala
+    figura_subplots, ejes_subplots = plt.subplots(
+        1, 2, figsize=(12, 4.5), sharey=False
+    )
+
+    # ---------------------------
+    # Histograma de PAS
+    # ---------------------------
+    # - bins: número de intervalos
+    # - color: tono claro para lectura limpia
+    ejes_subplots[0].hist(
         dataset["sbp_mmHg"],
         bins=16,
         color="#60a5fa",
         edgecolor="white",
     )
-    axes_subplots[0].set_title("SBP distribution")
-    axes_subplots[0].set_xlabel("SBP (mmHg)")
-    axes_subplots[0].set_ylabel("Frequency")
 
-    education_order = ["Primaria", "Secundaria", "Tecnico", "Universidad"]
-    ldl_by_education = (
+    # Título y etiquetas
+    ejes_subplots[0].set_title("Distribución de PAS")
+    ejes_subplots[0].set_xlabel("PAS (mmHg)")
+    ejes_subplots[0].set_ylabel("Frecuencia")
+
+    # ---------------------------
+    # Orden de categorías educativas
+    # ---------------------------
+    # - define orden lógico para visualización
+    orden_educacion = ["Primaria", "Secundaria", "Tecnico", "Universidad"]
+
+    # Cálculo de LDL medio por nivel educativo
+    # - groupby: agrupa por educación
+    # - mean: promedio de LDL
+    # - Categorical: asegura orden correcto en el eje X
+    ldl_por_educacion = (
         dataset.groupby("education_grouped", as_index=False)
-        .agg(mean_ldl=("ldl_mg_dL", "mean"))
+        .agg(ldl_medio=("ldl_mg_dL", "mean"))
         .assign(
             education_grouped=lambda d: pd.Categorical(
                 d["education_grouped"],
-                categories=education_order,
+                categories=orden_educacion,
                 ordered=True,
             )
         )
         .sort_values("education_grouped")
     )
 
-    axes_subplots[1].bar(
-        ldl_by_education["education_grouped"].astype(str),
-        ldl_by_education["mean_ldl"],
+    # Gráfico de barras
+    # - X: niveles educativos ordenados
+    # - Y: LDL promedio
+    ejes_subplots[1].bar(
+        ldl_por_educacion["education_grouped"].astype(str),
+        ldl_por_educacion["ldl_medio"],
         color="#334155",
     )
-    axes_subplots[1].set_title("Mean LDL by education level")
-    axes_subplots[1].set_xlabel("Education")
-    axes_subplots[1].set_ylabel("Mean LDL (mg/dL)")
-    axes_subplots[1].tick_params(axis="x", rotation=20)
 
-    fig_subplots.tight_layout()
-    fig_subplots
-    return
+    # Título y etiquetas
+    ejes_subplots[1].set_title("LDL medio por nivel educativo")
+    ejes_subplots[1].set_xlabel("Nivel educativo")
+    ejes_subplots[1].set_ylabel("LDL medio (mg/dL)")
+
+    # Rotación de etiquetas
+    # - mejora legibilidad si hay textos largos
+    ejes_subplots[1].tick_params(axis="x", rotation=20)
+
+    # Ajuste de layout
+    figura_subplots.tight_layout()
+
+    # Mostrar figura
+    figura_subplots
+    return (ejes_subplots,)
 
 
 @app.cell(hide_code=True)
@@ -927,8 +1037,16 @@ def _():
 
 @app.cell
 def _(dataset):
-    fig_sns_hist, ax_sns_hist = plt.subplots(figsize=(9, 5))
+    # Crear figura y eje
+    figura_hist_sns, eje_hist_sns = plt.subplots(figsize=(9, 5))
 
+    # Histograma con separación por grupo (seaborn)
+    # - x: variable numérica (glucosa)
+    # - hue: separa por estado de diabetes
+    # - bins: número de intervalos
+    # - stat="count": frecuencias absolutas
+    # - alpha: transparencia para comparar distribuciones
+    # - multiple="layer": superpone histogramas
     sns.histplot(
         data=dataset,
         x="glucose_mg_dL",
@@ -937,14 +1055,17 @@ def _(dataset):
         stat="count",
         alpha=0.55,
         multiple="layer",
-        ax=ax_sns_hist,
+        ax=eje_hist_sns,
     )
 
-    ax_sns_hist.set_title("Glucose distribution separated by diabetes status")
-    ax_sns_hist.set_xlabel("Glucose (mg/dL)")
-    ax_sns_hist.set_ylabel("Count")
+    # Título y etiquetas
+    # - describen claramente la comparación entre grupos
+    eje_hist_sns.set_title("Distribución de glucosa según estado de diabetes")
+    eje_hist_sns.set_xlabel("Glucosa (mg/dL)")
+    eje_hist_sns.set_ylabel("Frecuencia")
 
-    fig_sns_hist
+    # Mostrar figura
+    figura_hist_sns
     return
 
 
@@ -964,24 +1085,35 @@ def _():
 
 @app.cell
 def _(dataset):
-    bmi_order = ["Normal", "Sobrepeso", "Obesidad I", "Obesidad II"]
+    # Definir orden de categorías
+    # - asegura progresión lógica en el eje X
+    orden_imc = ["Normal", "Sobrepeso", "Obesidad I", "Obesidad II"]
 
-    fig_box, ax_box = plt.subplots(figsize=(10, 5))
+    # Crear figura y eje
+    figura_boxplot, eje_boxplot = plt.subplots(figsize=(10, 5))
 
+    # Boxplot por categoría de IMC
+    # - x: variable categórica ordenada
+    # - y: variable numérica (PAS)
+    # - order: controla el orden de visualización
+    # - color: tono uniforme para facilitar comparación
     sns.boxplot(
         data=dataset,
         x="bmi_category",
         y="sbp_mmHg",
-        order=bmi_order,
+        order=orden_imc,
         color="#93c5fd",
-        ax=ax_box,
+        ax=eje_boxplot,
     )
 
-    ax_box.set_title("SBP distribution shifts upward across BMI categories")
-    ax_box.set_xlabel("BMI category")
-    ax_box.set_ylabel("SBP (mmHg)")
+    # Título y etiquetas
+    # - comunican tendencia observada
+    eje_boxplot.set_title("La distribución de PAS aumenta con el IMC")
+    eje_boxplot.set_xlabel("Categoría de IMC")
+    eje_boxplot.set_ylabel("PAS (mmHg)")
 
-    fig_box
+    # Mostrar figura
+    figura_boxplot
     return
 
 
@@ -1004,22 +1136,38 @@ def _():
 
 @app.cell
 def _(dataset):
-    fig_reg, ax_reg = plt.subplots(figsize=(9, 5))
+    # Crear figura y eje
+    figura_regresion, eje_regresion = plt.subplots(figsize=(9, 5))
 
+    # Regresión lineal + scatter (seaborn)
+    # - x / y: variables numéricas (edad vs LDL)
+    # - scatter_kws: personaliza puntos (alpha y tamaño)
+    # - line_kws: personaliza la línea de regresión
+    # - ajusta automáticamente un modelo lineal (OLS)
     sns.regplot(
         data=dataset,
         x="age",
         y="ldl_mg_dL",
-        scatter_kws={"alpha": 0.45, "s": 35},
-        line_kws={"color": "tab:red", "linewidth": 2},
-        ax=ax_reg,
+        scatter_kws={
+            "alpha": 0.45,  # reduce solapamiento
+            "s": 35,  # tamaño moderado
+        },
+        line_kws={
+            "color": "tab:red",  # destaca la tendencia
+            "linewidth": 2,
+        },
+        ci=95,
+        ax=eje_regresion,
     )
 
-    ax_reg.set_title("LDL tends to increase moderately with age")
-    ax_reg.set_xlabel("Age (years)")
-    ax_reg.set_ylabel("LDL (mg/dL)")
+    # Título y etiquetas
+    # - expresan la tendencia observada
+    eje_regresion.set_title("El LDL tiende a aumentar moderadamente con la edad")
+    eje_regresion.set_xlabel("Edad (años)")
+    eje_regresion.set_ylabel("LDL (mg/dL)")
 
-    fig_reg
+    # Mostrar figura
+    figura_regresion
     return
 
 
@@ -1040,32 +1188,55 @@ def _():
 
 @app.cell
 def _(dataset):
-    heatmap_table = (
-        dataset.assign(has_diabetes=dataset["Diabetes"].eq("Si"))
+    # Construcción de tabla para heatmap
+    # - assign: crea indicador de diabetes (booleano)
+    # - groupby: agrupa por IMC y nivel educativo
+    # - mean: proporción de diabetes
+    # - pivot: reorganiza a formato matricial
+    # - reindex: asegura orden lógico en filas y columnas
+    tabla_heatmap = (
+        dataset
+        .assign(tiene_diabetes=dataset["Diabetes"].eq("Si"))
         .groupby(["bmi_category", "education_grouped"], as_index=False)
-        .agg(prop_diabetes=("has_diabetes", "mean"))
-        .pivot(index="bmi_category", columns="education_grouped", values="prop_diabetes")
+        .agg(
+            prop_diabetes=("tiene_diabetes", "mean")
+        )
+        .pivot(
+            index="bmi_category",
+            columns="education_grouped",
+            values="prop_diabetes"
+        )
         .reindex(index=["Normal", "Sobrepeso", "Obesidad I", "Obesidad II"])
         .reindex(columns=["Primaria", "Secundaria", "Tecnico", "Universidad"])
     )
 
-    fig_heat_sns, ax_heat_sns = plt.subplots(figsize=(8, 5.5))
+    # Crear figura y eje
+    figura_heatmap, eje_heatmap = plt.subplots(figsize=(8, 5.5))
 
+    # Heatmap con seaborn
+    # - *100: convierte proporciones a porcentaje
+    # - annot: muestra valores en cada celda
+    # - fmt: formato numérico
+    # - cmap: escala de color (intensidad = mayor prevalencia)
+    # - linewidths: separación visual entre celdas
     sns.heatmap(
-        heatmap_table * 100,
+        tabla_heatmap * 100,
         annot=True,
         fmt=".1f",
         cmap="Reds",
         linewidths=0.5,
         cbar_kws={"label": "Diabetes (%)"},
-        ax=ax_heat_sns,
+        ax=eje_heatmap,
     )
 
-    ax_heat_sns.set_title("Diabetes prevalence matrix by BMI and education")
-    ax_heat_sns.set_xlabel("Education level")
-    ax_heat_sns.set_ylabel("BMI category")
+    # Título y etiquetas
+    # - describen la matriz comparativa
+    eje_heatmap.set_title("Prevalencia de diabetes según IMC y nivel educativo")
+    eje_heatmap.set_xlabel("Nivel educativo")
+    eje_heatmap.set_ylabel("Categoría de IMC")
 
-    fig_heat_sns
+    # Mostrar figura
+    figura_heatmap
     return
 
 
@@ -1226,45 +1397,79 @@ def _():
 
 @app.cell
 def _(dataset):
-    hypertension_by_sex = (
-        dataset.assign(has_hypertension=dataset["hypertension"].eq("Si"))
+    # Cálculo de hipertensión por sexo
+    # - assign: crea indicador booleano
+    # - eq("Si"): True si hay hipertensión
+    hipertension_por_sexo = (
+        dataset
+        .assign(tiene_hipertension=dataset["hypertension"].eq("Si"))
+    
+        # Agrupación por sexo
+        # - mean sobre booleanos → proporción
         .groupby("sex", as_index=False)
-        .agg(prop_hypertension=("has_hypertension", "mean"))
+        .agg(
+            prop_hipertension=("tiene_hipertension", "mean")
+        )
     )
-    hypertension_by_sex["prop_hypertension_pct"] = (
-        hypertension_by_sex["prop_hypertension"] * 100
+
+    # Conversión a porcentaje
+    # - facilita interpretación
+    hipertension_por_sexo["prop_hipertension_pct"] = (
+        hipertension_por_sexo["prop_hipertension"] * 100
     ).round(1)
 
-    hypertension_by_sex
-    return (hypertension_by_sex,)
+    # Resultado final
+    hipertension_por_sexo
+    return (hipertension_por_sexo,)
 
 
 @app.cell
-def _(hypertension_by_sex):
-    chart_alt_bar = (
-        alt.Chart(hypertension_by_sex)
+def _(hipertension_por_sexo):
+    # Gráfico de barras con Altair
+    # - Chart: usa el DataFrame resumido
+    # - mark_bar: representación en barras
+    grafico_barras_altair = (
+        alt.Chart(hipertension_por_sexo)
         .mark_bar()
+    
+        # Codificación de variables
         .encode(
-            x=alt.X("sex:N", title="Sex"),
+            # Eje X (categórico)
+            x=alt.X("sex:N", title="Sexo"),
+        
+            # Eje Y (cuantitativo)
+            # - escala fija 0–100 para interpretación como porcentaje
             y=alt.Y(
-                "prop_hypertension_pct:Q",
-                title="Hypertension (%)",
+                "prop_hipertension_pct:Q",
+                title="Hipertensión (%)",
                 scale=alt.Scale(domain=[0, 100]),
             ),
+        
+            # Color por grupo
+            # - refuerza diferenciación visual sin mostrar leyenda redundante
             color=alt.Color("sex:N", legend=None),
+        
+            # Tooltips interactivos
+            # - muestran valor exacto al pasar el cursor
             tooltip=[
-                alt.Tooltip("sex:N", title="Sex"),
-                alt.Tooltip("prop_hypertension_pct:Q", title="Hypertension (%)"),
+                alt.Tooltip("sex:N", title="Sexo"),
+                alt.Tooltip(
+                    "prop_hipertension_pct:Q",
+                    title="Hipertensión (%)"
+                ),
             ],
         )
+    
+        # Propiedades del gráfico
         .properties(
-            title="Hypertension proportion by sex",
+            title="Proporción de hipertensión por sexo",
             width=450,
             height=320,
         )
     )
 
-    chart_alt_bar
+    # Mostrar gráfico
+    grafico_barras_altair
     return
 
 
@@ -1287,37 +1492,73 @@ def _():
 
 @app.cell
 def _(dataset):
-    sbp_by_age_group = (
-        dataset.groupby("age_group", as_index=False)
-        .agg(mean_sbp_mmHg=("sbp_mmHg", "mean"))
-        .assign(mean_sbp_mmHg=lambda d: d["mean_sbp_mmHg"].round(1))
+    # Cálculo de PAS media por grupo de edad
+    # - groupby: agrupa por categorías de edad
+    # - mean: promedio de presión sistólica
+    pas_media_por_grupo_edad = (
+        dataset
+        .groupby("age_group", as_index=False)
+        .agg(
+            pas_media_mmHg=("sbp_mmHg", "mean")
+        )
+    
+        # Redondeo
+        # - mejora legibilidad para presentación
+        .assign(
+            pas_media_mmHg=lambda d: d["pas_media_mmHg"].round(1)
+        )
     )
 
-    sbp_by_age_group
-    return (sbp_by_age_group,)
+    # Resultado final
+    pas_media_por_grupo_edad
+    return (pas_media_por_grupo_edad,)
 
 
 @app.cell
-def _(sbp_by_age_group):
-    chart_alt_line = (
-        alt.Chart(sbp_by_age_group)
+def _(pas_media_por_grupo_edad):
+    # Gráfico de línea con Altair
+    # - mark_line(point=True): línea + puntos por grupo
+    grafico_linea_altair = (
+        alt.Chart(pas_media_por_grupo_edad)
         .mark_line(point=True)
+    
+        # Codificación de variables
         .encode(
+            # Eje X (categórico ordenado)
+            # - sort: define progresión lógica de edad
             x=alt.X(
                 "age_group:N",
                 sort=["18-34", "35-49", "50-64", "65+"],
-                title="Age group",
+                title="Grupo de edad",
             ),
-            y=alt.Y("mean_sbp_mmHg:Q", title="Mean SBP (mmHg)"),
+        
+            # Eje Y (cuantitativo)
+            # - PAS media
+            y=alt.Y(
+                "pas_media_mmHg:Q",
+                title="PAS media (mmHg)"
+            ),
+        
+            # Tooltips interactivos
             tooltip=[
-                alt.Tooltip("age_group:N", title="Age group"),
-                alt.Tooltip("mean_sbp_mmHg:Q", title="Mean SBP"),
+                alt.Tooltip("age_group:N", title="Grupo de edad"),
+                alt.Tooltip(
+                    "pas_media_mmHg:Q",
+                    title="PAS media"
+                ),
             ],
         )
-        .properties(title="Mean SBP by age group", width=500, height=320)
+    
+        # Propiedades del gráfico
+        .properties(
+            title="PAS media por grupo de edad",
+            width=500,
+            height=320
+        )
     )
 
-    chart_alt_line
+    # Mostrar gráfico
+    grafico_linea_altair
     return
 
 
@@ -1343,40 +1584,11 @@ def _(dataset):
     )
 
     alt_heat_table
-    return (alt_heat_table,)
+    return
 
 
 @app.cell
-def _(alt_heat_table):
-    base_alt_heat = alt.Chart(alt_heat_table).encode(
-        x=alt.X("Diabetes:N", title="Diabetes"),
-        y=alt.Y(
-            "bmi_category:N",
-            title="BMI category",
-            sort=["Normal", "Sobrepeso", "Obesidad I", "Obesidad II"],
-        ),
-    )
-
-    rect_alt_heat = base_alt_heat.mark_rect().encode(
-        color=alt.Color("mean_ldl_mg_dL:Q", title="Mean LDL (mg/dL)")
-    )
-
-    text_alt_heat = base_alt_heat.mark_text(fontSize=12).encode(
-        text=alt.Text("mean_ldl_mg_dL:Q", format=".1f"),
-        color=alt.condition(
-            alt.datum.mean_ldl_mg_dL >= 130,
-            alt.value("white"),
-            alt.value("black"),
-        ),
-    )
-
-    chart_alt_heatmap = (rect_alt_heat + text_alt_heat).properties(
-        title="Mean LDL by BMI category and diabetes status",
-        width=340,
-        height=220,
-    )
-
-    chart_alt_heatmap
+def _():
     return
 
 
@@ -1397,21 +1609,7 @@ def _():
 
 
 @app.cell
-def _(dataset):
-    chart_alt_facet = (
-        alt.Chart(dataset)
-        .mark_bar()
-        .encode(
-            x=alt.X("sbp_mmHg:Q", bin=alt.Bin(maxbins=16), title="SBP (binned)"),
-            y=alt.Y("count():Q", title="Count"),
-            tooltip=[alt.Tooltip("count():Q", title="Count")],
-        )
-        .properties(width=220, height=160)
-        .facet(column=alt.Column("sex:N", title="Sex"))
-        .resolve_scale(y="independent")
-    )
-
-    chart_alt_facet
+def _():
     return
 
 

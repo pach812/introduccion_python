@@ -13,13 +13,14 @@ __generated_with = "0.21.1"
 app = marimo.App(width="medium")
 
 with app.setup(hide_code=True):
-    from pathlib import Path
     import re
     import pickle
 
     import marimo as mo
     import numpy as np
     import pandas as pd
+
+    from pathlib import Path
 
 
 @app.cell(hide_code=True)
@@ -80,7 +81,9 @@ def _():
         "dirty": path_dirty,
         "dictionary": path_dictionary,
     }
-    return
+
+    file_map
+    return path_dictionary, path_dirty, path_population
 
 
 @app.cell(hide_code=True)
@@ -100,14 +103,34 @@ def _():
 
 
 @app.cell
-def _():
+def _(path_dictionary, path_dirty, path_population):
     # Carga los datasets y haz un resumen rápido de filas y columnas para cada uno, usando el diccionario como referencia.
+    dictionary_df = pd.read_csv(path_dictionary)
+    population_df = pd.read_csv(path_population)
+    dirty_df = pd.read_csv(path_dirty)
 
-    return
+    resumen_archivos = pd.DataFrame(
+        {
+            "dataset": ["diccionario", "poblacion_inicial", "dataset_sucio"],
+            "filas": [
+                dictionary_df.shape[0],
+                population_df.shape[0],
+                dirty_df.shape[0],
+            ],
+            "columnas": [
+                dictionary_df.shape[1],
+                population_df.shape[1],
+                dirty_df.shape[1],
+            ],
+        }
+    )
+    resumen_archivos
+    return dictionary_df, population_df
 
 
 @app.cell
-def _():
+def _(dictionary_df):
+    dictionary_df.head(10)
     return
 
 
@@ -128,14 +151,24 @@ def _():
 
 
 @app.cell
-def _():
+def _(dictionary_df, population_df):
     # Construyamos una tabla que compare la estructura del dataset limpio con lo que dice el diccionario.
+    estructa_df = pd.DataFrame(
+        {"variable": population_df.columns, "tipo_de_dato": population_df.dtypes}
+    )
 
+    df_unido = pd.merge(
+        estructa_df,
+        dictionary_df[["variable", "tipo", "categoria"]],
+        on="variable",
+        how="left",
+    )
+    df_unido
     return
 
 
 @app.cell
-def _():
+def _(population_df):
     # Separamos las variables en grupos para facilitar ejercicios posteriores de análisis y limpieza.
     sociodemographic_vars = [
         "id_paciente",
@@ -165,7 +198,9 @@ def _():
     comorbidity_vars = ["hipertension", "diabetes", "epoc", "erc", "depresion"]
 
     # Mostramos un vistazo rápido a las variables agrupadas por tipo, para entender mejor la estructura del dataset.
-
+    population_df[
+        sociodemographic_vars + lifestyle_vars + clinical_vars + comorbidity_vars
+    ]
     return
 
 
@@ -184,23 +219,72 @@ def _():
     return
 
 
-@app.class_definition
-class PopulationAnalyzer:
-    # - validar presencia de columnas,
-    # - crear bandas de edad,
-    # - etiquetar riesgo clínico,
-    # - resumir prevalencias.
-    required_columns = {
-        "edad",
-        "sexo",
-        "imc",
-        "sbp",
-        "dbp",
-        "glucosa",
-        "riesgo_global",
-        "hipertension",
-        "diabetes",
-    }
+@app.cell
+def _(population_df):
+    class PopulationAnalyzer:
+        # - validar presencia de columnas,
+        # - crear bandas de edad,
+        # - etiquetar riesgo clínico,
+        # - resumir prevalencias.
+        required_columns = {
+            "edad",
+            "sexo",
+            "imc",
+            "sbp",
+            "dbp",
+            "glucosa",
+            "riesgo_global",
+            "hipertension",
+            "diabetes",
+        }
+
+        def __init__(self, df: pd.DataFrame):
+            self.df = df.copy()
+            self._validate_columns()
+
+        def _validate_columns(self):
+            missing_columns = self.required_columns.difference(self.df.columns)
+
+            if missing_columns:
+                raise ValueError(
+                    f"Le faltan las columnas: {missing_columns}",
+                )
+
+        def add_band_age(self):
+            bins = [0, 29, 44, 59, 74, np.inf]
+            labels = ["0-29", "30-44", "45-59", "60-74", "75+"]
+            self.df["banda_edad"] = pd.cut(
+                self.df["edad"], bins=bins, labels=labels, right=True
+            )
+            return self.df
+
+        def add_risk(self, threshold=7.5):
+            self.df["alto_riesgo"] = self.df["riesgo_global"] >= threshold
+            return self.df
+
+        def resumen_prevalencias(self):
+            summary = (
+                self.df.groupby("sexo")[["hipertension", "diabetes"]]
+                .mean()
+                .mul(100)
+                .round(2)
+                .rename(
+                    columns={
+                        "hipertension": "Prev_hipertension",
+                        "diabetes": "Prev_diabetes",
+                    }
+                )
+                .reset_index()
+            )
+            return summary
+
+
+    limpiador = PopulationAnalyzer(population_df)
+
+    limpiador.add_band_age()
+    limpiador.add_risk()
+    limpiador.resumen_prevalencias()
+    return
 
 
 @app.cell(hide_code=True)
@@ -222,29 +306,50 @@ def _():
 
 
 @app.cell
-def _():
+def _(population_df):
     # Extracción a arrays de NumPy
     # - to_numpy(): permite operaciones vectorizadas eficientes
-
+    sbp_values = population_df["sbp"].to_numpy()
+    risk_values = population_df["riesgo_global"].to_numpy()
 
     # Clasificación de PAS
     # - np.select: asigna categorías según condiciones
     # - condlist: reglas en orden de evaluación
     # - choicelist: etiquetas correspondientes
+    condlist = [
+        sbp_values < 120, # normal
+        sbp_values < 140, # elevada
+        sbp_values >= 140, # alta
+    ]
 
+    choicelist = [
+        "normal",
+        "elevada",
+        "alta"
+    ]
+
+    sbp_status = np.select(condlist, choicelist, default="no_clasificada")
 
     # Percentiles de riesgo
     # - np.percentile: resume la distribución en puntos clave
     # - [10, 25, 50, 75, 90]: percentiles comunes (incluye mediana = 50)
-
+    risk_percentiles = np.percentile(
+        risk_values,
+        [10,25,50,75,90]
+    )
 
     # Resumen numérico
     # - mean: promedio
     # - sum(condición): conteo de casos que cumplen criterio
-
+    numpy_summary = {
+        "media sbp": np.mean(sbp_values),
+        "media risk": np.mean(risk_values),
+        "percentil de riesgo": risk_percentiles,
+        "presion elevada cuenta": np.sum(sbp_status == "alta")
+    }
 
     # Resultado final
-
+    numpy_summary
     return
 
 
@@ -261,7 +366,6 @@ def _():
     # Vista de resultados
     # - selección de columnas clave
     # - head(10): primeras 10 filas para inspección rápida
-
     return
 
 
@@ -313,7 +417,6 @@ def _():
 
 
     # Vista rápida de la primera tabla
-
     return
 
 
@@ -350,7 +453,6 @@ def _():
 
 
     # Vista rápida (top 20 variables más problemáticas)
-
     return
 
 
@@ -360,6 +462,7 @@ def _():
     # - pensada para columnas con texto mezclado con unidades o símbolos
     def clean_numeric_series(series: pd.Series) -> pd.Series:
         pass
+
 
     # Columnas numéricas a limpiar
     # - estas variables deberían quedar como tipo numérico tras la limpieza
@@ -419,7 +522,6 @@ def _():
 
     # Inspección rápida del resultado
     # - permite verificar limpieza numérica y estandarización categórica
-
     return
 
 
@@ -455,7 +557,6 @@ def _(dirty_cleaned):
 
 
     # Resultado
-
     return
 
 
@@ -492,7 +593,6 @@ def _():
     # Detección de inconsistencias
     # - variables que deberían ser numéricas pero están como "object"
     # - típicamente indica presencia de texto, símbolos o errores de parsing
-
     return
 
 
@@ -525,7 +625,6 @@ def _():
 
     # Resultado final
     # - útil para auditoría de calidad post-limpieza
-
     return
 
 
@@ -550,7 +649,6 @@ def _():
 
     # Vista rápida
     # - inspección inicial de resultados
-
     return
 
 
@@ -570,7 +668,6 @@ def _():
 
 
     # Resultado final
-
     return
 
 
@@ -605,7 +702,6 @@ def _():
 
 
     # Mostrar resultado final
-
     return
 
 
