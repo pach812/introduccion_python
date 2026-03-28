@@ -26,7 +26,7 @@ with app.setup(hide_code=True):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # Semana 4 · Lección 1
+    # Semana 4 · Lección 2
     ## Introducción a la modelación estadística con statsmodels
 
     En esta sesión se introduce una transición importante dentro del curso:

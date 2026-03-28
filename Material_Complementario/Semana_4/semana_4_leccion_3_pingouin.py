@@ -26,7 +26,7 @@ with app.setup(hide_code=True):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # Semana 4 · Lección 2
+    # Semana 4 · Lección 3
     ## Introducción al análisis estadístico con pingouin
 
     En esta sesión continuamos la transición iniciada en la lección anterior:

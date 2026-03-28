@@ -26,7 +26,7 @@ with app.setup(hide_code=True):
 @app.cell(hide_code=True)
 def _():
     mo.md(r"""
-    # Semana 4 · Lección 3
+    # Semana 4 · Lección 1
     ## Fundamentos de pruebas estadísticas con scipy.stats
 
     En esta sesión introducimos `scipy.stats` como una librería fundamental para realizar pruebas estadísticas clásicas en Python.
