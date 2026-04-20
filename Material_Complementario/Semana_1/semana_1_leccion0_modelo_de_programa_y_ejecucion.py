@@ -8,7 +8,7 @@
 
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.23.1"
 app = marimo.App(
     width="medium",
     css_file="/usr/local/_marimo/custom.css",
@@ -36,7 +36,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    # Semana 1 · Lección 1 — Modelo de programa y ejecución (Python)
+    # Semana 1 · Lección 0 — Modelo de programa y ejecución (Python)
 
     ## Propósito
 
